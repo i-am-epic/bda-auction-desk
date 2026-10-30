@@ -1,0 +1,600 @@
+<meta charset="utf-8">
+<title>BDA Auction Desk</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;700;800&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+/*LEAFLETCSS*/
+</style>
+<style>
+/* Layout: survey desk. Findings strip -> filter list | site map | site dossier -> reference sections */
+:root{
+  --bg:#eef2f1; --panel:#ffffff; --panel2:#f6f8f8; --line:#d5dddb; --fg:#13211d; --muted:#5a6b66;
+  --accent:#1d5b86; --accent-weak:#e1ecf4;
+  --r-strong:#178a4a; --r-good:#6aa82a; --r-fair:#d99a12; --r-skip:#cf4a2f; --r-off:#8b9693;
+  --bad-bg:#fbe9e5; --warn-bg:#fdf3dc; --info-bg:#e8eff5; --ok-bg:#e5f3ea; --gold:#a8730b; --gold-bg:#fbf1d8;
+  --display:"Archivo","Arial Narrow",system-ui,sans-serif;
+  --body:"IBM Plex Sans",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --mono:"IBM Plex Mono",ui-monospace,Consolas,monospace;
+  --tile-filter:none;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#0f1715; --panel:#16201e; --panel2:#1c2826; --line:#2b3a37; --fg:#e4ecea; --muted:#93a5a0;
+  --accent:#7fb6dd; --accent-weak:#1c3242;
+  --r-strong:#3cc274; --r-good:#9bd250; --r-fair:#f0b93b; --r-skip:#f07258; --r-off:#71807c;
+  --bad-bg:#3a1f1a; --warn-bg:#3a3018; --info-bg:#1b2a36; --ok-bg:#183326; --gold:#f0c35a; --gold-bg:#352a12;
+  --tile-filter:invert(1) hue-rotate(180deg) brightness(.92) contrast(.9) saturate(.6);
+  color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#0f1715; --panel:#16201e; --panel2:#1c2826; --line:#2b3a37; --fg:#e4ecea; --muted:#93a5a0;
+  --accent:#7fb6dd; --accent-weak:#1c3242;
+  --r-strong:#3cc274; --r-good:#9bd250; --r-fair:#f0b93b; --r-skip:#f07258; --r-off:#71807c;
+  --bad-bg:#3a1f1a; --warn-bg:#3a3018; --info-bg:#1b2a36; --ok-bg:#183326; --gold:#f0c35a; --gold-bg:#352a12;
+  --tile-filter:invert(1) hue-rotate(180deg) brightness(.92) contrast(.9) saturate(.6);
+  color-scheme:dark}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--fg);font-family:var(--body);font-size:14px;line-height:1.5}
+.wrap{padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));max-width:1680px;margin:0 auto}
+h1,h2,h3{font-family:var(--display);text-wrap:balance;margin:0;letter-spacing:-.01em}
+.mono,.num{font-family:var(--mono);font-variant-numeric:tabular-nums}
+.eyebrow{font-size:11px;letter-spacing:.09em;text-transform:uppercase;color:var(--muted);font-weight:600}
+a{color:var(--accent)}
+button,select,input{font:inherit;color:inherit}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+
+header{padding-block:20px 14px;border-bottom:1px solid var(--line);background:var(--panel)}
+.hd{display:flex;flex-wrap:wrap;gap:14px 28px;align-items:flex-end;justify-content:space-between}
+.hd h1{font-size:28px;font-weight:800}
+.hd h1 span{color:var(--accent)}
+.hd p{margin:4px 0 0;color:var(--muted);max-width:70ch}
+.dates{display:flex;flex-wrap:wrap;gap:8px;align-items:stretch}
+.date{border:1px solid var(--line);border-radius:6px;padding:6px 10px;background:var(--panel2);min-width:0}
+.date b{display:block;font-family:var(--mono);font-size:13px}
+.date small{color:var(--muted);font-size:11px}
+.date.hot{border-color:var(--r-skip);background:var(--bad-bg)}
+.summary{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px;margin-top:16px}
+.sum{display:flex;gap:10px;align-items:center;padding:8px 0}
+.sum .n{font-family:var(--display);font-size:26px;font-weight:800;line-height:1}
+.sum .l{font-size:12px;color:var(--muted);line-height:1.3}
+.dot{width:12px;height:12px;border-radius:50%;flex:none;display:inline-block}
+
+.finds{padding-block:22px;display:grid;grid-template-columns:minmax(0,1.2fr) minmax(0,1fr) minmax(0,1fr);gap:22px;border-bottom:1px solid var(--line)}
+.finds h2{font-size:17px;font-weight:800;margin-bottom:8px;display:flex;flex-wrap:wrap;gap:4px 8px;align-items:baseline}
+.finds h2 small{font-family:var(--body);font-weight:500;font-size:12px;color:var(--muted)}
+.facts{margin:0;padding:0;list-style:none;display:grid;gap:8px}
+.facts li{display:grid;grid-template-columns:auto minmax(0,1fr);gap:10px;font-size:13px}
+.facts li b{font-family:var(--display);font-size:18px;line-height:1.2;color:var(--accent);min-width:52px}
+.picks{display:grid;gap:6px}
+.pick{display:grid;grid-template-columns:34px minmax(0,1fr) auto;gap:10px;align-items:center;text-align:left;width:100%;background:var(--panel);border:1px solid var(--line);border-radius:8px;padding:7px 9px;cursor:pointer}
+.pick:hover{border-color:var(--accent)}
+.pick .badge{width:34px;height:34px;font-size:13px}
+.pick .t{font-weight:600;font-size:13px;display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.pick .s{font-size:11.5px;color:var(--muted);display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.pick .r{font-family:var(--mono);font-size:12px;text-align:right;white-space:nowrap}
+.pick .r small{display:block;color:var(--muted);font-size:10.5px}
+
+.desk{display:grid;grid-template-columns:340px minmax(0,1fr) 460px;height:calc(100vh - 40px);min-height:640px;max-height:1000px;border-bottom:1px solid var(--line)}
+.col{min-width:0;min-height:0;display:flex;flex-direction:column;background:var(--panel)}
+.col.list{border-right:1px solid var(--line)}
+.col.detail{border-left:1px solid var(--line);overflow:auto}
+.filters{padding:12px;border-bottom:1px solid var(--line);display:grid;grid-template-columns:1fr 1fr;gap:8px;overflow:auto;max-height:48%}
+.filters label{font-size:11px;color:var(--muted);font-weight:600;display:flex;flex-direction:column;gap:3px}
+.filters .full{grid-column:1/-1}
+.filters input[type=search],.filters select{height:34px;border:1px solid var(--line);border-radius:6px;background:var(--panel2);padding:0 8px;width:100%}
+.filters input[type=range]{width:100%;accent-color:var(--accent)}
+.budget{display:flex;justify-content:space-between;font-family:var(--mono);font-size:12px;color:var(--fg)}
+.chips{display:flex;flex-wrap:wrap;gap:6px}
+.chip{display:inline-flex!important;flex-direction:row!important;align-items:center;gap:5px!important;border:1px solid var(--line);border-radius:999px;padding:3px 9px;font-size:12px!important;font-weight:500!important;color:var(--fg)!important;cursor:pointer;background:var(--panel)}
+.chip input{margin:0;accent-color:var(--accent)}
+.chip:has(input:checked){border-color:var(--accent);background:var(--accent-weak)}
+.count{padding:6px 12px;font-size:12px;color:var(--muted);border-bottom:1px solid var(--line);display:flex;justify-content:space-between;gap:8px}
+.count button{background:none;border:0;color:var(--accent);cursor:pointer;font-size:12px;padding:0}
+.items{overflow:auto;flex:1;padding:6px}
+.item{display:grid;grid-template-columns:40px minmax(0,1fr) auto;gap:10px;align-items:center;width:100%;text-align:left;border:1px solid transparent;border-radius:8px;padding:8px;background:none;cursor:pointer}
+.item:hover{background:var(--panel2)}
+.item.sel{border-color:var(--accent);background:var(--accent-weak)}
+.badge{width:40px;height:40px;border-radius:8px;display:grid;place-items:center;font-family:var(--display);font-weight:800;font-size:15px;color:#fff}
+.badge.off{font-size:10px}
+.item .t,.item .s{display:block}
+.item .t{font-weight:600;font-size:13px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.item .s{font-size:11.5px;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.item .r{text-align:right;font-family:var(--mono);font-size:12px;white-space:nowrap}
+.item .r small{display:block;color:var(--muted);font-size:10.5px}
+.tag{display:inline-block;font-size:10px;font-weight:600;border-radius:4px;padding:0 5px;margin-left:4px;vertical-align:1px;background:var(--info-bg);color:var(--accent)}
+.tag.cor{background:var(--warn-bg);color:var(--fg)}
+.tag.gold{background:var(--gold-bg);color:var(--gold)}
+
+.col.map{position:relative}
+#map{flex:1;min-height:300px;background:var(--panel2)}
+.leaflet-tile-pane{filter:var(--tile-filter)}
+.sat .leaflet-tile-pane{filter:none}
+.leaflet-control-layers{background:var(--panel);color:var(--fg);border:1px solid var(--line)!important}
+.legend{position:absolute;left:10px;bottom:22px;z-index:500;background:var(--panel);border:1px solid var(--line);border-radius:8px;padding:8px 10px;font-size:11.5px;display:grid;gap:3px}
+.legend div{display:flex;gap:6px;align-items:center}
+.legend .ring{width:14px;height:10px;border:2px dashed var(--fg);border-radius:2px}
+.leaflet-container{font-family:var(--body)}
+.leaflet-bar a{background:var(--panel);color:var(--fg);border-color:var(--line)}
+.leaflet-control-attribution{background:color-mix(in srgb,var(--panel) 85%,transparent)!important;color:var(--muted)}
+.leaflet-control-attribution a{color:var(--accent)}
+.mlabel{background:var(--panel);color:var(--fg);border:1px solid var(--line);font-family:var(--mono);font-size:11px;padding:1px 5px;border-radius:4px;box-shadow:none}
+.mlabel:before{display:none}
+
+.dz{padding:16px 18px 28px;display:grid;gap:18px}
+.dz section{display:grid;gap:8px}
+.dz h3{font-size:13px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);font-family:var(--body);font-weight:600}
+.dhead{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:12px;align-items:start}
+.dhead h2{font-size:24px;font-weight:800}
+.dhead .sub{color:var(--muted);font-size:13px}
+.score{text-align:center;border-radius:10px;padding:8px 12px;color:#fff;min-width:84px}
+.score b{font-family:var(--display);font-size:30px;line-height:1;display:block}
+.score small{font-size:11px;font-weight:600}
+.lede{margin:0;font-size:14px;line-height:1.6}
+.parts{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px 12px}
+.part small{font-size:11px;color:var(--muted);display:block}
+.bar{height:6px;border-radius:3px;background:var(--line);overflow:hidden}
+.bar i{display:block;height:100%;background:var(--accent)}
+.kpis{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}
+.kpi{background:var(--panel2);border-radius:8px;padding:8px 10px;min-width:0}
+.kpi small{display:block;font-size:11px;color:var(--muted)}
+.kpi b{font-family:var(--display);font-size:20px;line-height:1.2}
+.flags{display:grid;gap:6px;margin:0;padding:0;list-style:none}
+.flags li{padding:7px 10px;border-radius:6px;font-size:13px;display:grid;grid-template-columns:auto minmax(0,1fr);gap:8px}
+.flags li b{font-family:var(--mono);font-size:11px;padding-top:2px}
+.flags .bad{background:var(--bad-bg)} .flags .bad b{color:var(--r-skip)}
+.flags .warn{background:var(--warn-bg)} .flags .warn b{color:var(--r-fair)}
+.flags .info,.flags .neutral{background:var(--info-bg)} .flags .info b,.flags .neutral b{color:var(--accent)}
+.flags .ok,.flags .good{background:var(--ok-bg)} .flags .ok b,.flags .good b{color:var(--r-strong)}
+.finding{margin:0;padding:0;list-style:none;display:grid;gap:7px}
+.finding li{font-size:13px;padding-left:14px;position:relative}
+.finding li:before{content:"";position:absolute;left:0;top:7px;width:6px;height:6px;border-radius:50%;background:var(--gold)}
+.ladder{display:grid;gap:7px}
+.rung{display:grid;grid-template-columns:128px minmax(0,1fr) 82px;gap:8px;align-items:center;font-size:12.5px}
+.rung .track{position:relative;height:16px;background:var(--panel2);border-radius:3px}
+.rung .fill{position:absolute;left:0;top:0;bottom:0;border-radius:3px}
+.rung .rng{position:absolute;top:6px;height:4px;background:var(--fg);opacity:.35;border-radius:2px}
+.rung .v{text-align:right;font-family:var(--mono);font-size:12px}
+.note{font-size:12px;color:var(--muted);margin:0}
+table.kv{width:100%;border-collapse:collapse;font-size:13px}
+table.kv td{padding:5px 0;border-bottom:1px solid var(--line);vertical-align:top}
+table.kv td:last-child{text-align:right;font-family:var(--mono);font-variant-numeric:tabular-nums;padding-left:10px}
+table.kv tr.tot td{font-weight:600;border-bottom:2px solid var(--fg)}
+.timeline{display:grid;gap:4px;margin:0;padding:0;list-style:none}
+.timeline li{display:grid;grid-template-columns:100px minmax(0,1fr) auto;gap:8px;font-size:12.5px;padding:5px 8px;border-radius:6px;background:var(--panel2)}
+.timeline .st{font-weight:600}
+.timeline .st.u{color:var(--r-skip)} .timeline .st.s{color:var(--r-strong)}
+.persona{display:grid;gap:8px}
+.persona div{border:1px solid var(--line);border-radius:8px;padding:9px 11px}
+.persona b{font-size:13px}
+.persona .fit{float:right;font-size:11px;font-weight:600;border-radius:999px;padding:1px 8px}
+.fit.g{background:var(--ok-bg);color:var(--r-strong)} .fit.p{background:var(--warn-bg);color:var(--fg)} .fit.w{background:var(--bad-bg);color:var(--r-skip)}
+.persona p{margin:4px 0 0;font-size:13px}
+.pc{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.pc ul{margin:0;padding-left:18px;display:grid;gap:5px;font-size:13px}
+.pc h4{margin:0 0 4px;font-size:13px}
+.pc .p h4{color:var(--r-strong)} .pc .c h4{color:var(--r-skip)}
+.btns{display:flex;flex-wrap:wrap;gap:8px}
+.btn{display:inline-flex;align-items:center;gap:6px;border:1px solid var(--accent);color:var(--accent);background:none;border-radius:6px;padding:6px 11px;font-weight:600;font-size:13px;text-decoration:none;cursor:pointer}
+.btn.solid{background:var(--accent);color:var(--panel)}
+.lot{border:1px solid var(--accent);border-radius:8px;padding:10px 12px;background:var(--accent-weak);display:grid;gap:6px}
+.lot code{font-family:var(--mono);font-size:15px;font-weight:500;user-select:all}
+.empty{padding:40px 22px;color:var(--muted)}
+.empty h2{color:var(--fg);font-size:20px;margin-bottom:8px}
+.close{display:none}
+
+.ref{padding-block:36px 48px;display:grid;gap:36px}
+.ref h2{font-size:22px;font-weight:800;margin-bottom:10px}
+.ref p,.ref li{max-width:75ch}
+.grid2{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,420px),1fr));gap:28px}
+.tbl{overflow-x:auto;border:1px solid var(--line);border-radius:8px;background:var(--panel)}
+.tbl table{border-collapse:collapse;width:100%;font-size:13px;min-width:640px}
+.tbl th,.tbl td{padding:7px 10px;border-bottom:1px solid var(--line);text-align:left;vertical-align:top}
+.tbl th{font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);background:var(--panel2)}
+.tbl td.num{text-align:right}
+.tbl tr.click{cursor:pointer} .tbl tr.click:hover td{background:var(--panel2)}
+.check{list-style:none;padding:0;margin:0;display:grid;gap:8px}
+.check li{display:grid;grid-template-columns:22px minmax(0,1fr);gap:8px}
+.check li:before{content:"";width:14px;height:14px;border:2px solid var(--accent);border-radius:3px;margin-top:3px}
+footer{padding-block:18px 30px;color:var(--muted);font-size:12px;border-top:1px solid var(--line)}
+.toast{position:fixed;left:50%;bottom:calc(20px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);background:var(--fg);color:var(--bg);padding:8px 14px;border-radius:8px;font-size:13px;z-index:3000}
+
+@media (max-width:1180px){
+  .desk{grid-template-columns:310px minmax(0,1fr)}
+  .finds{grid-template-columns:1fr 1fr}
+  .finds .fa{grid-column:1/-1}
+  .col.detail{position:fixed;inset:0 0 0 auto;width:min(480px,100%);z-index:2000;box-shadow:-8px 0 30px rgba(0,0,0,.25);padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);padding-right:env(safe-area-inset-right,0px)}
+  .col.detail[data-open="0"]{display:none}
+  .close{display:inline-flex}
+}
+@media (max-width:760px){
+  .desk{grid-template-columns:minmax(0,1fr);height:auto;max-height:none}
+  .finds{grid-template-columns:1fr}
+  .col.map{order:-1;height:55vh}
+  .col.list{border-right:0;max-height:80vh}
+  .filters{max-height:none}
+  .hd h1{font-size:23px}
+  .pc,.kpis{grid-template-columns:1fr 1fr}
+  .parts{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .rung{grid-template-columns:100px minmax(0,1fr) 74px}
+}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+</style>
+
+<header>
+ <div class="wrap">
+  <div class="hd">
+   <div>
+    <div class="eyebrow">Bangalore Development Authority · Notification BDA/EM/e-Auction/T-15/2026-27 + corrigendum</div>
+    <h1>BDA Auction Desk <span>· T-15</span></h1>
+    <p>Every site in this auction, outlined on the map, checked against BDA's geotag map and corrigendum, priced against the 2026 resale market, tested against BDA's own bidding history on KPPP, and rated 0–10.</p>
+   </div>
+   <div class="dates">
+    <div class="date hot"><small>Register interest (EOI) by</small><b>31 Oct 2026, 5:00 pm</b></div>
+    <div class="date"><small>Bidding · Sl 1–46</small><b>2 Nov, 10am–4pm</b></div>
+    <div class="date"><small>Bidding · Sl 47–92</small><b>3 Nov, 10am–4pm</b></div>
+    <div class="date"><small>Bidding · Sl 93–138</small><b>4 Nov, 10am–4pm</b></div>
+    <div class="date"><small>EMD per site</small><b>₹4,00,000</b></div>
+    <a class="btn solid" href="https://kppp.karnataka.gov.in/#/portal/Auctions/live" target="_blank" rel="noopener" style="align-self:center">Open KPPP portal</a>
+   </div>
+  </div>
+  <div class="summary" id="summary"></div>
+ </div>
+</header>
+
+<section class="wrap finds">
+ <div class="fa"><h2>What the data says <small>from 2,700+ past BDA lots on KPPP</small></h2><ul class="facts" id="facts"></ul></div>
+ <div><h2>Great finds <small>headroom, decent odds, no red flags</small></h2><div class="picks" id="great"></div></div>
+ <div><h2>Sleepers <small>few rivals expected, still sound</small></h2><div class="picks" id="sleep"></div></div>
+</section>
+
+<main class="desk wrap" style="padding-left:0;padding-right:0;max-width:none">
+ <div class="col list">
+  <div class="filters">
+   <label class="full" for="q">Search site no., layout or KPPP number<input type="search" id="q" placeholder="e.g. 1246, Arkavathi, AUCTION4520"></label>
+   <label class="full" for="fbudget">Budget: all-in cost at expected bid
+     <input type="range" id="fbudget" min="10" max="600" step="5" value="600">
+     <span class="budget"><span>₹10 L</span><b id="budgetv">Any</b><span>₹6 Cr</span></span></label>
+   <label for="fzone">Zone<select id="fzone"><option value="">All zones</option><option>South</option><option>West</option><option>North</option></select></label>
+   <label for="fverdict">Rating<select id="fverdict"><option value="">All ratings</option><option>Strong buy</option><option>Good</option><option>Fair / selective</option><option>Skip / high risk</option><option>Withdrawn</option></select></label>
+   <label for="fgrowth">Area growth<select id="fgrowth"><option value="">Any growth</option><option value="Strong">Strong</option><option value="Steady">Steady or better</option><option value="Mature">Mature (built-out)</option><option value="Slow">Slow only</option></select></label>
+   <label for="fcomp">Competition<select id="fcomp"><option value="">Any</option><option value="2.4">Low or very low</option><option value="3.4">Moderate or less</option></select></label>
+   <label for="fsize">Plot size<select id="fsize"><option value="">Any size</option><option value="s">Under 600 ft²</option><option value="m">600–1,500 ft²</option><option value="l">1,500–3,000 ft²</option><option value="xl">Over 3,000 ft²</option></select></label>
+   <label for="ffacing">Facing<select id="ffacing"><option value="">Any facing</option><option value="EN">East / North / NE</option><option value="SW">South / West / SW</option></select></label>
+   <label for="froad">Road width<select id="froad"><option value="">Any road</option><option value="12">12 m (40 ft) or wider</option><option value="18">18 m (60 ft) or wider</option></select></label>
+   <label for="fsort">Sort by<select id="fsort"><option value="score">Rating (best first)</option><option value="win">Win chance at our max bid</option><option value="upside">Headroom below market</option><option value="gain">5-year gain on all-in cost</option><option value="price">Expected cost (low to high)</option><option value="area">Plot size (large to small)</option><option value="sl">Notice serial no.</option></select></label>
+   <div class="full chips">
+     <label class="chip" for="fgreat"><input type="checkbox" id="fgreat">Great finds</label>
+     <label class="chip" for="fsleep"><input type="checkbox" id="fsleep">Sleepers</label>
+     <label class="chip" for="fclean"><input type="checkbox" id="fclean">No red flags</label>
+     <label class="chip" for="frelist"><input type="checkbox" id="frelist">Re-listed before</label>
+     <label class="chip" for="fapprox"><input type="checkbox" id="fapprox">Not on BDA map</label>
+     <label class="chip" for="fwd"><input type="checkbox" id="fwd">Withdrawn</label>
+   </div>
+  </div>
+  <div class="count"><span id="count"></span><button id="reset" type="button">Reset filters</button></div>
+  <div class="items" id="items" role="list"></div>
+ </div>
+ <div class="col map">
+  <div id="map" aria-label="Map of auction sites"></div>
+  <div class="legend" id="legend"></div>
+ </div>
+ <aside class="col detail" id="detail" data-open="0" aria-live="polite"></aside>
+</main>
+
+<div class="wrap ref">
+ <section>
+  <h2>BDA's track record by locality</h2>
+  <p>From every BDA lot on the Karnataka Public Procurement Portal (KPPP) since 2023. "Sold" means bidding closed with a result; "no bidders" means nobody took part at that base. KPPP does not publish winning amounts. Low sell-through means BDA's base is near or above what buyers pay there: fewer rivals, but you should pay less.</p>
+  <div class="tbl"><table id="histTbl"><thead><tr><th>Locality</th><th class="num">Past lots</th><th class="num">Sold</th><th class="num">No bidders</th><th class="num">Sell-through</th><th>BDA base rate trend (₹/m²)</th><th class="num">Base growth/yr</th><th>Area growth</th></tr></thead><tbody></tbody></table></div>
+ </section>
+ <section>
+  <h2>What the corrigendum changed</h2>
+  <div class="grid2">
+   <div>
+    <p>BDA withdrew 8 serial numbers because the sites were already allotted, and added 8 replacement sites. None of the replacements are on BDA's geotag map. Their outlines here are drawn from the notice dimensions, placed beside the nearest mapped sites in the same block, and approximate.</p>
+    <p>The corrigendum also changes Site 360 (Sl 77, JP Nagar 9th Phase 4th Block) to 233.98 m², but its printed dimensions give 79.23 m². At ₹1,00,000/m² that is a ₹1.55 Cr difference in base price. KPPP re-published it as a new lot. Get the area from BDA in writing.</p>
+   </div>
+   <div class="tbl"><table id="corrTbl"><thead><tr><th>Change</th><th>Sl</th><th>Site</th><th>Layout</th><th class="num">Area m²</th><th class="num">₹/m²</th></tr></thead><tbody></tbody></table></div>
+  </div>
+ </section>
+ <section class="grid2">
+  <div>
+   <h2>How each site is rated</h2>
+   <p><b>Fair value</b> starts from a 2026 realisable rate for a regular BDA-khata plot in that locality (asking prices × about 0.85). It is discounted for small, narrow or irregular plots and adjusted 3–4% for facing. If nobody bid on this exact site at an earlier base, fair value is capped at that base + 10%, grown at the area rate since. The market already said no at that price.</p>
+   <p><b>Competition</b> comes from locality demand, BDA's sell-through there, ticket size, plot usability, and whether this site went unsold or came back after closing. The <b>expected winning bid</b> rises from just over the minimum bid towards 97% of fair value as competition rises. <b>Win chance</b> is the odds that bidding our max beats every expected rival.</p>
+   <p><b>Rating</b> = 30% headroom + 15% area growth + 15% location + 15% usability + 15% data and surroundings confidence + 10% win chance. Any serious red flag caps it at 5.</p>
+   <p><b>Road width.</b> Today's width comes from an OpenStreetMap width or lane tag where one exists. Otherwise it is estimated (marked *) from the planned width on the BBMP/RMP road-width map (<a href="https://data.opencity.in/dataset/bengaluru-road-width-map" target="_blank" rel="noopener">OpenCity</a>), the OSM road class, and BDA layout norms for the plot size. It sets FAR: 1.75 under 12 m, 2.25 for 12–18 m, 2.5 for 18 m and above. The authoritative source is the sanctioned BDA layout plan; ask the BDA engineer, or measure kerb to kerb on site.</p>
+   <p><b>Surroundings</b> come from OpenStreetMap: lakes, drains, power lines, roads, rail, burial grounds, sewage plants, quarries, parks, schools and bus stops. Elevation and slope come from SRTM 30 m terrain data, which is coarse for a single plot. Facing is the side of the nearest mapped road.</p>
+  </div>
+  <div>
+   <h2>Market rates used (₹ per ft², Oct 2026)</h2>
+   <div class="tbl"><table id="mktTbl"><thead><tr><th>Locality</th><th class="num">Low</th><th class="num">Mid</th><th class="num">High</th><th class="num">BDA base</th><th>Evidence</th></tr></thead><tbody></tbody></table></div>
+  </div>
+ </section>
+ <section class="grid2">
+  <div>
+   <h2>Before you bid</h2>
+   <ul class="check">
+    <li>On KPPP, log in, open Auctions, search the auction number shown in each site's report, and express interest before 31 Oct, 5 pm. Pay the ₹4 L EMD and ₹500 fee per site through the portal.</li>
+    <li>Visit the plot. Check road width (it sets FAR and floors), slope, drains, encroachment and overhead lines. Sites are sold as is.</li>
+    <li>Your bid must be strictly more than base + 10%, and each site needs at least 2 bidders. If you are the only bidder, BDA rejects the sale.</li>
+    <li>Line up funds. You pay 25% (less EMD) within 72 hours of the advice letter, then the 75% balance within 45 days.</li>
+    <li>If the price is over ₹50 L, deduct and remit 1% TDS. Budget about 6.6% on top for stamp duty and registration.</li>
+    <li>For Arkavathy sites, ask BDA for the survey number and check it for re-do or denotification litigation.</li>
+   </ul>
+  </div>
+  <div>
+   <h2>Sources</h2>
+   <ul>
+    <li><a href="https://www.bdakarnataka.in/api/media/e-auction/pdf_press_release/e_auction-12102026_1791186164533_0e517992.pdf" target="_blank" rel="noopener">BDA notification T-15</a> · <a href="https://www.bdakarnataka.in/api/media/e-auction/pdf_press_release/1574_BDA_corrigendum_(1)-1_1792750776940_04ea4c26.pdf" target="_blank" rel="noopener">Corrigendum 1574</a> · BDA geotag map (106.51.29.213)</li>
+    <li><a href="https://kppp.karnataka.gov.in/" target="_blank" rel="noopener">KPPP</a>: the current lots and 2,742 past BDA lots (status, base rate, date)</li>
+    <li>Rates: <a href="https://www.99acres.com/property-rates-and-price-trends-in-anjanapura-bangalore-south-prffid" target="_blank" rel="noopener">99acres</a>, <a href="https://bdasites.in/area/banashankari-6th-stage-9th-block/" target="_blank" rel="noopener">BDAsites</a>, <a href="https://www.nobroker.in/residential-land-plots-for-sale-in-smv_layout_bangalore" target="_blank" rel="noopener">NoBroker</a>, <a href="https://www.360plot.com/plot/bangalore/plot-for-sale-in-hulimavu-bangalore-08918e" target="_blank" rel="noopener">360plot</a>, <a href="https://www.talkinglands.com/blogs/arkavathy-layout-bda-complete-guide" target="_blank" rel="noopener">TalkingLands</a>, <a href="https://nxtfootstep.com/thanisandra-property-price-2026/" target="_blank" rel="noopener">nxtfootstep</a>, <a href="https://www.nestoria.in/kumaraswamy-layout/land/sale" target="_blank" rel="noopener">Nestoria</a></li>
+    <li>Context: <a href="https://newsable.asianetnews.com/karnataka-news/bda-transfers-8-developed-layouts-to-greater-bengaluru-authority-articleshow-fymlv0m" target="_blank" rel="noopener">GBA takeover of 8 BDA layouts</a>, <a href="https://www.deccanherald.com/india/karnataka/bengaluru/rs-55-cr-released-for-ugd-in-banashankari-6th-stage-1122561.html" target="_blank" rel="noopener">BSK 6th Stage UGD</a>, <a href="https://www.vaultproptech.com/blogs/bangalore-guidance-value-meaning-rates-and-2026-update" target="_blank" rel="noopener">2026 guidance value revision</a></li>
+    <li>Maps: © OpenStreetMap contributors, Esri World Imagery. Terrain: SRTM 30 m via OpenTopoData.</li>
+   </ul>
+   <p class="note">This is decision support, not a valuation or legal opinion. Confirm every figure with BDA, a registered valuer and a property lawyer.</p>
+  </div>
+ </section>
+</div>
+<footer><div class="wrap">Generated 30 Oct 2026. BDA helpline: <span class="mono">9483166622</span>. KPPP helpdesk: <span class="mono">080-46010000</span>.</div></footer>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
+<script>
+const PACK = /*DATA*/;
+const SITES = PACK.sites, HIST = PACK.history;
+const TILES = /*TILES*/;
+const SQFT = 10.7639;
+const VCOL = {'Strong buy':'--r-strong','Good':'--r-good','Fair / selective':'--r-fair','Skip / high risk':'--r-skip','Withdrawn':'--r-off'};
+const css = v => getComputedStyle(document.documentElement).getPropertyValue(v).trim();
+const col = s => css(VCOL[s.verdict]);
+const esc = t => String(t ?? '').replace(/[&<>"']/g, m => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));
+const inr = n => n >= 1e7 ? '₹' + (n/1e7).toFixed(2) + ' Cr' : n >= 1e5 ? '₹' + (n/1e5).toFixed(1) + ' L' : '₹' + Math.round(n).toLocaleString('en-IN');
+const rs = n => '₹' + Math.round(n).toLocaleString('en-IN');
+const bidDay = s => s.sl.startsWith('C') ? 'Check the lot on KPPP (replacement site)' : (+s.sl <= 46 ? '2 Nov 2026' : +s.sl <= 92 ? '3 Nov 2026' : '4 Nov 2026');
+const key = s => s.sl + '|' + s.site;
+const $ = id => document.getElementById(id);
+const ACT = SITES.filter(s => s.status === 'active');
+const hasRed = s => s.flags.concat(s.surroundRisks || []).some(f => f.sev === 'bad');
+const KPPP = 'https://kppp.karnataka.gov.in/#/portal/Auctions/live';
+
+/* summary + findings */
+(function(){
+  const c = v => SITES.filter(s => s.verdict === v).length;
+  const items = [[ACT.length, 'sites on sale<br>(130 + 8 added)', '--accent'], [c('Strong buy'), 'strong buy', '--r-strong'], [c('Good'), 'good', '--r-good'],
+    [c('Fair / selective'), 'fair / selective', '--r-fair'], [c('Skip / high risk'), 'skip / high risk', '--r-skip'], [ACT.filter(s => s.greatFind).length, 'great finds', '--gold']];
+  $('summary').innerHTML = items.map(([n,l,v]) => `<div class="sum"><span class="dot" style="background:var(${v})"></span><span class="n num">${n}</span><span class="l">${l}</span></div>`).join('');
+  const relist = ACT.filter(s => s.prevRounds.length), unsoldBefore = ACT.filter(s => s.prevRounds.some(p => /^NO_/.test(p.status)));
+  const cuts = ACT.filter(s => s.baseChange <= -10).sort((a, b) => a.baseChange - b.baseChange);
+  const hs = Object.entries(HIST).filter(([g, h]) => h.lots >= 15).sort((a, b) => a[1].sellThrough - b[1].sellThrough);
+  const name = g => (SITES.find(s => s.group === g) || {}).locality || g;
+  const smv = HIST.SMV && HIST.SMV.baseSeries.length > 1 ? HIST.SMV.baseSeries : null;
+  const facts = [
+    [`${relist.length}/${ACT.length}`, `sites were already in an earlier BDA auction, and ${unsoldBefore.length} drew no bidders at least once. This round is mostly leftovers: fewer rivals, but check each one for the reason it did not sell.`],
+    cuts.length ? [`${cuts[0].baseChange}%`, `BDA cut the base on Site ${esc(cuts[0].site)} (${esc(cuts[0].locality)}) after it went unsold, from ${rs(cuts[0].prevBase)} to ${rs(cuts[0].rate)}/m².${cuts.length > 1 ? ' ' + (cuts.length - 1) + ' more sites got cuts of 10% or more.' : ''}`] : null,
+    hs.length ? [`${hs[0][1].sellThrough}%`, `sell-through in ${esc(name(hs[0][0]))}, the lowest of any locality here${hs[1] ? '. ' + esc(name(hs[1][0])) + ' (' + hs[1][1].sellThrough + '%) is next' : ''}. Expect thin bidding there.`] : null,
+    smv ? [`+${Math.round((smv.at(-1)[1] / smv[0][1] - 1) * 100)}%`, `rise in BDA's base rate for Sir MV Layout since ${smv[0][0]} (${rs(smv[0][1])} to ${rs(smv.at(-1)[1])}/m²). BDA has been raising prices to follow the market.`] : null,
+    [`${ACT.filter(s => s.geotag === 'approx').length}`, `sites are missing from BDA's geotag map. Their outlines here are drawn from the notice dimensions (dashed) and are approximate.`],
+  ].filter(Boolean);
+  $('facts').innerHTML = facts.map(([b, t]) => `<li><b class="num">${b}</b><span>${t}</span></li>`).join('');
+  const pick = s => `<button class="pick" type="button" data-k="${esc(key(s))}"><span class="badge" style="background:${col(s)}">${s.score}</span>
+     <span style="min-width:0"><span class="t">Site ${esc(s.site)} · ${esc(s.locality)}</span><span class="s">${s.areaSqft.toLocaleString('en-IN')} ft² · ${s.compLabel.toLowerCase()} competition · ${s.growth.label.toLowerCase()} growth</span></span>
+     <span class="r">${inr(s.expTotal)}<small>${s.winChance}% win</small></span></button>`;
+  $('great').innerHTML = ACT.filter(s => s.greatFind).sort((a, b) => b.score - a.score).slice(0, 6).map(pick).join('') || '<p class="note">None meet all the conditions.</p>';
+  $('sleep').innerHTML = ACT.filter(s => s.sleeper && !s.greatFind).sort((a, b) => b.score - a.score).slice(0, 6).map(pick).join('') || '<p class="note">None meet all the conditions.</p>';
+  document.querySelectorAll('.pick').forEach(b => b.onclick = () => { select(b.dataset.k, true); $('map').scrollIntoView({behavior: 'smooth', block: 'start'}); });
+  $('legend').innerHTML = ['Strong buy','Good','Fair / selective','Skip / high risk','Withdrawn'].map(v => `<div><span class="dot" style="background:var(${VCOL[v]})"></span>${v}</div>`).join('') + '<div><span class="ring"></span>Outline drawn from notice (not on BDA map)</div>';
+})();
+
+/* map */
+const map = L.map('map', {zoomControl:true, minZoom:11, maxZoom:19}).setView([12.95, 77.56], 11);
+const Packed = L.GridLayer.extend({
+  createTile(c){
+    const TL = this.options.src.tiles, mime = this.options.src.mime, el = document.createElement('div');
+    for (let k = 0; k <= 8 && c.z - k >= 11; k++) {
+      const f = 2 ** k, ax = Math.floor(c.x / f), ay = Math.floor(c.y / f), t = TL[`${c.z-k}/${ax}/${ay}`];
+      if (t) { el.style.backgroundImage = `url(data:${mime};base64,${t})`; el.style.backgroundSize = `${256*f}px ${256*f}px`;
+        el.style.backgroundPosition = `-${(c.x - ax*f)*256}px -${(c.y - ay*f)*256}px`; break; }
+    }
+    return el;
+  }
+});
+const mapEl = $('map');
+const sat = new Packed({src: TILES.sat, maxZoom:19, attribution:'Imagery © Esri · outlines: BDA geotag map / BDA notice'});
+const streets = new Packed({src: TILES.osm, maxZoom:19, attribution:'© OpenStreetMap contributors · outlines: BDA geotag map / BDA notice'});
+sat.addTo(map); mapEl.classList.add('sat');
+L.control.layers({'Satellite': sat, 'Streets': streets}, null, {position:'topright', collapsed:false}).addTo(map);
+map.on('baselayerchange', e => mapEl.classList.toggle('sat', e.layer === sat));
+
+const layers = new Map();
+function drawSites(){
+  SITES.forEach(s => {
+    const color = col(s), g = L.featureGroup(), drawn = !!s.polyDrawn;
+    L.polygon(s.polygon, {color: drawn ? css('--fg') : color, weight: 2, dashArray: drawn ? '4 3' : null, fillColor: color, fillOpacity: .5}).addTo(g);
+    L.circleMarker([s.lat, s.lon], {radius: 5, color, weight: 1, fillColor: color, fillOpacity: .95})
+      .bindTooltip(`Site ${esc(s.site)} · ${s.score ?? '—'}${s.greatFind ? ' ★' : ''}`, {className:'mlabel', direction:'top'}).addTo(g);
+    g.on('click', () => select(key(s), false));
+    layers.set(key(s), g);
+  });
+}
+drawSites();
+
+/* filters */
+const FILTER_IDS = ['q','fbudget','fzone','fverdict','fgrowth','fcomp','fsize','ffacing','froad','fsort','fgreat','fsleep','fclean','frelist','fapprox','fwd'];
+let current = null;
+function budgetVal(){ const v = +$('fbudget').value; return v >= 600 ? Infinity : v * 1e5; }
+function filtered(){
+  const q = $('q').value.trim().toLowerCase(), z = $('fzone').value, v = $('fverdict').value, sz = $('fsize').value, gr = $('fgrowth').value,
+        cp = +$('fcomp').value || 0, fc = $('ffacing').value, bud = budgetVal();
+  const showW = $('fwd').checked || v === 'Withdrawn';
+  let arr = SITES.filter(s => (showW || s.status === 'active') && (!z || s.zone === z) && (!v || s.verdict === v)
+    && (!$('fapprox').checked || s.geotag === 'approx') && (!$('fgreat').checked || s.greatFind) && (!$('fsleep').checked || s.sleeper)
+    && (!$('fclean').checked || !hasRed(s)) && (!$('frelist').checked || s.prevRounds.length)
+    && (s.allIn <= bud) && (!cp || s.competition < cp) && (!$('froad').value || (s.road?.width || 0) >= +$('froad').value)
+    && (!gr || (gr === 'Steady' ? ['Steady','Strong','Mature'].includes(s.growth.label) : gr === 'Slow' ? s.growth.label.startsWith('Slow') : s.growth.label === gr))
+    && (!fc || (fc === 'EN' ? ['East','North','North-East'].includes(s.geo.facing) : ['South','West','South-West'].includes(s.geo.facing)))
+    && (!q || (s.site + ' ' + s.layout + ' ' + s.locality + ' ' + (s.kppp?.no || '')).toLowerCase().includes(q))
+    && (!sz || (sz === 's' ? s.areaSqft < 600 : sz === 'm' ? s.areaSqft < 1500 && s.areaSqft >= 600 : sz === 'l' ? s.areaSqft >= 1500 && s.areaSqft < 3000 : s.areaSqft >= 3000)));
+  const slN = s => s.sl.startsWith('C') ? 200 + +s.sl.slice(1) : +s.sl;
+  arr.sort({score:(a,b) => (b.score ?? -1) - (a.score ?? -1), win:(a,b) => b.winChance - a.winChance, upside:(a,b) => b.upside - a.upside,
+            gain:(a,b) => b.gain5y - a.gain5y, price:(a,b) => a.allIn - b.allIn, area:(a,b) => b.area - a.area, sl:(a,b) => slN(a) - slN(b)}[$('fsort').value]);
+  return arr;
+}
+function render(fit){
+  const b = budgetVal(); $('budgetv').textContent = b === Infinity ? 'Any' : 'up to ' + inr(b);
+  const arr = filtered(), keys = new Set(arr.map(key));
+  $('count').textContent = `${arr.length} site${arr.length === 1 ? '' : 's'} shown`;
+  $('items').innerHTML = arr.map(s => `
+    <button class="item${current === key(s) ? ' sel' : ''}" type="button" role="listitem" data-k="${esc(key(s))}">
+      <span class="badge${s.score == null ? ' off' : ''}" style="background:${col(s)}">${s.score ?? 'OFF'}</span>
+      <span style="min-width:0"><span class="t">Site ${esc(s.site)}${s.greatFind ? '<span class="tag gold">GREAT FIND</span>' : s.sleeper ? '<span class="tag gold">SLEEPER</span>' : ''}${s.source.startsWith('Corr') ? '<span class="tag cor">ADDED</span>' : ''}${s.geotag === 'approx' ? '<span class="tag">DRAWN</span>' : ''}</span>
+      <span class="s">${esc(s.locality)} · ${s.compLabel.toLowerCase()} competition</span></span>
+      <span class="r">${s.areaSqft.toLocaleString('en-IN')} ft²<small>${inr(s.expTotal)} · ${s.road?.ft ?? '?'} ft rd</small></span>
+    </button>`).join('') || '<div class="empty">No sites match these filters. Raise the budget or clear a chip.</div>';
+  layers.forEach((g, k) => keys.has(k) ? g.addTo(map) : g.remove());
+  if (fit && arr.length) map.fitBounds(L.latLngBounds(arr.map(s => [s.lat, s.lon])).pad(.1), {maxZoom:16});
+  try { const st = {}; FILTER_IDS.forEach(id => st[id] = $(id).type === 'checkbox' ? $(id).checked : $(id).value); localStorage.setItem('bda-f', JSON.stringify(st)); } catch (e) {}
+}
+$('items').addEventListener('click', e => { const b = e.target.closest('.item'); if (b) select(b.dataset.k, true); });
+FILTER_IDS.forEach(id => $(id).addEventListener(['q','fbudget'].includes(id) ? 'input' : 'change', () => render(id !== 'fsort')));
+$('reset').onclick = () => { FILTER_IDS.forEach(id => { const el = $(id); if (el.type === 'checkbox') el.checked = false; else if (id === 'fbudget') el.value = 600; else if (id === 'fsort') el.value = 'score'; else el.value = ''; }); render(true); };
+try { const st = JSON.parse(localStorage.getItem('bda-f') || 'null'); if (st) FILTER_IDS.forEach(id => { if (id in st && $(id)) { if ($(id).type === 'checkbox') $(id).checked = st[id]; else $(id).value = st[id]; } }); } catch (e) {}
+
+/* dossier */
+function toast(t){ const d = document.createElement('div'); d.className = 'toast'; d.textContent = t; document.body.appendChild(d); setTimeout(() => d.remove(), 1800); }
+function copy(t){ const fail = () => { const c = $('lotno'); if (c) { const r = document.createRange(); r.selectNodeContents(c); const sl = getSelection(); sl.removeAllRanges(); sl.addRange(r); } toast('Number selected. Press Ctrl+C to copy'); };
+  try { navigator.clipboard.writeText(t).then(() => toast('Copied ' + t), fail); } catch (e) { fail(); } }
+function ladder(s){
+  const rows = [['BDA base', s.rate, null, '--r-off'], ['Minimum bid (+10%)', s.minBidRate, null, '--muted'], ['Expected winning bid*', s.expRate, null, '--r-fair'],
+    ['Our walk-away max*', s.maxBidRate, null, '--accent'], ['Fair resale value*', s.fairRate, [s.fairLo, s.fairHi], '--r-strong']];
+  const max = Math.max(...rows.map(r => r[2] ? r[2][1] : r[1])) * 1.04;
+  return rows.map(([l, v, rng, c]) => `<div class="rung"><span>${l}</span><span class="track"><span class="fill" style="width:${v/max*100}%;background:var(${c})"></span>
+     ${rng ? `<span class="rng" style="left:${rng[0]/max*100}%;width:${(rng[1]-rng[0])/max*100}%"></span>` : ''}</span><span class="v">${rs(v/SQFT)}/ft²</span></div>`).join('');
+}
+const sevLbl = {bad:'RISK', warn:'CHECK', info:'NOTE', good:'GOOD', neutral:'NOTE', ok:'OK'};
+const fl = (sev, t) => `<li class="${sev}"><b>${sevLbl[sev]}</b><span>${esc(t)}</span></li>`;
+const STATUS = {FINALIZED:['Closed with a result', 's'], BIDDING_CLOSED:['Bidding closed', 's'], NO_PARTICIPATIONS:['No bidders', 'u'], NO_BIDS_RECEIVED:['No bids', 'u'], CANCELLED:['Cancelled', '']};
+function detail(s){
+  const g = s.geo || {}, billed = s.area_corr ?? s.area;
+  const gm = `https://www.google.com/maps?q=${s.lat.toFixed(6)},${s.lon.toFixed(6)}`;
+  const sv = `https://www.google.com/maps/@?api=1&map_action=pano&viewpoint=${s.lat.toFixed(6)},${s.lon.toFixed(6)}`;
+  const parts = s.scoreParts ? Object.entries(s.scoreParts).map(([k, v]) => `<div class="part"><small>${k[0].toUpperCase() + k.slice(1)} · ${v}</small><div class="bar"><i style="width:${v*10}%"></i></div></div>`).join('') : '';
+  const fitCls = f => f === 'Good fit' ? 'g' : f === 'Possible' ? 'p' : 'w';
+  return `<div class="dz">
+   <div class="dhead"><div>
+     <div class="eyebrow">Sl ${esc(s.sl)} · ${esc(s.zone)} zone · ${esc(s.source)}${s.greatFind ? ' · Great find' : s.sleeper ? ' · Sleeper' : ''}</div>
+     <h2>Site ${esc(s.site)}</h2><div class="sub">${esc(s.layout)}</div></div>
+     <div class="score" style="background:${col(s)}"><b>${s.score ?? '—'}</b><small>${esc(s.verdict)}</small></div></div>
+   <button class="btn close" id="closeD" type="button">Close report</button>
+   <p class="lede">${esc(s.description)}</p>
+   <div class="kpis">
+     <div class="kpi"><small>Expected winning bid<sup title="Estimate or model output">*</sup></small><b class="num">${inr(s.expTotal)}</b><small>range ${inr(s.expLo)}–${inr(s.expHi)}</small></div>
+     <div class="kpi"><small>Win chance at our max<sup title="Estimate or model output">*</sup></small><b class="num">${s.winChance}%</b><small>${s.bidders} bidders likely</small></div>
+     <div class="kpi"><small>Value in 5 yrs<sup title="Estimate or model output">*</sup></small><b class="num">${inr(s.value5y)}</b><small>${s.gain5y > 0 ? '+' : ''}${s.gain5y}% on all-in cost</small></div>
+   </div>
+   <p class="note"><b>*</b> marks an estimate or model output, with how it was derived alongside. Everything unmarked comes straight from BDA, KPPP or a map. Missing data never lowers a rating; we estimate it instead.</p>
+   ${parts ? `<div class="parts">${parts}</div>` : ''}
+   <section><h3>Apply on KPPP</h3>${s.kppp ? `<div class="lot"><span class="note">Auction notice number for this site</span><code id="lotno">${esc(s.kppp.no)}</code>
+     <span class="note">${esc(s.kppp.title)}</span>
+     <div class="btns"><button class="btn solid" id="copyLot" type="button">Copy number</button><a class="btn" href="${KPPP}" target="_blank" rel="noopener">Open KPPP auctions</a></div>
+     <span class="note">KPPP has no direct link for a single lot. Log in, open Auctions, set the status to "Published", and paste this number into Auction Notice Number.</span></div>`
+     : `<p class="note">No KPPP lot found for this site yet. Replacement sites may be published late; search KPPP for "Site No-${esc(s.site)}".</p>`}</section>
+   ${s.findings?.length ? `<section><h3>Findings for this site</h3><ul class="finding">${s.findings.map(f => `<li>${esc(f)}</li>`).join('')}</ul></section>` : ''}
+   <section><h3>Validity &amp; outline</h3><ul class="flags">
+     ${fl(s.geotag === 'official' ? 'ok' : 'warn', s.geotag === 'official' ? `On BDA's official geotag map (outline ≈ ${s.polyArea} m²)` : `Not on BDA's geotag map. Outline drawn from the notice dimensions (dashed). ${s.geoNote || ''}`)}
+     ${s.flags.map(f => fl(f.sev, f.text)).join('')}
+     ${!s.flags.some(f => f.sev !== 'info') && s.status === 'active' ? fl('ok', 'Area matches dimensions; no withdrawal, duplicate or survey flags') : ''}</ul></section>
+   <section><h3>Bidding history</h3>
+     ${s.prevRounds.length ? `<ul class="timeline">${s.prevRounds.map(p => `<li><span class="mono">${esc(p.date)}</span><span class="st ${STATUS[p.status]?.[1] || ''}">${STATUS[p.status]?.[0] || esc(p.status)}</span><span class="mono">${p.base ? rs(p.base) + '/m²' : ''}</span></li>`).join('')}
+       <li><span class="mono">2–4 Nov 2026</span><span class="st">This auction</span><span class="mono">${rs(s.rate)}/m²</span></li></ul>` : '<p class="note">First time on auction.</p>'}
+     ${s.history?.lots ? `<p class="note">${esc(s.locality)}: ${s.history.lots} past lots, ${s.history.sellThrough}% sold, ${100 - s.history.sellThrough}% drew no bidders.</p>` : ''}</section>
+   <section><h3>Price check (₹ per ft²)</h3><div class="ladder">${ladder(s)}</div>
+    <p class="note">The base is ${s.premiumOverBase >= 0 ? `<b>${s.premiumOverBase}% below</b>` : `<b>${-s.premiumOverBase}% above</b>`} our fair value, and the minimum bid leaves <b>${s.upside}%</b> headroom. Area evidence: ${esc(s.growth.ask)}.${s.usability < 1 ? ` Discounted ${Math.round((1-s.usability)*100)}% for size or shape.` : ''}${s.marketCap?.applied ? ' Capped by an earlier no-bid price.' : ''}</p></section>
+   <section><h3>Competition</h3><table class="kv">
+     <tr><td>Expected competition<sup title="Estimate or model output">*</sup></td><td>${esc(s.compLabel)} (${s.competition}/5)</td></tr>
+     <tr><td>Likely bidders<sup title="Estimate or model output">*</sup></td><td>${s.bidders}</td></tr>
+     <tr><td>Chance nobody else bids (sale void)<sup title="Estimate or model output">*</sup></td><td>${s.noBidRisk}%</td></tr>
+     <tr><td>Bidding day</td><td>${bidDay(s)}</td></tr></table>
+     <p class="note">If you are the only bidder, BDA rejects the sale and the site comes back in a later round, often at the same or a lower base.</p></section>
+   <section><h3>What it will cost</h3><table class="kv">
+     <tr><td>Base price (${billed} m²)</td><td>${inr(s.baseTotal)}</td></tr>
+     <tr><td>Minimum valid bid</td><td>${inr(s.minBidTotal)}</td></tr>
+     <tr><td>Expected winning bid<sup title="Estimate or model output">*</sup></td><td>${inr(s.expTotal)}</td></tr>
+     <tr><td>Our walk-away max<sup title="Estimate or model output">*</sup></td><td>${inr(s.maxBidTotal)}</td></tr>
+     <tr><td>Stamp duty + registration (~6.6%)</td><td>${inr(s.stampReg)}</td></tr>
+     <tr><td>Khata, legal, misc.</td><td>${inr(50000)}</td></tr>
+     <tr class="tot"><td>All-in at expected bid</td><td>${inr(s.allIn)}</td></tr>
+     ${s.tds ? `<tr><td>1% TDS to deduct and remit (part of price)</td><td>${inr(s.tds)}</td></tr>` : ''}
+     <tr><td>Within 72 h of advice letter (25% − EMD)</td><td>${inr(Math.max(0, s.expTotal*.25 - 400000))}</td></tr>
+     <tr><td>Within 45 days of allotment (75%)</td><td>${inr(s.expTotal*.75)}</td></tr></table></section>
+   <section><h3>Area growth: ${esc(s.growth.label)} (~${s.growth.cagr}%/yr)</h3>
+     <p style="margin:0">${esc(s.growth.story)}</p>
+     <div class="pc"><div class="p"><h4>Pushing prices up</h4><ul>${s.growth.drivers.map(d => `<li>${esc(d)}</li>`).join('')}</ul></div>
+     <div class="c"><h4>Holding it back</h4><ul>${s.growth.watch.map(d => `<li>${esc(d)}</li>`).join('')}</ul></div></div></section>
+   <section><h3>Surroundings &amp; concerns</h3><ul class="flags">
+     ${(s.surroundRisks || []).map(f => fl(f.sev, f.text)).join('') || (g.near ? fl('ok', 'No lake edge, drain, HT line, arterial road, rail, burial ground, STP or quarry mapped close by') : fl('info', 'Surroundings data unavailable for this site'))}
+     ${(s.surroundGoods || []).map(t => fl('good', t)).join('')}</ul>
+     <p class="note">From OpenStreetMap, which can miss small drains and new lines. Walk the boundary.</p></section>
+   <section><h3>Land &amp; vastu</h3><table class="kv">
+     <tr><td>Elevation (SRTM 30 m)<sup title="Estimate or model output">*</sup></td><td>${g.elev != null ? g.elev + ' m' : '—'}</td></tr>
+     <tr><td>Local slope / falls towards<sup title="Estimate or model output">*</sup></td><td>${g.slope != null ? g.slope + '% · ' + esc(g.aspect) : '—'}</td></tr>
+     <tr><td>Facing (side of nearest road)<sup title="Estimate or model output">*</sup></td><td>${esc(g.facing || 'Unclear')}</td></tr>
+     <tr><td>Nearest road</td><td>${g.frontage ? esc((g.frontage.name || g.frontage.tags?.highway || 'road') + ' · ' + g.frontage.m + ' m') : '—'}</td></tr></table>
+     ${s.vastu?.length ? `<ul class="flags">${s.vastu.map(v => fl(v.kind, v.text)).join('')}</ul>` : ''}
+     <p class="note">Satellite terrain is too coarse to read slope within one plot. Confirm facing, level and corner status on site.</p></section>
+   <section><h3>How different buyers will see it</h3><div class="persona">
+     ${(s.personas || []).map(p => `<div><span class="fit ${fitCls(p.fit)}">${esc(p.fit)}</span><b>${esc(p.who)}</b><p>${esc(p.think)}</p></div>`).join('')}</div></section>
+   <section><h3>What you can build</h3><table class="kv">
+     <tr><td>Likely use</td><td style="white-space:normal">${esc(s.use)}</td></tr>
+     <tr><td>Road width today${s.road?.conf === 'Mapped' ? '' : '<sup>*</sup>'}</td><td>${s.road?.range ? s.road.range[0] + '–' + s.road.range[1] + ' m' : (s.road?.width ?? '—') + ' m'} · ~${s.road?.ft ?? '—'} ft</td></tr>
+     <tr><td colspan="2" class="note" style="text-align:left;font-family:var(--body)">${esc(s.road?.source || '')}</td></tr>
+     ${s.road?.planned ? `<tr><td>Planned width (RMP map)</td><td>${s.road.planned.width} m · ${s.road.planned.dist} m from centreline</td></tr>` : ''}
+     <tr><td>FAR from road width${s.road?.conf === 'Mapped' ? '' : '<sup>*</sup>'}</td><td>${s.far}</td></tr>
+     <tr><td>Built-up potential</td><td>${s.builtUpSqft.toLocaleString('en-IN')} ft² · ${s.floors}</td></tr>
+     <tr><td>Construction at ~₹2,600/ft²</td><td>${inr(s.buildCost)}</td></tr>
+     <tr><td>Rent when let out<sup title="Estimate or model output">*</sup></td><td>${inr(s.rentMonthly)}/mo</td></tr>
+     <tr><td>Gross rental yield<sup title="Estimate or model output">*</sup></td><td>${s.grossYield}%</td></tr></table></section>
+   <section><h3>Location</h3><table class="kv"><tr><td>Nearest metro (straight line)</td><td>${esc(s.metro.name)} · ${s.metro.km} km</td></tr>
+     ${s.hubs.map(h => `<tr><td>${esc(h.name)}</td><td>${h.km} km</td></tr>`).join('')}</table>
+     <div class="btns"><a class="btn solid" href="${gm}" target="_blank" rel="noopener">Open in Google Maps</a><a class="btn" href="${sv}" target="_blank" rel="noopener">Street View</a></div></section>
+   <section><h3>Plot</h3><table class="kv">
+     <tr><td>Dimensions (E–W × N–S)</td><td>${esc(s.ew)} × ${esc(s.ns)} m</td></tr>
+     <tr><td>Area</td><td>${s.area} m² · ${s.areaSqft.toLocaleString('en-IN')} ft²</td></tr>
+     ${s.area_corr ? `<tr><td>Area per corrigendum</td><td>${s.area_corr} m²</td></tr>` : ''}
+     <tr><td>BDA base rate</td><td>${rs(s.rate)}/m² · ${rs(s.ratePerSqft)}/ft²</td></tr></table></section>
+  </div>`;
+}
+function select(k, fly){
+  current = k;
+  const s = SITES.find(x => key(x) === k);
+  const d = $('detail'); d.innerHTML = detail(s); d.dataset.open = '1'; d.scrollTop = 0;
+  const cb = $('closeD'); if (cb) cb.onclick = () => { d.dataset.open = '0'; };
+  const cl = $('copyLot'); if (cl) cl.onclick = () => copy(s.kppp.no);
+  document.querySelectorAll('.item').forEach(b => b.classList.toggle('sel', b.dataset.k === k));
+  if (fly) map.flyTo([s.lat, s.lon], 18, {duration: matchMedia('(prefers-reduced-motion: reduce)').matches ? 0 : 1.2});
+  try { localStorage.setItem('bda-sel', k); } catch (e) {}
+}
+function emptyDetail(){
+  $('detail').innerHTML = `<div class="empty"><h2>Pick a site</h2><p>Select a site in the list, on the map, or from Great finds. Its report shows the KPPP auction number, bidding history, expected winning bid, surroundings, vastu, growth outlook and how different buyers will see it.</p></div>`;
+}
+
+/* reference tables */
+(function(){
+  const rows = SITES.filter(s => s.status === 'withdrawn' || s.source.startsWith('Corr') || s.area_corr);
+  $('corrTbl').querySelector('tbody').innerHTML = rows.map(s => `<tr class="click" data-k="${esc(key(s))}"><td>${s.status === 'withdrawn' ? 'Withdrawn' : s.area_corr ? 'Area changed' : 'Added'}</td>
+    <td class="mono">${esc(s.sl)}</td><td class="mono">${esc(s.site)}</td><td>${esc(s.layout)}</td><td class="num mono">${s.area_corr ? s.area + ' → ' + s.area_corr : s.area}</td><td class="num mono">${s.rate.toLocaleString('en-IN')}</td></tr>`).join('');
+  $('corrTbl').addEventListener('click', e => { const r = e.target.closest('tr.click'); if (r) { select(r.dataset.k, true); $('map').scrollIntoView({behavior:'smooth'}); } });
+  const groups = new Map();
+  SITES.forEach(s => { if (!groups.has(s.group)) groups.set(s.group, {s, base: new Set()}); groups.get(s.group).base.add(s.ratePerSqft); });
+  $('mktTbl').querySelector('tbody').innerHTML = [...groups.values()].map(({s, base}) => `<tr><td>${esc(s.locality)}</td>${s.marketSqft.map(v => `<td class="num mono">${v.toLocaleString('en-IN')}</td>`).join('')}
+    <td class="num mono">${[...base].sort((a,b)=>a-b).map(v => v.toLocaleString('en-IN')).join(' / ')}</td><td style="font-size:12px;min-width:220px">${esc(s.growth.ask)}</td></tr>`).join('');
+  const spark = ser => { if (!ser || ser.length < 2) return ser?.length ? rs(ser[0][1]) + ` (${ser[0][0]})` : '—';
+    const w = 110, h = 28, vs = ser.map(x => x[1]), mn = Math.min(...vs), mx = Math.max(...vs), sx = i => 4 + i*(w-8)/(ser.length-1), sy = v => mx === mn ? h/2 : h-4 - (v-mn)/(mx-mn)*(h-8);
+    return `<span style="display:flex;gap:8px;align-items:center"><svg width="${w}" height="${h}" viewBox="0 0 ${w} ${h}" aria-hidden="true"><polyline fill="none" stroke="var(--accent)" stroke-width="2" points="${ser.map((x,i) => sx(i)+','+sy(x[1])).join(' ')}"/>${ser.map((x,i) => `<circle cx="${sx(i)}" cy="${sy(x[1])}" r="2.5" fill="var(--accent)"/>`).join('')}</svg><span class="mono" style="font-size:12px;white-space:nowrap">${ser.map(x => `'${String(x[0]).slice(2)} ${Math.round(x[1]/1000)}k`).join(' → ')}</span></span>`; };
+  $('histTbl').querySelector('tbody').innerHTML = [...groups.values()].filter(({s}) => HIST[s.group]).sort((a, b) => HIST[a.s.group].sellThrough - HIST[b.s.group].sellThrough).map(({s}) => { const h = HIST[s.group];
+    return `<tr><td>${esc(s.locality)}</td><td class="num mono">${h.lots}</td><td class="num mono">${h.sold}</td><td class="num mono">${h.unsold}</td><td class="num mono">${h.sellThrough}%</td><td>${spark(h.baseSeries)}</td><td class="num mono">${h.baseCagr != null ? h.baseCagr + '%' : '—'}</td><td>${esc(s.growth.label)} (~${s.growth.cagr}%)</td></tr>`; }).join('');
+})();
+
+render(true);
+let saved = null; try { saved = localStorage.getItem('bda-sel'); } catch (e) {}
+if (saved && SITES.some(s => key(s) === saved) && innerWidth > 1180) select(saved, false); else emptyDetail();
+matchMedia('(prefers-color-scheme: dark)').addEventListener('change', () => { layers.forEach(g => g.remove()); layers.clear(); drawSites(); render(false); });
+</script>
