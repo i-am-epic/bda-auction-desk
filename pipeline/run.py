@@ -42,4 +42,6 @@ step('learn sell odds + winning price', 'models.py', os.path.join(I, 'bid_result
 step('pricing, odds, rating', 'insights.py', p('data.json'), p('geo_extra.json'), p('kppp_history.json'), p('kppp_live.json'), p('data2.json'), p('roads.json'), p('models.json'))
 step('export to website', 'export.py', p('data2.json'), WEB)
 step('past auctions page', 'export_history.py', p('kppp_history.json'), WEB)
+step('lot history spreadsheet', 'export_lots_csv.py', p('kppp_history.json'), os.path.join(I, 'bid_results.json'), os.path.join(WEB, 'downloads', 'bda_kppp_lot_history.csv'))
+import shutil; shutil.copy(os.path.join(HERE, '..', 'exports', 'bda_real_final_bids.csv'), os.path.join(WEB, 'downloads', 'bda_real_final_bids.csv'))
 print('done:', aid)

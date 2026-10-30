@@ -195,11 +195,15 @@ export default function SitePage() {
               {s.prevRounds.length ? (
                 <ul className="tl">
                   {s.prevRounds.map((p, i) => { const st = STATUS[p.status] ?? [p.status, '']; return (
-                    <li key={i} className={st[1]}><span className="dot" /><span className="mono small">{kpppDate(p.date)}</span><span>{st[0]} <span className="tiny muted">· {p.no}</span></span><span className="mono small">{p.base ? `${rs(p.base)}/m²` : ''}</span></li>); })}
+                    <li key={i} className={st[1]}><span className="dot" /><span className="mono small">{kpppDate(p.date)}</span>
+                      <span>{st[0]} <span className="tiny muted">· {p.no}</span>
+                        {p.reason && <span className="tl-note bad">Reason given: {p.reason}</span>}
+                        {p.final && <span className="tl-note">Winning bid {rs(p.final)}/m² ({p.base ? `+${Math.round((p.final / p.base - 1) * 100)}% over base` : ''}), but the site came back, so the sale did not complete</span>}</span>
+                      <span className="mono small">{p.base ? `base ${rs(p.base)}/m²` : ''}</span></li>); })}
                   <li className="now"><span className="dot" /><span className="mono small">{meta.auction.bidDays.map(d => fmtDate(d.date).replace(/ 20\d\d$/, '')).join(' – ')}</span><span><b>This auction ({meta.auction.code})</b></span><span className="mono small">{rs(s.rate)}/m²</span></li>
                 </ul>) : <p className="muted">First time on auction: no earlier rounds for this exact site on KPPP.</p>}
             </div>
-            <div className="card pad small muted">KPPP shows each round's outcome and base rate, but not the winning amount. "Closed with a result" followed by a re-listing usually means a single bidder (rejected) or a winner who didn't pay. <Link to="/history">See every past BDA auction</Link>.</div>
+            <div className="card pad small muted">KPPP shows each round's outcome, base rate and any cancellation reason. It does not show bid amounts or how many people took part; winning bids above come from BDA's archived result tables where available. A re-listing after "closed with a result" usually means a single bidder (rejected) or a winner who didn't pay. <Link to="/history">See every past BDA auction</Link>.</div>
           </div>
         )}
 

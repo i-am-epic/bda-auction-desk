@@ -7,3 +7,4 @@ __pycache__/
 pipeline/build/
 .claude/
 pipeline/inputs/roadwidth.kml
+pipeline/private/

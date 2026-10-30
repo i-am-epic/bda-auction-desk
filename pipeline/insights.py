@@ -16,6 +16,8 @@ OUT = sys.argv[5]
 ROADS = json.load(open(sys.argv[6], encoding='utf8')) if len(sys.argv) > 6 else {}
 MODELS = json.load(open(sys.argv[7], encoding='utf8')) if len(sys.argv) > 7 else None   # models.py: learned sell odds + winning price
 PHI = lambda z: 0.5*(1 + math.erf(z/math.sqrt(2)))
+_BR = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'inputs', 'bid_results.json')
+FINALS = {(b['group'], re.sub(r'[^0-9A-Z]', '', str(b['site']).upper())): b for b in (json.load(open(_BR, encoding='utf8')) if os.path.exists(_BR) else []) if b['group']}
 key = lambda s: s['sl'] + '|' + s['site']
 norm = lambda t: re.sub(r'[^0-9A-Z]', '', str(t).upper())
 
@@ -36,7 +38,8 @@ for h in hist:
     if h['statusKey'] in SOLD: G[g]['sold'] += 1
     elif h['statusKey'] in UNSOLD: G[g]['unsold'] += 1
     if h.get('baseRate'): G[g]['rates'][when[0] + (when[1] - 1)/12].append(h['baseRate'])
-    past[(g, site_of(h['auctionTitle']))].append(dict(date=h['bidDate'][:10], status=h['statusKey'], base=h.get('baseRate'), no=h['auctionNoticeNumber'], reason=h.get('recallReason')))
+    past[(g, site_of(h['auctionTitle']))].append(dict(date=h['bidDate'][:10], status=h['statusKey'], base=h.get('baseRate'), no=h['auctionNoticeNumber'], reason=h.get('recallReason'),
+        final=(FINALS.get((g, site_of(h['auctionTitle']))) or {}).get('final') if h['statusKey'] in SOLD else None))
     if h.get('recallReason') and re.search(r'forest|buffer|lake|court|litig', h['recallReason'], re.I):
         block = re.sub(r'^.*? AT ', '', h['auctionTitle'].upper()).strip()
         legal_block[(g, re.sub(r'[^A-Z0-9 ]', '', block))].append(dict(site=site_of(h['auctionTitle']), reason=h['recallReason'].strip(), date=h['bidDate'][:10]))
@@ -373,6 +376,9 @@ for s in sites:
         out = 'went unsold (no bidders)' if last['status'] in UNSOLD else 'closed with a result' if last['status'] in SOLD else 'was listed then cancelled'
         finds.append(f"This exact site was in BDA auction {last['no']} on {last['date']} and {out}, at a base of Rs {last['base']:,.0f}/m². It is back now at Rs {s['rate']:,.0f}/m²." if last.get('base') else f"This exact site was in BDA auction {last['no']} on {last['date']} and {out}.")
         if unsold_before: finds.append(f"Nobody bid on it {unsold_before} time(s) before. That usually means few rivals again, and a real chance of winning near the minimum bid.")
+        for p in prev:
+            if p.get('final') and p.get('base'):
+                finds.append(f"In BDA auction {p['no']} ({p['date']}) this exact site drew a winning bid of Rs {p['final']:,.0f}/m², {round((p['final']/p['base']-1)*100)}% over that round's base, but it is back on sale, so that sale did not complete. It's the best guide to what bidders will pay for this plot.")
         if relisted_after_close: finds.append("Last round closed but the site is back, so the sale did not go through. Usually there was a single bidder (BDA rejects single bids) or the winner failed to pay the 25%. Expect thin competition.")
         if s['baseChange']: finds.append(f"BDA has {'cut' if s['baseChange'] < 0 else 'raised'} the base by {abs(s['baseChange'])}% since last time (Rs {s['prevBase']:,.0f} to Rs {s['rate']:,.0f}/m²).")
         if s['marketCap'] and s['marketCap']['applied']: finds.append(f"Market-tested ceiling: nobody bid at Rs {s['marketCap']['base']:,.0f}/m² on {s['marketCap']['date']}, so we cap fair value at about Rs {s['marketCap']['rate']/SQFT:,.0f}/ft² (that price + 10% + growth since).")

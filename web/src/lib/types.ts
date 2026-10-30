@@ -1,6 +1,6 @@
 export type Sev = 'bad' | 'warn' | 'info';
 export interface Flag { sev: Sev; text: string }
-export interface Round { date: string; status: string; base: number | null; no: string }
+export interface Round { date: string; status: string; base: number | null; no: string; reason?: string | null; final?: number | null }
 export interface Project { kind: 'boost' | 'concern'; name: string; status: string; effect: string; src: string }
 export interface Persona { who: string; fit: 'Good fit' | 'Possible' | 'Weak fit'; think: string }
 export interface Commercial {
@@ -57,13 +57,14 @@ export interface AuctionIndex {
   id: string; code: string; title: string; notice: string; noticeDate: string; eoiDeadline: string;
   bidDays: { date: string; range: string }[]; status: string; sites: number; strong: number; great: number; localities: number; generated: string;
 }
-export interface HistoryLot { date: string; status: string; base: number | null; title: string; no: string; group: string | null; locality: string | null; site: string | null }
+export interface HistoryLot { date: string; status: string; base: number | null; title: string; no: string; group: string | null; locality: string | null; site: string | null; reason?: string | null; cancelledOn?: string | null; final?: number | null; finalFrom?: string | null }
 export interface HistoryRound {
   month: string; start: string; end: string; lots: number; sold: number; unsold: number; cancelled: number; upcoming: number;
   medianBase: number | null; minBase: number | null; maxBase: number | null; localities: [string, number, number][];
 }
 export interface History {
-  rounds: HistoryRound[]; lots: HistoryLot[]; note: string;
+  rounds: HistoryRound[]; lots: HistoryLot[]; note: string; finalsKnown: number;
+  cancellations: [string, { date: string; title: string; no: string; reason: string | null; locality: string | null }[]][];
   summary: { lots: number; sold: number; unsold: number; relistedSites: number; uniqueSites: number; first: string; last: string };
 }
 
