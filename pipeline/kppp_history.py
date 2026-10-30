@@ -38,8 +38,18 @@ def detail(a):
         try:
             d = json.loads(body)
             slot = (d.get('auctionBiddingSlotDTO') or [{}])[0]
-            a['baseRate'] = float(d['auctionNoticeDTO'].get('totalAmount') or 0)
+            n = d['auctionNoticeDTO']
+            sch = ((d.get('auctionScheduleInformationDTO') or {}).get('auctionSchedule') or {})
+            rec = d.get('recallAuctionDTO') or {}
+            a['baseRate'] = float(n.get('totalAmount') or 0)
             a['bidDate'] = slot.get('auctionStartDate')
+            # everything else KPPP shows publicly for a lot (bidders and bid amounts are login-only)
+            a.update(bidEnd=slot.get('auctionEndDate'), deltaMin=slot.get('deltaTime'), eoiDeadline=sch.get('auctionParticipationInterestDate'),
+                     emd=float(sch.get('fullEmd') or 0) or None, fee=float(sch.get('auctionFee') or 0) or None,
+                     dept=n.get('deptName'), publishedBy=n.get('auctionPublishedByPost'),
+                     showsLastBid=n.get('displayLastAcceptedBidAmountYn'), showsBidders=n.get('displayBiddersListYn'),
+                     recallReason=(rec.get('recallReasonOthers') or rec.get('recallReason')) if rec else None,
+                     recalledOn=time.strftime('%d-%m-%Y', time.localtime(rec['recalledDate'] / 1000)) if rec.get('recalledDate') else None)
             return a
         except Exception:
             time.sleep(2)

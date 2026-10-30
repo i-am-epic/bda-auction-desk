@@ -9,6 +9,7 @@ def group_of(title):
     fe = bool(re.search(r' F E | FE | FURTHER ', t))
     if 'ANJANAPURA' in t: return 'FEANJ' if fe else 'ANJ'
     # result tables often drop the stage ("Banashankari 9th Block"); every BDA Banashankari block in these auctions is 6th Stage
+    if 'BANASHANKARI' in t and fe: return 'FEBSK'
     if 'BANASHANKARI' in t and ('6' in t or re.search(r' \d+(ST|ND|RD|TH) BLOCK', t)):
         if fe: return 'FEBSK'
         if 'TURAHALLI' in t or re.search(r' (1ST|2ND) BLOCK', t): return 'BSK6T'
