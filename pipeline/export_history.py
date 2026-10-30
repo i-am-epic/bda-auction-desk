@@ -18,7 +18,7 @@ for h in lots:
     if not d: continue
     g = group_of(h['auctionTitle'])
     rows.append(dict(date=d, status=h['statusKey'], base=h.get('baseRate') or None, title=h['auctionTitle'].strip(),
-                     no=h['auctionNoticeNumber'], group=g, locality=MARKET[g]['name'] if g else None, site=site_of(h['auctionTitle'])))
+                     no=h['auctionNoticeNumber'], group=g, locality=MARKET[g]['name'] if g in MARKET else ('Kempegowda Layout (NPKL)' if g == 'NPKL' else None), site=site_of(h['auctionTitle'])))
 rows.sort(key=lambda r: (r['date'], r['no']), reverse=True)
 
 # a "round" = all lots bid in the same calendar month (BDA runs one notification across a few consecutive days)

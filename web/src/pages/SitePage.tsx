@@ -43,7 +43,7 @@ function BidBar({ s }: { s: Site }) {
         <div className="mk b" style={{ left: x(s.maxBidRate) }}><i />Walk away</div>
         <div className="mk b" style={{ left: x(s.fairRate) }}><i />Fair</div>
       </div>
-      <p className="small muted" style={{ marginTop: 18 }}>Amber band: the likely winning range, {inr(s.expLo)} to {inr(s.expHi)}. The expected winner pays about <b>{s.expPremium}% over base</b>, scaled by competition and calibrated to BDA's Dec 2021 results (+62% average).<Est /></p>
+      <p className="small muted" style={{ marginTop: 18 }}>Amber band: the likely winning range (80% of outcomes), {inr(s.expLo)} to {inr(s.expHi)}. If it sells, the winner most likely pays about <b>{s.expPremium}% over base</b>. That figure comes from a model trained on real final bids from BDA auctions.<Est /></p>
     </div>
   );
 }
@@ -142,6 +142,7 @@ export default function SitePage() {
                   <span className="tiny muted">Log in, open Auctions, set the status to "Published" and paste this number. KPPP has no direct link for a single lot.</span>
                 </> : <span className="small">Not on KPPP yet. Search KPPP for "Site No-{s.site}".</span>}
               </div>
+              <ModelCard s={s} />
               {s.scoreParts && <div className="card pad stack" style={{ gap: 10 }}>
                 <div className="eyebrow">Why it scores {s.score}</div>
                 <Meter label="Value after likely bid" value={s.scoreParts.value} />
@@ -157,6 +158,7 @@ export default function SitePage() {
 
         {tab === 'price' && (
           <div className="stack">
+            <ModelCard s={s} wide />
             <BidBar s={s} />
             <div className="card pad"><div className="ladder">
               {([['BDA base', s.rate, 'var(--off)'], ['Minimum bid (+10%)', s.minBidRate, 'var(--ink-3)'], ['Likely winning bid*', s.expRate, 'var(--fair)'],
@@ -286,5 +288,25 @@ export default function SitePage() {
       </div>
       {toast}
     </>
+  );
+}
+
+/** What BDA's own past outcomes say about this site: learned sell odds and real winning prices nearby. */
+function ModelCard({ s, wide }: { s: Site; wide?: boolean }) {
+  const { meta } = useData();
+  if (s.pSell == null) return null;
+  const tone = s.pSell >= 70 ? 'var(--strong)' : s.pSell >= 45 ? 'var(--fair)' : 'var(--skip)';
+  return (
+    <div className={`card pad model-card ${wide ? 'wide' : ''}`}>
+      <div className="eyebrow">What past BDA auctions say</div>
+      <div className="mc-grid">
+        <div><small>Chance it sells<Est how="Logistic model trained on past BDA lots (sold vs no bidders)" /></small><b style={{ color: tone }}>{s.pSell}%</b>
+          <span className="tiny muted">{s.pSell >= 70 ? 'Usually draws bidders' : s.pSell >= 45 ? 'Could go either way' : 'Often draws nobody; it may return cheaper'}</span></div>
+        <div><small>If it sells, winner pays<Est how="Ridge model trained on real final bids" /></small><b>+{s.expPremium}%</b><span className="tiny muted">over base · {inr(s.expLo)}–{inr(s.expHi)}</span></div>
+        <div><small>Real winning prices here</small><b>{s.comps ? `₹${s.comps.medianSqft.toLocaleString('en-IN')}/ft²` : '—'}</b>
+          <span className="tiny muted">{!s.comps ? 'No past results in this locality' : s.comps.n === 1 ? 'from 1 past result in this locality' : `median of ${s.comps.n} past results (middle half ₹${s.comps.p25.toLocaleString('en-IN')}–${s.comps.p75.toLocaleString('en-IN')})`}</span></div>
+      </div>
+      {meta?.models && <p className="tiny muted">Tested on 2026 lots it never saw: the sell model ranks lots well (AUC {meta.models.sell.auc}). Price predictions are typically within ±{meta.models.premium.cvMaePts} points of premium. <Link to="/method#models">How the models work</Link></p>}
+    </div>
   );
 }

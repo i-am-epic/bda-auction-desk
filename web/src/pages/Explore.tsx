@@ -105,7 +105,7 @@ function Peek({ s, onClose }: { s: Site; onClose: () => void }) {
         <div><small>Likely price<Est /></small><b>{inr(s.expTotal)}</b></div>
         <div><small>Fair value<Est /></small><b>{inr(s.fairTotal)}</b></div>
         <div><small>Win odds<Est /></small><b>{s.winChance}%</b></div>
-        <div><small>Growth<Est /></small><b>{s.growth.label}</b></div>
+        <div><small>Chance it sells<Est /></small><b>{s.pSell ?? '—'}%</b></div>
       </div>
       <p className="small">{s.findings[0] ?? s.description}</p>
       {red && <p className="small peek-red"><b>Red flag:</b> {red.text}</p>}

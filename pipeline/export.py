@@ -25,7 +25,7 @@ KEEP = ['sl', 'site', 'layout', 'zone', 'group', 'locality', 'source', 'status',
         'projectCost', 'builtUpSqft', 'floors', 'far', 'use', 'rentMonthly', 'rentalYield', 'commercialYield', 'resaleReturn', 'value5y',
         'gain5y', 'score', 'scoreParts', 'verdict', 'greatFind', 'sleeper', 'flags', 'surroundRisks', 'surroundGoods', 'vastu',
         'findings', 'description', 'personas', 'pros', 'cons', 'kppp', 'prevRounds', 'prevBase', 'baseChange', 'marketCap', 'commercial',
-        'road', 'metro', 'hubs', 'growth', 'projects', 'geotag', 'geoNote', 'polyArea', 'polyDrawn', 'irregularity', 'usability', 'tier']
+        'road', 'metro', 'hubs', 'growth', 'projects', 'pSell', 'comps', 'geotag', 'geoNote', 'polyArea', 'polyDrawn', 'irregularity', 'usability', 'tier']
 rows = []
 for s in sites:
     r = {k: s.get(k) for k in KEEP}
@@ -54,9 +54,9 @@ for g, m in MARKET.items():
                      baseRates=sorted({r['rate'] for r in act}))
 
 pub = {k: v for k, v in AUCTION.items() if k not in ('slots', 'corrections')}
-meta = dict(auction=pub, generated=__import__('datetime').date.today().isoformat(), groups=groups,
-    calibration=dict(note='Expected bids calibrated to BDA Dec 2021: 296 sites sold for ~Rs 348 cr against ~Rs 215 cr base (+62%); corner sites +44%.',
-                     src='https://thebengalurulive.com/bdas-e-auction-of-bengaluru-sites-nets-rs-411-59-crore/'))
+meta = dict(auction=pub, generated=__import__('datetime').date.today().isoformat(), groups=groups, models=pack.get('models'),
+    calibration=dict(note='Likely winning bids come from a model trained on real final bids from BDA auctions T-08 and T-11 (bdaeauction.in archive).',
+                     src='https://www.bdaeauction.in/'))
 act = [r for r in rows if r['status'] == 'active']
 idx_p = os.path.join(root, 'auctions.json')
 idx = json.load(open(idx_p, encoding='utf8')) if os.path.exists(idx_p) else []

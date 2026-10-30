@@ -399,3 +399,12 @@ details.round[open] summary { border-bottom: 0; }
   .peek { position: fixed; top: auto; bottom: calc(76px + env(safe-area-inset-bottom, 0px)); left: max(10px, env(safe-area-inset-left, 0px)); right: max(10px, env(safe-area-inset-right, 0px)); width: auto; max-height: 58dvh; animation-name: peek-up; }
   @keyframes peek-up { from { opacity: 0; transform: translateY(12px); } }
 }
+
+/* model card */
+.model-card { display: grid; gap: 10px; border-color: var(--accent); }
+.mc-grid { display: grid; grid-template-columns: 1fr; gap: 10px; }
+.mc-grid > div { display: grid; gap: 1px; }
+.mc-grid small { font-size: 12px; color: var(--ink-2); }
+.mc-grid b { font-family: var(--display); font-size: 24px; line-height: 1.15; }
+.model-card.wide .mc-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+@media (max-width: 760px) { .model-card.wide .mc-grid { grid-template-columns: 1fr; } }

@@ -12,6 +12,7 @@ export const RANKINGS: Ranking[] = [
   { key: 'rental', label: 'Rental yield', blurb: 'Gross rent on land plus construction, built as a residential rental.', value: s => s.rentalYield, fmt: s => p(s.rentalYield, 2) },
   { key: 'resale', label: 'Resale return', blurb: 'Projected yearly return if you hold 5 years and sell.', value: s => s.resaleReturn, fmt: s => `${p(s.resaleReturn)}/yr` },
   { key: 'commercial', label: 'Commercial yield', blurb: 'Shop or office rent on a wide road, after setbacks.', value: s => s.commercialYield, fmt: s => p(s.commercialYield, 2) },
+  { key: 'sells', label: 'Most likely to sell', blurb: 'Learned from 2,590 past BDA lots: which ones drew a bidder.', value: s => s.pSell, fmt: s => `${s.pSell}% sells` },
   { key: 'odds', label: 'Best odds', blurb: 'Highest chance of winning at our walk-away bid.', value: s => s.winChance, fmt: s => `${s.winChance}% win` },
   { key: 'cheap', label: 'Lowest entry', blurb: 'Smallest all-in cost at the expected winning bid.', value: s => s.allIn, fmt: s => `${Math.round(s.allIn / 1e5)} L all-in`, asc: true },
 ];

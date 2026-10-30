@@ -14,6 +14,8 @@ hist = json.load(open(sys.argv[3], encoding='utf8'))
 live = json.load(open(sys.argv[4], encoding='utf8'))
 OUT = sys.argv[5]
 ROADS = json.load(open(sys.argv[6], encoding='utf8')) if len(sys.argv) > 6 else {}
+MODELS = json.load(open(sys.argv[7], encoding='utf8')) if len(sys.argv) > 7 else None   # models.py: learned sell odds + winning price
+PHI = lambda z: 0.5*(1 + math.erf(z/math.sqrt(2)))
 key = lambda s: s['sl'] + '|' + s['site']
 norm = lambda t: re.sub(r'[^0-9A-Z]', '', str(t).upper())
 
@@ -224,6 +226,12 @@ for s in sites:
     billed = s.get('area_corr', s['area'])
     f = s['usability']
     fair_mid = m['mid']*SQFT*f*(1+vastu_adj); fair_lo = m['lo']*SQFT*f*(1+vastu_adj); fair_hi = m['hi']*SQFT*f*(1+vastu_adj)
+    # blend in real auction results: what winners actually paid per ft2 in this locality (weight grows with the number of results)
+    s['comps'] = (MODELS or {}).get('comps', {}).get(s['group'])
+    if s['comps']:
+        w = s['comps']['n'] / (s['comps']['n'] + 8)
+        k = ((1 - w)*m['mid'] + w*s['comps']['medianSqft']) / m['mid']
+        fair_mid, fair_lo, fair_hi = fair_mid*k, fair_lo*k, fair_hi*k
     s['valueBasis'] = 'residential'
     cm = s.get('commercial')
     if cm and cm['gfSqft'] >= 85 and (s['area'] < 120 or f < 0.9):
@@ -278,8 +286,19 @@ for s in sites:
     exp = bid_at(comp)
     s['expRate'] = round(exp); s['expTotal'] = round(exp*billed)
     s['expLo'] = round(bid_at(comp - 0.8)*billed); s['expHi'] = round(bid_at(comp + 0.8)*billed)
-    s['expPremium'] = round((exp/s['rate'] - 1)*100)
     s['maxBidRate'] = round(max(fair_mid*0.95, s['minBidRate']*1.005)); s['maxBidTotal'] = round(s['maxBidRate']*billed)
+    ml = (MODELS or {}).get('sites', {}).get(key(s))
+    s['pSell'] = None
+    if ml:   # learned models replace the rules: winning price from real final bids, sell odds from KPPP outcomes
+        floor = s['minBidRate']*1.01
+        exp = max(s['rate']*math.exp(ml['mu']), floor)
+        s['expRate'] = round(exp); s['expTotal'] = round(exp*billed)
+        s['expLo'] = round(max(s['rate']*math.exp(ml['lo']), floor)*billed); s['expHi'] = round(max(s['rate']*math.exp(ml['hi']), floor)*billed)
+        s['pSell'] = round(ml['pSell']*100)
+        comp = max(0.3, min(5, 0.5*comp + 0.5*(1 + 4*ml['pSell'])))
+        s['competition'] = round(comp, 1)
+        s['compLabel'] = 'Very high' if comp >= 4.3 else 'High' if comp >= 3.4 else 'Moderate' if comp >= 2.4 else 'Low' if comp >= 1.4 else 'Very low'
+    s['expPremium'] = round((exp/s['rate'] - 1)*100)
     # P(win) if you bid our max: rivals' ceilings ~ uniform between min bid and fair_hi
     n_rivals = max(1, round(comp*0.9 - 0.3))
     s['bidders'] = f"{n_rivals + 1}-{n_rivals + 3}"
@@ -291,6 +310,10 @@ for s in sites:
     nbr = (100 - (st or 75)) * (1.6 - comp/4) + (25 if unsold_before else 0)
     if s['baseChange'] is not None and s['baseChange'] <= -10: nbr *= 0.5
     s['noBidRisk'] = round(max(3, min(70, nbr)))
+    if ml:
+        sig = MODELS['premium']['sigma']
+        s['winChance'] = round(100*PHI((math.log(s['maxBidRate']/s['rate']) - ml['mu'])/sig))   # chance the winning price stays under our walk-away
+        s['noBidRisk'] = 100 - s['pSell']
     s['stampReg'] = round(s['expTotal']*0.066); s['tds'] = round(s['expTotal']*0.01) if s['expTotal'] > 5e6 else 0
     s['allIn'] = s['expTotal'] + s['stampReg'] + 50000
     s['projectCost'] = s['allIn'] + s['buildCost']
@@ -386,7 +409,7 @@ for s in sites:
                   f"Next to a {cm['road']}, but too little depth remains after setbacks for a usable shop."))
     s['personas'] = persona
 
-json.dump(dict(sites=sites, history=hist_summary), open(OUT, 'w', encoding='utf8'), ensure_ascii=False)
+json.dump(dict(sites=sites, history=hist_summary, models={k: v for k, v in (MODELS or {}).items() if k in ('premium', 'sell')}), open(OUT, 'w', encoding='utf8'), ensure_ascii=False)
 act = [s for s in sites if s['status'] == 'active']
 print('active', len(act), 'kppp linked', sum(1 for s in act if s['kppp']), 'great', sum(s['greatFind'] for s in act), 'sleepers', sum(s['sleeper'] for s in act))
 print('repeat sites', sum(1 for s in act if s['prevRounds']))

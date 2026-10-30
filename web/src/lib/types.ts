@@ -34,7 +34,8 @@ export interface Site {
   growth: Growth; projects: Project[]; geotag: 'official' | 'approx'; geoNote?: string; polyArea?: number; polyDrawn?: boolean;
   irregularity: number; usability: number; tier: number; lat: number; lon: number; polygon: [number, number][];
   terrain: { elev?: number; slope?: number; aspect?: string; relief?: number; facing?: string | null; frontage?: string; frontageM?: number };
-  near: Record<string, { m: number; name: string }>; bidDay: string | null; placement?: 'pin' | 'adjacent' | 'locality' | null;
+  near: Record<string, { m: number; name: string }>; bidDay: string | null;
+  pSell: number | null; comps: { n: number; medianSqft: number; p25: number; p75: number } | null; placement?: 'pin' | 'adjacent' | 'locality' | null;
 }
 
 export interface LocalityHistory { lots: number; sold: number; unsold: number; sellThrough: number; baseSeries: [number, number][]; baseCagr: number | null }
@@ -49,6 +50,7 @@ export interface Meta {
     emd: number; fee: number; notice_pdf: string; corrigendum_pdf: string; kppp: string; helpline: string; id: string; title: string; status: string; geotag_url: string;
   };
   generated: string; groups: Record<string, Locality>; calibration: { note: string; src: string };
+  models?: { premium: ModelPremium; sell: ModelSell } | null;
 }
 
 export interface AuctionIndex {
@@ -64,3 +66,6 @@ export interface History {
   rounds: HistoryRound[]; lots: HistoryLot[]; note: string;
   summary: { lots: number; sold: number; unsold: number; relistedSites: number; uniqueSites: number; first: string; last: string };
 }
+
+export interface ModelPremium { n: number; alpha: number; cvMaePts: number; baselineGlobalPts: number; baselineOldRulePts: number; sigma: number; q10: number; q90: number; coef: Record<string, number>; medianPremium: number; auctions: string[] }
+export interface ModelSell { nTrain: number; nTest: number; auc: number; brier: number; brierBase: number; n: number; soldRate: number; coef: Record<string, number> }
