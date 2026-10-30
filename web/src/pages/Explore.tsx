@@ -1,9 +1,10 @@
-import { useMemo, useState } from 'react';
-import { useSearchParams } from 'react-router-dom';
-import { useData } from '../lib/data';
+import { useEffect, useMemo, useState } from 'react';
+import { Link, useSearchParams } from 'react-router-dom';
+import { useAP, useData } from '../lib/data';
+import type { Site } from '../lib/types';
 import { applyFilters, activeCount, BUDGET_MAX, CHIPS, DEFAULT_FILTERS, fromParams, SORTS, toParams, type Filters } from '../lib/filters';
-import { inr } from '../lib/format';
-import { SiteCard, Icon } from '../components/ui';
+import { inr, perSqft } from '../lib/format';
+import { SiteCard, Icon, ScoreRing, Verdict, SiteTags, StarButton, Est } from '../components/ui';
 import { ExploreMap } from '../components/MapView';
 
 export default function Explore() {
@@ -14,6 +15,10 @@ export default function Explore() {
   const [open, setOpen] = useState(false);
   const [view, setView] = useState<'list' | 'map'>('list');
   const [hover, setHover] = useState<string | null>(null);
+  const [sel, setSel] = useState<string | null>(null);
+  const selSite = sel ? sites.find(s => s.id === sel) ?? null : null;
+  useEffect(() => { if (sel) document.getElementById(`card-${sel}`)?.scrollIntoView({ block: 'nearest', behavior: 'smooth' }); }, [sel]);
+  useEffect(() => { const k = (e: KeyboardEvent) => e.key === 'Escape' && setSel(null); addEventListener('keydown', k); return () => removeEventListener('keydown', k); }, []);
   const list = useMemo(() => applyFilters(sites, f), [sites, f]);
   const n = activeCount(f);
 
@@ -61,17 +66,53 @@ export default function Explore() {
           </div>
         </div>
         <div className="list">
-          {list.map(s => <SiteCard key={s.id} s={s} selected={hover === s.id} onHover={setHover} />)}
+          {list.map(s => <div key={s.id} id={`card-${s.id}`}><SiteCard s={s} selected={hover === s.id || sel === s.id} onHover={setHover} /></div>)}
           {!list.length && <div className="empty-state"><h3>No sites match</h3><p>Raise the budget or clear a filter.</p></div>}
         </div>
       </section>
 
       <div className="mapbox">
-        <ExploreMap sites={list} hover={hover} />
+        <ExploreMap sites={list} hover={hover} selected={sel} onSelect={setSel} />
+        {selSite && <Peek s={selSite} onClose={() => setSel(null)} />}
         <div className="legend" aria-hidden="true">
           <span className="v-strong"><i />Strong buy</span><span className="v-good"><i />Good</span><span className="v-fair"><i />Fair</span><span className="v-skip"><i />Skip</span>
           <span><i className="dash" />Outline drawn from notice</span>
         </div>
+      </div>
+    </div>
+  );
+}
+
+/** Summary of the plot picked on the map; "More info" opens the full report. */
+function Peek({ s, onClose }: { s: Site; onClose: () => void }) {
+  const ap = useAP();
+  const red = [...s.flags, ...s.surroundRisks].find(f => f.sev === 'bad');
+  return (
+    <div className="peek card" role="dialog" aria-label={`Site ${s.site} summary`}>
+      <div className="peek-h">
+        <ScoreRing site={s} size={52} />
+        <div style={{ minWidth: 0 }}>
+          <h3>Site {s.site}</h3>
+          <div className="small muted peek-loc">{s.locality}</div>
+        </div>
+        <StarButton id={s.id} />
+        <button className="star-btn" onClick={onClose} aria-label="Close summary" title="Close (Esc)"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round"><path d="M6 6l12 12M18 6 6 18" /></svg></button>
+      </div>
+      <div className="row" style={{ justifyContent: 'space-between' }}><Verdict s={s} /><SiteTags s={s} max={3} /></div>
+      <div className="peek-figs">
+        <div><small>Plot</small><b>{s.areaSqft.toLocaleString('en-IN')} ft²</b></div>
+        <div><small>Minimum bid</small><b>{inr(s.minBidTotal)}</b></div>
+        <div><small>Likely price<Est /></small><b>{inr(s.expTotal)}</b></div>
+        <div><small>Fair value<Est /></small><b>{inr(s.fairTotal)}</b></div>
+        <div><small>Win odds<Est /></small><b>{s.winChance}%</b></div>
+        <div><small>Growth<Est /></small><b>{s.growth.label}</b></div>
+      </div>
+      <p className="small">{s.findings[0] ?? s.description}</p>
+      {red && <p className="small peek-red"><b>Red flag:</b> {red.text}</p>}
+      <div className="row">
+        <Link to={ap(`/site/${s.id}`)} className="btn primary sm">More info <Icon name="ext" size={13} /></Link>
+        <a className="btn sm" href={`https://www.google.com/maps?q=${s.lat},${s.lon}`} target="_blank" rel="noopener">Google Maps</a>
+        <span className="tiny muted">{perSqft(s.expRate)} likely</span>
       </div>
     </div>
   );

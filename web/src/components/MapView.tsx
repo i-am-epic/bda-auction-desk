@@ -1,5 +1,5 @@
 import { useEffect, useMemo } from 'react';
-import { MapContainer, TileLayer, Polygon, CircleMarker, Tooltip, LayersControl, useMap } from 'react-leaflet';
+import { MapContainer, TileLayer, Polygon, CircleMarker, Tooltip, LayersControl, useMap, useMapEvents } from 'react-leaflet';
 import { useNavigate } from 'react-router-dom';
 import type { LatLngBoundsExpression } from 'leaflet';
 import type { Site } from '../lib/types';
@@ -31,22 +31,30 @@ function Basemaps({ satellite = true }: { satellite?: boolean }) {
   );
 }
 
-export function ExploreMap({ sites, hover, focus }: { sites: Site[]; hover: string | null; focus?: Site | null }) {
+function ClearOnMapClick({ onClear }: { onClear: () => void }) {
+  useMapEvents({ click: onClear });
+  return null;
+}
+
+/** All plots on a satellite map. With onSelect, a click picks the plot (for a summary panel) instead of opening its page. */
+export function ExploreMap({ sites, hover, focus, selected, onSelect }: { sites: Site[]; hover: string | null; focus?: Site | null; selected?: string | null; onSelect?: (id: string | null) => void }) {
   const nav = useNavigate();
   const ap = useAP();
+  const pick = (s: Site) => (onSelect ? onSelect(s.id) : nav(ap(`/site/${s.id}`)));
   const bounds = useMemo<LatLngBoundsExpression | null>(() => sites.length ? sites.map(s => [s.lat, s.lon] as [number, number]) : null, [sites]);
   return (
     <MapContainer center={[12.95, 77.57]} zoom={11} scrollWheelZoom style={{ height: '100%' }}>
       <Basemaps />
       <Fit bounds={bounds} focus={focus} />
+      {onSelect && <ClearOnMapClick onClear={() => onSelect(null)} />}
       {sites.map(s => {
-        const c = color(s), hot = hover === s.id;
+        const c = color(s), hot = hover === s.id || selected === s.id;
         return (
           <span key={s.id}>
-            <Polygon positions={s.polygon} pathOptions={{ color: s.polyDrawn ? '#ffffff' : c, weight: hot ? 4 : 2, dashArray: s.polyDrawn ? '4 3' : undefined, fillColor: c, fillOpacity: hot ? 0.75 : 0.5 }}
-              eventHandlers={{ click: () => nav(ap(`/site/${s.id}`)) }} />
-            <CircleMarker center={[s.lat, s.lon]} radius={hot ? 9 : 6} pathOptions={{ color: '#ffffff', weight: 1.5, fillColor: c, fillOpacity: 1 }}
-              eventHandlers={{ click: () => nav(ap(`/site/${s.id}`)) }}>
+            <Polygon positions={s.polygon} pathOptions={{ color: s.polyDrawn ? '#ffffff' : c, weight: hot ? 4 : 2, dashArray: s.polyDrawn ? '4 3' : undefined, fillColor: c, fillOpacity: hot ? 0.75 : 0.5 }} bubblingMouseEvents={false}
+              eventHandlers={{ click: () => pick(s) }} />
+            <CircleMarker center={[s.lat, s.lon]} radius={hot ? 9 : 6} pathOptions={{ color: '#ffffff', weight: 1.5, fillColor: c, fillOpacity: 1 }} bubblingMouseEvents={false}
+              eventHandlers={{ click: () => pick(s) }}>
               <Tooltip className="tip" direction="top" offset={[0, -6]}>
                 <b>Site {s.site}</b> · {s.score ?? '–'}/10<br />{s.locality}<br />{s.areaSqft.toLocaleString('en-IN')} ft² · likely {inr(s.expTotal)}
               </Tooltip>

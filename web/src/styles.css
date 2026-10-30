@@ -383,3 +383,19 @@ details.round[open] summary { border-bottom: 0; }
   details.round summary .rbar { grid-column: 1 / -1; order: 3; }
   details.round summary > :last-child { display: none; }
 }
+
+/* map summary panel (Explore) */
+.peek { position: absolute; top: 12px; right: 58px; left: auto; bottom: auto; z-index: 700; width: min(370px, calc(100% - 80px)); padding: 14px; display: grid; gap: 10px;
+  box-shadow: var(--shadow); max-height: calc(100% - 24px); overflow: auto; animation: peek-in .15s ease-out; }
+.peek-h { display: grid; grid-template-columns: auto minmax(0, 1fr) auto auto; gap: 10px; align-items: center; }
+.peek-h h3 { font-size: 19px; }
+.peek-loc { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.peek-figs { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px 10px; border-top: 1px dashed var(--line); border-bottom: 1px dashed var(--line); padding-block: 10px; }
+.peek-figs small { display: block; font-size: 11px; color: var(--ink-3); }
+.peek-figs b { font-family: var(--mono); font-size: 13.5px; font-weight: 500; }
+.peek-red { background: var(--bad-bg); border-radius: 8px; padding: 7px 9px; }
+@keyframes peek-in { from { opacity: 0; transform: translateY(-6px); } }
+@media (max-width: 760px) {
+  .peek { position: fixed; top: auto; bottom: calc(76px + env(safe-area-inset-bottom, 0px)); left: max(10px, env(safe-area-inset-left, 0px)); right: max(10px, env(safe-area-inset-right, 0px)); width: auto; max-height: 58dvh; animation-name: peek-up; }
+  @keyframes peek-up { from { opacity: 0; transform: translateY(12px); } }
+}
