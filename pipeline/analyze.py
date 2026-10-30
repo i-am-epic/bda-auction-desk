@@ -124,7 +124,6 @@ for s in sites:
         cl = [x for x in sites if "4th 'T' Block" in x['layout'] and x.get('geotag') == 'official']
         s['lat'] = sum(x['lat'] for x in cl)/len(cl); s['lon'] = sum(x['lon'] for x in cl)/len(cl)
         s['geoNote'] = "Approximate: 4th 'H' Block sits beside the 4th 'T' Block cluster (BDA's only 4th 'H' polygon is marked 'Not found')"
-        s['flags'].append(('info', 'A third-party listing site claims this site was pulled from an earlier auction over a court case — unverified; ask BDA for an encumbrance/litigation status in writing'))
 
 # --- pricing & scoring
 TIER_RENT = {2: 17, 3: 21, 4: 27, 5: 33}       # Rs per sq ft built-up per month (gross, new G+3 rental)

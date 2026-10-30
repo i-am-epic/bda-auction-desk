@@ -27,6 +27,7 @@ def ymd(d):  # 'dd-mm-yyyy hh:mm:ss' -> (yyyy, mm)
 SOLD, UNSOLD = {'FINALIZED', 'BIDDING_CLOSED'}, {'NO_PARTICIPATIONS', 'NO_BIDS_RECEIVED'}
 G = defaultdict(lambda: dict(sold=0, unsold=0, rates=defaultdict(list)))
 past = defaultdict(list)
+legal_block = defaultdict(list)   # (group, block title) -> lots BDA pulled for court cases / forest or lake buffers
 for h in hist:
     g = group_of(h['auctionTitle'])
     if not g: continue
@@ -35,7 +36,10 @@ for h in hist:
     if h['statusKey'] in SOLD: G[g]['sold'] += 1
     elif h['statusKey'] in UNSOLD: G[g]['unsold'] += 1
     if h.get('baseRate'): G[g]['rates'][when[0] + (when[1] - 1)/12].append(h['baseRate'])
-    past[(g, site_of(h['auctionTitle']))].append(dict(date=h['bidDate'][:10], status=h['statusKey'], base=h.get('baseRate'), no=h['auctionNoticeNumber']))
+    past[(g, site_of(h['auctionTitle']))].append(dict(date=h['bidDate'][:10], status=h['statusKey'], base=h.get('baseRate'), no=h['auctionNoticeNumber'], reason=h.get('recallReason')))
+    if h.get('recallReason') and re.search(r'forest|buffer|lake|court|litig', h['recallReason'], re.I):
+        block = re.sub(r'^.*? AT ', '', h['auctionTitle'].upper()).strip()
+        legal_block[(g, re.sub(r'[^A-Z0-9 ]', '', block))].append(dict(site=site_of(h['auctionTitle']), reason=h['recallReason'].strip(), date=h['bidDate'][:10]))
 
 hist_summary = {}
 for g, v in G.items():
@@ -129,6 +133,19 @@ for s in sites:
     prev = sorted(past.get((s['group'], norm(s['site'])), []), key=lambda p: p['date'][6:] + p['date'][3:5])
     s['prevRounds'] = prev
     unsold_before = sum(1 for p in prev if p['status'] in UNSOLD)
+    for p in prev:
+        if p.get('reason') and re.search(r'court|litig', p['reason'], re.I):
+            s['flags'].append(dict(sev='bad', text=f"BDA pulled this exact site from auction {p['no']} ({p['date']}) citing \"{p['reason']}\". Get written confirmation the case is closed before bidding"))
+        elif p.get('reason') and re.search(r'forest|buffer|lake', p['reason'], re.I):
+            s['flags'].append(dict(sev='bad', text=f"BDA pulled this exact site earlier ({p['date']}) citing \"{p['reason']}\""))
+    blk = re.sub(r'[^A-Z0-9 ]', '', s['layout'].upper().replace(',', ''))
+    for (gk, bk), hits in legal_block.items():
+        if gk != s['group']: continue
+        words = set(bk.split()) - {'SITE', 'NO', 'AT', 'OF', 'THE', 'LAYOUT', 'STAGE', 'BLOCK'}
+        if words and words <= set(blk.split()) | {'F', 'E', 'FE', 'FURTHER', 'EXTENSION'}:
+            for hgt in hits:
+                if hgt['site'] != norm(s['site']) and re.search(r'forest|buffer|lake', hgt['reason'], re.I):
+                    s['flags'].append(dict(sev='warn', text=f"Neighbouring Site {hgt['site']} in this block was withdrawn ({hgt['date']}) for \"{hgt['reason']}\". Check this plot is outside that buffer"))
 
     # ---------- risks & positives from surroundings ----------
     risks, goods = [], []
