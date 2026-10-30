@@ -192,7 +192,7 @@ footer.ftr .wrap { display: flex; flex-wrap: wrap; gap: 10px 28px; }
 .star-btn svg { width: 20px; height: 20px; }
 
 /* ---------- explore ---------- */
-.explore { display: grid; grid-template-columns: 300px minmax(0, 440px) minmax(0, 1fr); height: calc(100dvh - var(--header-h) - env(safe-area-inset-top, 0px)); }
+.explore { display: grid; grid-template-columns: 300px minmax(0, 440px) minmax(0, 1fr); height: calc(100dvh - var(--header-h) - 38px - env(safe-area-inset-top, 0px)); }
 .explore aside.fpanel { border-right: 1px solid var(--line); background: var(--surface); overflow: auto; }
 .fpanel .inner { padding: 16px; display: grid; gap: 16px; }
 .fpanel h3 { font-size: 15px; font-family: var(--body); font-weight: 600; }
@@ -311,7 +311,7 @@ footer.ftr .wrap { display: flex; flex-wrap: wrap; gap: 10px 28px; }
 .calc .out b { font-family: var(--display); font-size: 20px; }
 .apply { padding: 16px; display: grid; gap: 10px; border-color: var(--accent); background: linear-gradient(180deg, var(--accent-weak), var(--surface) 70%); }
 .apply code { font-family: var(--mono); font-size: 17px; font-weight: 500; user-select: all; }
-.minimap { height: 280px; border-radius: var(--r); overflow: hidden; border: 1px solid var(--line); }
+.minimap { height: min(420px, 60vh); border-radius: var(--r); overflow: hidden; border: 1px solid var(--line); }
 .minimap .leaflet-container { height: 100%; }
 .proj { padding: 12px 14px; display: grid; gap: 4px; border-left: 3px solid var(--accent); border-radius: 10px; }
 .proj.concern { border-left-color: var(--skip); }
@@ -351,4 +351,35 @@ table.cmp th:first-child, table.cmp td:first-child { position: sticky; left: 0; 
   .logo small, .lbl-long, .sort-l { display: none; }
   .logo { font-size: 16px; }
   .results .bar select.field { flex: 1; }
+}
+
+/* ---------- auction band, tabs, history ---------- */
+.aband { background: var(--gold-weak); border-bottom: 1px solid var(--line); font-size: 13px; color: var(--gold-ink); }
+.aband .wrap { display: flex; align-items: center; gap: 10px; min-height: 38px; padding-block: 6px; }
+.aband b { font-weight: 600; }
+.aband-l { color: var(--gold-ink); font-weight: 600; white-space: nowrap; }
+.subnav button { background: none; border: 0; border-bottom: 2px solid transparent; padding: 12px; font-size: 14px; font-weight: 600; color: var(--ink-2); white-space: nowrap; display: inline-flex; gap: 6px; align-items: center; }
+.subnav button.on { color: var(--ink); border-color: var(--accent); }
+.dotc { font-family: var(--mono); font-size: 10.5px; min-width: 18px; height: 18px; border-radius: 9px; display: inline-grid; place-items: center; background: var(--surface-3); color: var(--ink-2); padding: 0 5px; }
+.dotc.bad { background: var(--skip); color: #fff; }
+.tabbody { padding-block: 24px 56px; }
+.ov { display: grid; grid-template-columns: minmax(0, 1fr) 330px; gap: 24px; align-items: start; }
+.ov > aside { position: sticky; top: calc(var(--header-h) + 60px); }
+ul.plain { margin: 0; padding-left: 18px; display: grid; gap: 6px; font-size: 14px; }
+.linkbtn { background: none; border: 0; padding: 4px 0; color: var(--accent); font-weight: 600; font-size: 13.5px; }
+.bigfig { display: block; font-family: var(--display); font-size: 30px; line-height: 1.2; }
+details.round summary { list-style: none; display: grid; grid-template-columns: minmax(150px, 1.2fr) minmax(80px, 1fr) auto auto; gap: 14px; align-items: center; padding: 12px 14px; cursor: pointer; }
+details.round summary::-webkit-details-marker { display: none; }
+details.round[open] summary { border-bottom: 0; }
+.rt { display: grid; }
+.rbar { height: 8px; background: color-mix(in srgb, var(--skip) 35%, var(--surface-3)); border-radius: 99px; overflow: hidden; }
+.rbar i { display: block; height: 100%; background: var(--strong); }
+.btn:disabled { opacity: .45; cursor: default; }
+@media (max-width: 1080px) { .ov { grid-template-columns: 1fr; } .ov > aside { position: static; } }
+@media (max-width: 860px) { .tabbar { grid-template-columns: repeat(5, 1fr); } }
+@media (max-width: 640px) {
+  .aband-d { display: none; }
+  details.round summary { grid-template-columns: 1fr auto; }
+  details.round summary .rbar { grid-column: 1 / -1; order: 3; }
+  details.round summary > :last-child { display: none; }
 }

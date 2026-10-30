@@ -1,21 +1,22 @@
 import { Link, useParams } from 'react-router-dom';
-import { useData } from '../lib/data';
+import { useAP, useData } from '../lib/data';
 import { SiteCard, Sparkline } from '../components/ui';
 import { rs } from '../lib/format';
 
 export function Localities() {
   const { meta } = useData();
+  const ap = useAP();
   if (!meta) return null;
   const groups = Object.values(meta.groups).sort((a, b) => (b.history?.sellThrough ?? 0) - (a.history?.sellThrough ?? 0));
   return (
     <div className="wrap section">
-      <div className="section-h"><div><div className="eyebrow">20 areas in this auction</div><h1 style={{ fontSize: 'clamp(28px,4vw,40px)' }}>Localities</h1></div>
+      <div className="section-h"><div><div className="eyebrow">{Object.keys(meta.groups).length} areas in auction {meta.auction.code}</div><h1 style={{ fontSize: 'clamp(28px,4vw,40px)' }}>Localities</h1></div>
         <p>Resale rates, growth outlook and BDA's record from {groups.reduce((a, g) => a + (g.history?.lots ?? 0), 0).toLocaleString('en-IN')} past lots on KPPP. Low sell-through means BDA's base is close to what buyers will pay there.</p></div>
       <div className="tbl-wrap"><table className="tbl">
         <thead><tr><th>Locality</th><th>Growth</th><th className="n">Resale ₹/ft² (low–high)*</th><th className="n">BDA base ₹/ft²</th><th className="n">Past lots</th><th className="n">Sold</th><th>Base-rate trend</th><th className="n">Sites now</th></tr></thead>
         <tbody>{groups.map(g => (
           <tr key={g.id}>
-            <td><Link to={`/localities/${g.id}`}><b>{g.name}</b></Link></td>
+            <td><Link to={ap(`/localities/${g.id}`)}><b>{g.name}</b></Link></td>
             <td><span className={`growth-tag g-${g.growth.replace(' ', '-')}`}>{g.growth} ~{g.cagr}%</span></td>
             <td className="n">{g.lo.toLocaleString('en-IN')}–{g.hi.toLocaleString('en-IN')}</td>
             <td className="n">{g.baseRates.map(r => Math.round(r / 10.7639).toLocaleString('en-IN')).join(' / ')}</td>
@@ -33,14 +34,15 @@ export function Localities() {
 export function LocalityPage() {
   const { id } = useParams();
   const { meta, active } = useData();
+  const ap = useAP();
   const g = meta && Object.entries(meta.groups).find(([, v]) => v.id === id);
   if (!meta) return null;
-  if (!g) return <div className="wrap empty-state"><h3>Locality not found</h3><Link to="/localities">All localities</Link></div>;
+  if (!g) return <div className="wrap empty-state"><h3>Locality not found</h3><Link to={ap('/localities')}>All localities</Link></div>;
   const [key, L] = g;
   const sites = active.filter(s => s.group === key).sort((a, b) => (b.score ?? 0) - (a.score ?? 0));
   return (
     <div className="wrap section stack" style={{ gap: 24 }}>
-      <div className="crumbs"><Link to="/localities">Localities</Link>/<span>{L.name}</span></div>
+      <div className="crumbs"><Link to={ap('/localities')}>Localities</Link>/<span>{L.name}</span></div>
       <div className="section-h" style={{ marginBottom: 0 }}><div><span className={`growth-tag g-${L.growth.replace(' ', '-')}`}>{L.growth} growth · ~{L.cagr}%/yr*</span><h1 style={{ fontSize: 'clamp(28px,4vw,42px)', marginTop: 8 }}>{L.name}</h1></div></div>
       <p className="lede">{L.story}</p>
       <div className="grid3">

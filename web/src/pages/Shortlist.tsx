@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import { useData } from '../lib/data';
+import { useAP, useData } from '../lib/data';
 import { shortlist, useShortlist } from '../lib/shortlist';
 import { inr, perSqft } from '../lib/format';
 import { ScoreRing, Verdict } from '../components/ui';
@@ -28,21 +28,22 @@ const ROWS: [string, (s: Site) => React.ReactNode][] = [
 ];
 
 export default function Shortlist() {
-  const ids = useShortlist();
-  const { byId } = useData();
-  const list = ids.map(id => byId.get(id)).filter(Boolean) as Site[];
+  const { byId, aid, meta } = useData();
+  const ap = useAP();
+  const keys = useShortlist().filter(k => k.startsWith(`${aid}/`));
+  const list = keys.map(k => byId.get(k.slice(aid.length + 1))).filter(Boolean) as Site[];
   return (
     <div className="wrap section">
-      <div className="section-h"><div><div className="eyebrow">Saved on this device</div><h1 style={{ fontSize: 'clamp(28px,4vw,40px)' }}>Shortlist &amp; compare</h1></div>
-        {list.length > 0 && <button className="btn sm" onClick={() => shortlist.clear()}>Clear all</button>}</div>
+      <div className="section-h"><div><div className="eyebrow">Saved on this device · auction {meta?.auction.code}</div><h1 style={{ fontSize: 'clamp(28px,4vw,40px)' }}>Shortlist &amp; compare</h1></div>
+        {list.length > 0 && <button className="btn sm" onClick={() => keys.forEach(k => shortlist.remove(k))}>Clear all</button>}</div>
       {!list.length ? (
-        <div className="card empty-state"><h3>Nothing shortlisted yet</h3><p>Tap the star on any site to save it here and compare side by side.</p><p style={{ marginTop: 14 }}><Link className="btn primary" to="/explore">Explore sites</Link></p></div>
+        <div className="card empty-state"><h3>Nothing shortlisted yet</h3><p>Tap the star on any site to save it here and compare side by side.</p><p style={{ marginTop: 14 }}><Link className="btn primary" to={ap('/explore')}>Explore sites</Link></p></div>
       ) : (
         <div className="tbl-wrap"><table className="tbl cmp">
           <thead><tr><th>Site</th>{list.map(s => (
             <th key={s.id} style={{ minWidth: 180, textTransform: 'none', letterSpacing: 0 }}>
-              <div className="row" style={{ gap: 8 }}><ScoreRing site={s} size={38} /><div><Link to={`/site/${s.id}`} style={{ fontSize: 15, fontFamily: 'var(--display)', color: 'var(--ink)' }}>Site {s.site}</Link><br /><Verdict s={s} /></div></div>
-              <button className="btn sm ghost" style={{ marginTop: 6 }} onClick={() => shortlist.remove(s.id)}>Remove</button>
+              <div className="row" style={{ gap: 8 }}><ScoreRing site={s} size={38} /><div><Link to={ap(`/site/${s.id}`)} style={{ fontSize: 15, fontFamily: 'var(--display)', color: 'var(--ink)' }}>Site {s.site}</Link><br /><Verdict s={s} /></div></div>
+              <button className="btn sm ghost" style={{ marginTop: 6 }} onClick={() => shortlist.remove(`${aid}/${s.id}`)}>Remove</button>
             </th>))}</tr></thead>
           <tbody>{ROWS.map(([l, f]) => <tr key={l}><td>{l}</td>{list.map(s => <td key={s.id}>{f(s)}</td>)}</tr>)}</tbody>
         </table></div>

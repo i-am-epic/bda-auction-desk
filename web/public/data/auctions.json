@@ -1,0 +1,30 @@
+[
+ {
+  "id": "t15",
+  "code": "T-15",
+  "title": "BDA e-auction T-15/2026-27",
+  "notice": "BDA/EM/e-Auction/T-15/2026-27",
+  "noticeDate": "2026-10-03",
+  "eoiDeadline": "2026-10-31T17:00:00+05:30",
+  "bidDays": [
+   {
+    "date": "2026-11-02",
+    "range": "Sl 1-46"
+   },
+   {
+    "date": "2026-11-03",
+    "range": "Sl 47-92"
+   },
+   {
+    "date": "2026-11-04",
+    "range": "Sl 93-138"
+   }
+  ],
+  "status": "bidding",
+  "sites": 138,
+  "strong": 12,
+  "great": 7,
+  "localities": 20,
+  "generated": "2026-10-31"
+ }
+]

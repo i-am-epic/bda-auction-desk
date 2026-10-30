@@ -34,7 +34,7 @@ export interface Site {
   growth: Growth; projects: Project[]; geotag: 'official' | 'approx'; geoNote?: string; polyArea?: number; polyDrawn?: boolean;
   irregularity: number; usability: number; tier: number; lat: number; lon: number; polygon: [number, number][];
   terrain: { elev?: number; slope?: number; aspect?: string; relief?: number; facing?: string | null; frontage?: string; frontageM?: number };
-  near: Record<string, { m: number; name: string }>; bidDay: string | null;
+  near: Record<string, { m: number; name: string }>; bidDay: string | null; placement?: 'pin' | 'adjacent' | 'locality' | null;
 }
 
 export interface LocalityHistory { lots: number; sold: number; unsold: number; sellThrough: number; baseSeries: [number, number][]; baseCagr: number | null }
@@ -46,7 +46,21 @@ export interface Locality {
 export interface Meta {
   auction: {
     code: string; notice: string; noticeDate: string; eoiDeadline: string; bidDays: { date: string; range: string }[];
-    emd: number; fee: number; notice_pdf: string; corrigendum_pdf: string; kppp: string; helpline: string;
+    emd: number; fee: number; notice_pdf: string; corrigendum_pdf: string; kppp: string; helpline: string; id: string; title: string; status: string; geotag_url: string;
   };
   generated: string; groups: Record<string, Locality>; calibration: { note: string; src: string };
+}
+
+export interface AuctionIndex {
+  id: string; code: string; title: string; notice: string; noticeDate: string; eoiDeadline: string;
+  bidDays: { date: string; range: string }[]; status: string; sites: number; strong: number; great: number; localities: number; generated: string;
+}
+export interface HistoryLot { date: string; status: string; base: number | null; title: string; no: string; group: string | null; locality: string | null; site: string | null }
+export interface HistoryRound {
+  month: string; start: string; end: string; lots: number; sold: number; unsold: number; cancelled: number; upcoming: number;
+  medianBase: number | null; minBase: number | null; maxBase: number | null; localities: [string, number, number][];
+}
+export interface History {
+  rounds: HistoryRound[]; lots: HistoryLot[]; note: string;
+  summary: { lots: number; sold: number; unsold: number; relistedSites: number; uniqueSites: number; first: string; last: string };
 }

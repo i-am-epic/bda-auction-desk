@@ -4,6 +4,7 @@ import type { Site } from '../lib/types';
 import { inr, VERDICT_SHORT, VERDICT_TONE } from '../lib/format';
 import { shortlist, useShortlist } from '../lib/shortlist';
 import { commercialOk } from '../lib/filters';
+import { useAP, useData } from '../lib/data';
 
 /** Gold asterisk marking an estimate or model output; the title explains how it was derived. */
 export const Est = ({ how = 'Estimate or model output' }: { how?: string }) => <sup className="est" title={how} aria-label={`Estimate: ${how}`}>*</sup>;
@@ -34,7 +35,9 @@ export function Meter({ label, value, max = 10, note }: { label: ReactNode; valu
   );
 }
 
-export function StarButton({ id, label = true }: { id: string; label?: boolean }) {
+export function StarButton({ id: siteId, label = true }: { id: string; label?: boolean }) {
+  const { aid } = useData();
+  const id = `${aid}/${siteId}`;
   const list = useShortlist(), on = list.includes(id);
   return (
     <button type="button" className={`star-btn ${on ? 'on' : ''}`} aria-pressed={on} title={on ? 'Remove from shortlist' : 'Add to shortlist'}
@@ -58,8 +61,9 @@ export function SiteTags({ s, max = 4 }: { s: Site; max?: number }) {
 }
 
 export function SiteCard({ s, selected, onHover }: { s: Site; selected?: boolean; onHover?: (id: string | null) => void }) {
+  const ap = useAP();
   return (
-    <Link to={`/site/${s.id}`} className={`card scard ${selected ? 'sel' : ''}`} onMouseEnter={() => onHover?.(s.id)} onMouseLeave={() => onHover?.(null)}>
+    <Link to={ap(`/site/${s.id}`)} className={`card scard ${selected ? 'sel' : ''}`} onMouseEnter={() => onHover?.(s.id)} onMouseLeave={() => onHover?.(null)}>
       <div className="top">
         <ScoreRing site={s} size={48} />
         <div style={{ minWidth: 0 }}>
@@ -110,6 +114,7 @@ const PATHS: Record<string, string> = {
   copy: 'M9 9h10v10H9zM5 15V5h10',
   back: 'M15 18l-6-6 6-6',
   layers: 'M12 3 2 8l10 5 10-5-10-5zm-10 9 10 5 10-5M2 16l10 5 10-5',
+  clock: 'M12 21a9 9 0 1 0 0-18 9 9 0 0 0 0 18zm0-14v5l3 2',
 };
 export function Icon({ name, size }: { name: keyof typeof PATHS | string; size?: number }) {
   return (

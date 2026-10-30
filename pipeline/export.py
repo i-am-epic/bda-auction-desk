@@ -1,11 +1,14 @@
 """Export the analysed auction into the website's data files.
-Usage: python export.py build/data2.json ../web/public/data
-Writes sites.json (one record per site, trimmed for the browser) and meta.json (auction facts, locality history)."""
+Usage: AUCTION=t15 python export.py build/t15/data2.json ../web/public/data
+Writes <data>/<id>/sites.json (one record per site, trimmed for the browser), <data>/<id>/meta.json (auction facts,
+locality history) and updates <data>/auctions.json (the list of auctions the site can show)."""
 import json, os, re, sys
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from market import MARKET
+from sites import AUCTION
 
-src, out = sys.argv[1], sys.argv[2]
+src, root = sys.argv[1], sys.argv[2]
+out = os.path.join(root, AUCTION['id'])
 os.makedirs(out, exist_ok=True)
 pack = json.load(open(src, encoding='utf8'))
 sites, hist = pack['sites'], pack['history']
@@ -34,7 +37,8 @@ for s in sites:
                         frontage=(g.get('frontage') or {}).get('name') or ((g.get('frontage') or {}).get('tags') or {}).get('highway'),
                         frontageM=(g.get('frontage') or {}).get('m'))
     r['near'] = {k: dict(m=v['m'], name=v.get('name') or '') for k, v in (g.get('near') or {}).items()}
-    r['bidDay'] = None if s['sl'].startswith('C') else ('2026-11-02' if int(s['sl']) <= 46 else '2026-11-03' if int(s['sl']) <= 92 else '2026-11-04')
+    r['bidDay'] = None if s['sl'].startswith('C') else next((d for a, b, d in AUCTION['slots'] if a <= int(s['sl']) <= b), None)
+    r['placement'] = s.get('placement')
     rows.append(r)
 
 groups = {}
@@ -49,16 +53,20 @@ for g, m in MARKET.items():
                      bestScore=max((r['score'] or 0) for r in act) if act else None,
                      baseRates=sorted({r['rate'] for r in act}))
 
-meta = dict(
-    auction=dict(code='T-15', notice='BDA/EM/e-Auction/T-15/2026-27', noticeDate='2026-10-03', eoiDeadline='2026-10-31T17:00:00+05:30',
-                 bidDays=[dict(date='2026-11-02', range='Sl 1-46'), dict(date='2026-11-03', range='Sl 47-92'), dict(date='2026-11-04', range='Sl 93-138')],
-                 emd=400000, fee=500, notice_pdf='https://www.bdakarnataka.in/api/media/e-auction/pdf_press_release/e_auction-12102026_1791186164533_0e517992.pdf',
-                 corrigendum_pdf='https://www.bdakarnataka.in/api/media/e-auction/pdf_press_release/1574_BDA_corrigendum_(1)-1_1792750776940_04ea4c26.pdf',
-                 kppp='https://kppp.karnataka.gov.in/#/portal/Auctions/live', helpline='9483166622'),
-    generated='2026-10-30', groups=groups,
+pub = {k: v for k, v in AUCTION.items() if k not in ('slots', 'corrections')}
+meta = dict(auction=pub, generated=__import__('datetime').date.today().isoformat(), groups=groups,
     calibration=dict(note='Expected bids calibrated to BDA Dec 2021: 296 sites sold for ~Rs 348 cr against ~Rs 215 cr base (+62%); corner sites +44%.',
-                     src='https://thebengalurulive.com/bdas-e-auction-of-bengaluru-sites-nets-rs-411-59-crore/'),
-)
+                     src='https://thebengalurulive.com/bdas-e-auction-of-bengaluru-sites-nets-rs-411-59-crore/'))
+act = [r for r in rows if r['status'] == 'active']
+idx_p = os.path.join(root, 'auctions.json')
+idx = json.load(open(idx_p, encoding='utf8')) if os.path.exists(idx_p) else []
+idx = [a for a in idx if a['id'] != AUCTION['id']] + [dict(
+    id=AUCTION['id'], code=AUCTION['code'], title=AUCTION['title'], notice=AUCTION['notice'], noticeDate=AUCTION['noticeDate'],
+    eoiDeadline=AUCTION['eoiDeadline'], bidDays=AUCTION['bidDays'], status=AUCTION['status'], sites=len(act),
+    strong=sum(r['verdict'] == 'Strong buy' for r in act), great=sum(bool(r['greatFind']) for r in act),
+    localities=len(groups), generated=meta['generated'])]
+idx.sort(key=lambda a: a['noticeDate'], reverse=True)
+json.dump(idx, open(idx_p, 'w', encoding='utf8'), ensure_ascii=False, indent=1)
 json.dump(rows, open(os.path.join(out, 'sites.json'), 'w', encoding='utf8'), ensure_ascii=False, separators=(',', ':'))
 json.dump(meta, open(os.path.join(out, 'meta.json'), 'w', encoding='utf8'), ensure_ascii=False, separators=(',', ':'))
 print('sites', len(rows), os.path.getsize(os.path.join(out, 'sites.json')), 'groups', len(groups))
