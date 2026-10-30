@@ -1,5 +1,7 @@
 # BDA Auction Desk
 
+**Live: https://bdaauction.vercel.app**
+
 A website that rates every plot in a Bangalore Development Authority (BDA) e-auction. For each site it shows:
 - validity checks against BDA's geotag map and corrigendum
 - fair value, the likely winning bid and your odds

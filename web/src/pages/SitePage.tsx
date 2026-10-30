@@ -220,7 +220,7 @@ export default function SitePage() {
         {tab === 'location' && (
           <div className="stack">
             <MiniMap s={s} others={active} />
-            <p className="small muted">{s.geotag === 'official' ? `Outline from BDA's official geotag map (${s.polyArea} m² as drawn).` : <>{s.geoNote}<Est /></>}</p>
+            <p className="small muted">{s.geotag === 'official' ? `Outline from BDA's official geotag map (${s.polyArea} m² as drawn).` : <>{s.geoNote?.replace(/\*+$/, '')}<Est /></>}</p>
             <div className="grid2">
               <div className="card pad"><div className="eyebrow" style={{ marginBottom: 8 }}>Road &amp; land</div><table className="kv"><tbody>
                 <tr><td>Road width today{s.road.conf !== 'Mapped' && <Est how={s.road.source} />}</td><td>{s.road.range ? `${s.road.range[0]}–${s.road.range[1]}` : s.road.width} m · ~{s.road.ft} ft</td></tr>
