@@ -6,7 +6,7 @@ norm = lambda t: re.sub(r'[^0-9A-Z]', '', str(t).upper())
 # ---------- classify a KPPP title into our locality groups ----------
 def group_of(title):
     t = ' ' + re.sub(r'[^A-Z0-9 ]', ' ', title.upper()) + ' '
-    fe = bool(re.search(r' F E | FE OF | FURTHER ', t))
+    fe = bool(re.search(r' F E | FE | FURTHER ', t))
     if 'ANJANAPURA' in t: return 'FEANJ' if fe else 'ANJ'
     # result tables often drop the stage ("Banashankari 9th Block"); every BDA Banashankari block in these auctions is 6th Stage
     if 'BANASHANKARI' in t and ('6' in t or re.search(r' \d+(ST|ND|RD|TH) BLOCK', t)):

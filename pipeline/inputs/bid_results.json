@@ -1878,7 +1878,7 @@
 "final": 77500.0,
 "ew": 22.5,
 "ns": 22.0,
-"group": "BSK6M"
+"group": "FEBSK"
 },
 {
 "auction": "T-08",
@@ -1889,7 +1889,7 @@
 "final": 114500.0,
 "ew": 6.7,
 "ns": 9.0,
-"group": "ANJ"
+"group": "FEANJ"
 },
 {
 "auction": "T-08",
@@ -1900,7 +1900,7 @@
 "final": 89500.0,
 "ew": 9.0,
 "ns": 4.55,
-"group": "ANJ"
+"group": "FEANJ"
 },
 {
 "auction": "T-08",
@@ -1911,7 +1911,7 @@
 "final": 221500.0,
 "ew": 9.0,
 "ns": 6.15,
-"group": "ANJ"
+"group": "FEANJ"
 },
 {
 "auction": "T-08",
@@ -1922,7 +1922,7 @@
 "final": 225000.0,
 "ew": 9.0,
 "ns": 6.0,
-"group": "ANJ"
+"group": "FEANJ"
 },
 {
 "auction": "T-08",
@@ -1933,7 +1933,7 @@
 "final": 218000.0,
 "ew": 9.0,
 "ns": 6.0,
-"group": "ANJ"
+"group": "FEANJ"
 },
 {
 "auction": "T-08",
@@ -1944,7 +1944,7 @@
 "final": 119000.0,
 "ew": 12.0,
 "ns": 17.0,
-"group": "ANJ"
+"group": "FEANJ"
 },
 {
 "auction": "T-08",
@@ -1955,7 +1955,7 @@
 "final": 143500.0,
 "ew": 12.0,
 "ns": 11.15,
-"group": "ANJ"
+"group": "FEANJ"
 },
 {
 "auction": "T-08",
@@ -1966,7 +1966,7 @@
 "final": 176000.0,
 "ew": 12.0,
 "ns": 5.1,
-"group": "ANJ"
+"group": "FEANJ"
 },
 {
 "auction": "T-08",
@@ -1977,7 +1977,7 @@
 "final": 239000.0,
 "ew": 12.0,
 "ns": 5.3,
-"group": "ANJ"
+"group": "FEANJ"
 },
 {
 "auction": "T-08",
@@ -1988,7 +1988,7 @@
 "final": 79500.0,
 "ew": 18.0,
 "ns": 14.6,
-"group": "ANJ"
+"group": "FEANJ"
 },
 {
 "auction": "T-08",
@@ -2010,7 +2010,7 @@
 "final": 173000.0,
 "ew": 14.5,
 "ns": 24.0,
-"group": "BSK6M"
+"group": "FEBSK"
 },
 {
 "auction": "T-08",
@@ -2032,7 +2032,7 @@
 "final": 130000.0,
 "ew": 12.0,
 "ns": 18.0,
-"group": "BSK6M"
+"group": "FEBSK"
 },
 {
 "auction": "T-08",
@@ -2087,7 +2087,7 @@
 "final": 174000.0,
 "ew": 21.5,
 "ns": 24.0,
-"group": "BSK6M"
+"group": "FEBSK"
 },
 {
 "auction": "T-08",
@@ -2406,7 +2406,7 @@
 "final": 87500.0,
 "ew": 7.7,
 "ns": 9.0,
-"group": "ANJ"
+"group": "FEANJ"
 },
 {
 "auction": "T-08",
