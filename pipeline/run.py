@@ -38,6 +38,7 @@ step('KPPP history (all past BDA lots)', 'kppp_history.py', p('kppp_history.json
 step('surroundings & terrain', 'enrich.py', p('data.json'), p('geo_extra.json'), CACHE)
 step('road widths', 'roadwidth.py', KML, p('data.json'), p('geo_extra.json'), p('roads.json'))
 step('real winning bids', 'fetch_results.py', os.path.join(I, 'bid_results.json'), fetch=True)
+step('ingest real KPPP bids', 'ingest_kppp.py', os.path.join(HERE, 'private', 'kppp_bids.jsonl'), os.path.join(I, 'kppp_finals.json'))
 step('learn sell odds + winning price', 'models.py', os.path.join(I, 'bid_results.json'), p('kppp_history.json'), p('data.json'), p('models.json'))
 step('pricing, odds, rating', 'insights.py', p('data.json'), p('geo_extra.json'), p('kppp_history.json'), p('kppp_live.json'), p('data2.json'), p('roads.json'), p('models.json'))
 step('export to website', 'export.py', p('data2.json'), WEB)

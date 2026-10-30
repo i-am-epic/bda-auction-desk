@@ -18,6 +18,8 @@ MODELS = json.load(open(sys.argv[7], encoding='utf8')) if len(sys.argv) > 7 else
 PHI = lambda z: 0.5*(1 + math.erf(z/math.sqrt(2)))
 _BR = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'inputs', 'bid_results.json')
 FINALS = {(b['group'], re.sub(r'[^0-9A-Z]', '', str(b['site']).upper())): b for b in (json.load(open(_BR, encoding='utf8')) if os.path.exists(_BR) else []) if b['group']}
+_KP = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'inputs', 'kppp_finals.json')
+KPPP_BIDS = json.load(open(_KP, encoding='utf8')) if os.path.exists(_KP) else {}   # de-identified real bids collected from the signed-in KPPP account
 key = lambda s: s['sl'] + '|' + s['site']
 norm = lambda t: re.sub(r'[^0-9A-Z]', '', str(t).upper())
 
@@ -135,6 +137,13 @@ for s in sites:
     # past appearances of this exact site
     prev = sorted(past.get((s['group'], norm(s['site'])), []), key=lambda p: p['date'][6:] + p['date'][3:5])
     s['prevRounds'] = prev
+    rb = KPPP_BIDS.get(s['group'] + '|' + norm(s['site']))
+    s['realBid'] = None
+    if rb and rb.get('h1'):
+        grow = s['rate'] / rb['base'] if rb.get('base') else 1
+        s['realBid'] = dict(bidderCount=rb['bidderCount'], h1=rb['h1'], h2=rb.get('h2'), h3=rb.get('h3'),
+                            rejected=rb.get('rejected'), date=rb.get('date'), base=rb.get('base'), premium=rb.get('premium'),
+                            h1Grown=round(rb['h1'] * grow), status=rb.get('status'))
     unsold_before = sum(1 for p in prev if p['status'] in UNSOLD)
     for p in prev:
         if p.get('reason') and re.search(r'court|litig', p['reason'], re.I):
@@ -319,6 +328,20 @@ for s in sites:
         s['competition'] = round(comp, 1)
         s['compLabel'] = 'Very high' if comp >= 4.3 else 'High' if comp >= 3.4 else 'Moderate' if comp >= 2.4 else 'Low' if comp >= 1.4 else 'Very low'
     s['expPremium'] = round((exp/s['rate'] - 1)*100)
+    if s['realBid']:   # real bidding on this exact site beats any model
+        rbx = s['realBid']; grown = rbx['h1Grown']
+        exp = max(grown, s['minBidRate']*1.01)
+        s['expRate'] = round(exp); s['expTotal'] = round(exp*billed)
+        s['expLo'] = round(max(rbx['h1Grown']*0.9, s['minBidRate']*1.01)*billed); s['expHi'] = round(rbx['h1Grown']*1.15*billed)
+        s['expPremium'] = round((exp/s['rate'] - 1)*100)
+        comp = max(0.3, min(5, (rbx['bidderCount'] - 1) * 1.1 + (0 if rbx['bidderCount'] >= 2 else 0)))   # real rival count
+        s['competition'] = round(comp, 1)
+        s['compLabel'] = 'Very high' if comp >= 4.3 else 'High' if comp >= 3.4 else 'Moderate' if comp >= 2.4 else 'Low' if comp >= 1.4 else 'Very low'
+        fair_mid = min(fair_mid, max(grown, s['minBidRate']))
+        s['fairRate'], s['fairLo'], s['fairHi'] = round(fair_mid), round(fair_mid*0.85), round(fair_mid*1.15)
+        s['fairSqft'] = round(fair_mid/SQFT); s['fairTotal'] = round(fair_mid*s['area'])
+        s['upside'] = round((fair_mid - s['minBidRate'])/s['minBidRate']*100, 1)
+        s['maxBidRate'] = round(max(fair_mid*0.97, s['minBidRate']*1.005)); s['maxBidTotal'] = round(s['maxBidRate']*billed)
     # P(win) if you bid our max: rivals' ceilings ~ uniform between min bid and fair_hi
     n_rivals = max(1, round(comp*0.9 - 0.3))
     s['bidders'] = f"{n_rivals + 1}-{n_rivals + 3}"
@@ -384,6 +407,12 @@ for s in sites:
         if s['marketCap'] and s['marketCap']['applied']: finds.append(f"Market-tested ceiling: nobody bid at Rs {s['marketCap']['base']:,.0f}/m² on {s['marketCap']['date']}, so we cap fair value at about Rs {s['marketCap']['rate']/SQFT:,.0f}/ft² (that price + 10% + growth since).")
     else:
         finds.append('First time on auction: no BDA bidding history for this exact site.')
+    if s['realBid']:
+        rbx = s['realBid']
+        parts = [f"We have the real bid sheet for this exact site ({rbx['date'] or 'a past round'}): {rbx['bidderCount']} bidder(s), top bid Rs {rbx['h1']:,.0f}/m² ({'+' if (rbx.get('premium') or 0) >= 0 else ''}{rbx.get('premium')}% over that round's base)."]
+        if rbx.get('rejected'): parts.append("BDA rejected every bid that round, so the sale did not go through — usually too few bidders or bids below what BDA wanted.")
+        if rbx['bidderCount'] <= 2: parts.append("Only one or two people bid, so real demand here is thin; expect to win near the minimum, not at a big premium.")
+        finds.insert(0, ' '.join(parts))
     if hs.get('baseSeries') and len(hs['baseSeries']) >= 2:
         (y0, r0), (y1, r1) = hs['baseSeries'][0], hs['baseSeries'][-1]
         finds.append(f"BDA's median base rate in this locality went from Rs {r0:,}/m² ({y0}) to Rs {r1:,}/m² ({y1})" + (f", about {hs['baseCagr']}%/yr." if hs.get('baseCagr') is not None else '.'))

@@ -35,6 +35,7 @@ export interface Site {
   irregularity: number; usability: number; tier: number; lat: number; lon: number; polygon: [number, number][];
   terrain: { elev?: number; slope?: number; aspect?: string; relief?: number; facing?: string | null; frontage?: string; frontageM?: number };
   near: Record<string, { m: number; name: string }>; bidDay: string | null;
+  realBid?: RealBid | null;
   pSell: number | null; comps: { n: number; medianSqft: number; p25: number; p75: number } | null; placement?: 'pin' | 'adjacent' | 'locality' | null;
 }
 
@@ -70,3 +71,5 @@ export interface History {
 
 export interface ModelPremium { n: number; alpha: number; cvMaePts: number; baselineGlobalPts: number; baselineOldRulePts: number; sigma: number; q10: number; q90: number; coef: Record<string, number>; medianPremium: number; auctions: string[] }
 export interface ModelSell { nTrain: number; nTest: number; auc: number; brier: number; brierBase: number; n: number; soldRate: number; coef: Record<string, number> }
+
+export interface RealBid { bidderCount: number; h1: number; h2: number | null; h3: number | null; rejected: boolean | null; date: string | null; base: number | null; premium: number | null; h1Grown: number; status: string | null }

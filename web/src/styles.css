@@ -410,3 +410,8 @@ details.round[open] summary { border-bottom: 0; }
 @media (max-width: 760px) { .model-card.wide .mc-grid { grid-template-columns: 1fr; } }
 .tl-note { display: block; font-size: 12.5px; margin-top: 3px; color: var(--ink-2); }
 .tl-note.bad { color: var(--skip); font-weight: 600; }
+.realbid { border-color: var(--gold); display: grid; gap: 10px; }
+.rb-figs { display: grid; grid-template-columns: repeat(auto-fit, minmax(110px, 1fr)); gap: 10px; border-top: 1px dashed var(--line); padding-top: 10px; }
+.rb-figs small { display: block; font-size: 11px; color: var(--ink-3); }
+.rb-figs b { font-family: var(--mono); font-size: 15px; font-weight: 500; }
+.rb-figs em { font-style: normal; color: var(--ink-3); font-size: 12px; }

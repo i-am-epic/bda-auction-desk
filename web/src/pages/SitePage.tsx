@@ -191,6 +191,17 @@ export default function SitePage() {
 
         {tab === 'history' && (
           <div className="stack">
+            {s.realBid && <div className="card pad realbid">
+              <div className="row" style={{ justifyContent: 'space-between' }}><b>Real bid sheet · this exact site{s.realBid.date ? `, ${s.realBid.date}` : ''}</b>
+                {s.realBid.rejected ? <span className="pill bad">All bids rejected</span> : <span className="pill accent">From KPPP</span>}</div>
+              <div className="rb-figs">
+                <div><small>Bidders</small><b>{s.realBid.bidderCount}</b></div>
+                <div><small>Top bid (H1)</small><b>{rs(s.realBid.h1)}/m²{s.realBid.premium != null ? <em> · +{s.realBid.premium}%</em> : null}</b></div>
+                {s.realBid.h2 && <div><small>H2</small><b>{rs(s.realBid.h2)}/m²</b></div>}
+                {s.realBid.h3 && <div><small>H3</small><b>{rs(s.realBid.h3)}/m²</b></div>}
+              </div>
+              <p className="tiny muted">Collected from a signed-in KPPP account, de-identified: amounts and counts only, no bidder names. {s.realBid.rejected ? 'BDA rejected every bid that round, so the sale did not complete. ' : ''}This is the strongest guide to what this plot really fetches, and it overrides the model for this site.</p>
+            </div>}
             <div className="card pad">
               {s.prevRounds.length ? (
                 <ul className="tl">

@@ -1,0 +1,20 @@
+{
+ "BSK6O|303": {
+  "base": 81000,
+  "reserve": 81500,
+  "status": "FINALIZED",
+  "bidderCount": 2,
+  "h1": 87000,
+  "h2": 82000,
+  "h3": null,
+  "allPrices": [
+   87000,
+   82000
+  ],
+  "rejected": true,
+  "topRejected": true,
+  "date": "2025-11-20",
+  "source": "KPPP (bidder view)",
+  "premium": 7.4
+ }
+}
