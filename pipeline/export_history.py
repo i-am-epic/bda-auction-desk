@@ -12,6 +12,8 @@ lots = json.load(open(src, encoding='utf8'))
 # real final bids from BDA's archived result tables (fetch_results.py); KPPP itself never shows winning amounts or bidder counts
 BIDS = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'inputs', 'bid_results.json')
 final = {(b['group'], norm(b['site'])): b for b in (json.load(open(BIDS, encoding='utf8')) if os.path.exists(BIDS) else []) if b['group']}
+_KF2 = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'inputs', 'kppp_finals.json')
+_kf2 = json.load(open(_KF2, encoding='utf8')) if os.path.exists(_KF2) else {}
 SOLD, UNSOLD = {'FINALIZED', 'BIDDING_CLOSED'}, {'NO_PARTICIPATIONS', 'NO_BIDS_RECEIVED'}
 iso = lambda d: f'{d[6:10]}-{d[3:5]}-{d[0:2]}' if d else None
 
@@ -21,10 +23,15 @@ for h in lots:
     if not d: continue
     g = group_of(h['auctionTitle']); site = site_of(h['auctionTitle'])
     fb = final.get((g, site)) if h['statusKey'] in SOLD else None
+    kf = _kf2.get((g + '|' + site)) if (g and site) else None   # real bid from signed-in collection (h1)
+    real_final = (fb['final'] if fb else None) or (kf['h1'] if kf else None)
+    real_src = (fb['auction'] if fb else None) or ('KPPP bid sheet' if kf else None)
+    real_rej = kf.get('rejected') if kf else None
+    real_nb = kf.get('bidderCount') if kf else None
     rows.append(dict(date=d, status=h['statusKey'], base=h.get('baseRate') or None, title=h['auctionTitle'].strip(),
                      no=h['auctionNoticeNumber'], group=g, locality=MARKET[g]['name'] if g in MARKET else ('Kempegowda Layout (NPKL)' if g == 'NPKL' else None), site=site,
                      reason=(h.get('recallReason') or '').strip() or None, cancelledOn=h.get('recalledOn'),
-                     final=fb['final'] if fb else None, finalFrom=fb['auction'] if fb else None))
+                     final=real_final, finalFrom=real_src, rejected=real_rej, bidderCount=real_nb))
 rows.sort(key=lambda r: (r['date'], r['no']), reverse=True)
 
 # a "round" = all lots bid in the same calendar month (BDA runs one notification across a few consecutive days)

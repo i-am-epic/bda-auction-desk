@@ -58,7 +58,7 @@ export interface AuctionIndex {
   id: string; code: string; title: string; notice: string; noticeDate: string; eoiDeadline: string;
   bidDays: { date: string; range: string }[]; status: string; sites: number; strong: number; great: number; localities: number; generated: string;
 }
-export interface HistoryLot { date: string; status: string; base: number | null; title: string; no: string; group: string | null; locality: string | null; site: string | null; reason?: string | null; cancelledOn?: string | null; final?: number | null; finalFrom?: string | null }
+export interface HistoryLot { date: string; status: string; base: number | null; title: string; no: string; group: string | null; locality: string | null; site: string | null; reason?: string | null; cancelledOn?: string | null; final?: number | null; finalFrom?: string | null; rejected?: boolean | null; bidderCount?: number | null }
 export interface HistoryRound {
   month: string; start: string; end: string; lots: number; sold: number; unsold: number; cancelled: number; upcoming: number;
   medianBase: number | null; minBase: number | null; maxBase: number | null; localities: [string, number, number][];

@@ -91,11 +91,11 @@ export default function HistoryPage() {
             <select className="field" style={{ flex: '0 1 160px', width: 'auto' }} value={st} onChange={e => { setSt(e.target.value); setPage(0); }} aria-label="Outcome"><option value="">Any outcome</option><option value="sold">Sold / closed</option><option value="unsold">No bidders</option><option value="CANCELLED">Cancelled</option><option value="final">Has a known final bid</option></select>
           </div>
           <div className="tbl-wrap"><table className="tbl">
-            <thead><tr><th>Bid date</th><th>Lot</th><th>Locality</th><th className="n">Base ₹/m²</th><th className="n">Final bid ₹/m²</th><th>Outcome</th></tr></thead>
+            <thead><tr><th>Bid date</th><th>Lot</th><th>Locality</th><th className="n">Base ₹/m²</th><th className="n">Bidders</th><th className="n">Final bid ₹/m²</th><th>Outcome</th></tr></thead>
             <tbody>{lots.slice(page * PER, page * PER + PER).map(l => { const s = STATUS[l.status] ?? [l.status, '']; return (
               <tr key={l.no}><td className="mono small" style={{ whiteSpace: 'nowrap' }}>{fmtDate(l.date)}</td><td>{l.title}<br /><span className="tiny muted">{l.no}</span></td><td className="small">{l.locality ?? '—'}</td>
-                <td className="n">{l.base ? l.base.toLocaleString('en-IN') : '—'}</td>
-                <td className="n">{l.final ? <span title={`From BDA's ${l.finalFrom} result table`}>{l.final.toLocaleString('en-IN')}{l.base ? <><br /><span className="tiny muted">+{Math.round((l.final / l.base - 1) * 100)}%</span></> : null}</span> : '—'}</td>
+                <td className="n">{l.bidderCount ?? '—'}</td>
+                <td className="n">{l.final ? <span title={`From BDA's ${l.finalFrom} result table`}>{l.final.toLocaleString('en-IN')}{l.base ? <><br /><span className="tiny muted">+{Math.round((l.final / l.base - 1) * 100)}%{l.rejected ? ' · rej' : ''}</span></> : null}</span> : '—'}</td>
                 <td><span className={`pill ${s[1]}`}>{s[0]}</span>{l.reason && <div className="tiny muted" style={{ marginTop: 4, maxWidth: 220 }}>{l.reason}</div>}</td></tr>); })}</tbody>
           </table></div>
           <div className="row"><span className="small muted">{lots.length.toLocaleString('en-IN')} lots</span><span className="spacer" />
