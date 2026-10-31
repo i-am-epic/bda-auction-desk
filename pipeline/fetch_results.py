@@ -42,6 +42,12 @@ for t in re.finditer(r'<table[^>]*>(.*?)</table>', page, re.S):
             ew, ns = [avg(x.replace('m', '').strip()) for x in c[di].split('×')[:2]]
         lots.append(dict(auction=f'T-{code}', layout=layout, site=c[2], area=area, base=base, final=final, ew=ew, ns=ns,
                          group=group_of(f'Site No-{c[2]} at {layout}')))
-json.dump(lots, open(out, 'w', encoding='utf8'), ensure_ascii=False, indent=0)
-from collections import Counter
-print('final bids:', len(lots), Counter(l['auction'] for l in lots), 'in our localities:', sum(1 for l in lots if l['group'] and l['group'] != 'NPKL'))
+# Guard: bdaeauction.in occasionally serves a page the parser reads as 0 rows (layout change / rate limit).
+# Never overwrite a good archive with an empty scrape; keep the last known-good file instead.
+if not lots and os.path.exists(out):
+    prev = json.load(open(out, encoding='utf8'))
+    print('final bids: 0 scraped — keeping existing', len(prev), 'records (empty scrape ignored)')
+else:
+    json.dump(lots, open(out, 'w', encoding='utf8'), ensure_ascii=False, indent=0)
+    from collections import Counter
+    print('final bids:', len(lots), Counter(l['auction'] for l in lots), 'in our localities:', sum(1 for l in lots if l['group'] and l['group'] != 'NPKL'))

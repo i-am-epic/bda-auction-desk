@@ -3843,6 +3843,24 @@
   "source": "KPPP (bidder view)",
   "premium": 188.4
  },
+ "FEBSK|372B": {
+  "base": 70000,
+  "reserve": 70500,
+  "status": "BIDDING_CLOSED",
+  "bidderCount": 2,
+  "h1": 80500,
+  "h2": 73000,
+  "h3": null,
+  "allPrices": [
+   80500,
+   73000
+  ],
+  "rejected": null,
+  "topRejected": false,
+  "date": null,
+  "source": "KPPP (bidder view)",
+  "premium": 15.0
+ },
  "FEBSK|378": {
   "base": 70000,
   "reserve": 70500,
@@ -4202,5 +4220,55 @@
   "date": "2025-11-20",
   "source": "KPPP (bidder view)",
   "premium": 7.4
+ },
+ "ANJ|552": {
+  "base": 71000,
+  "reserve": 71500,
+  "status": "FINALIZED",
+  "bidderCount": 11,
+  "h1": 142500,
+  "h2": 142000,
+  "h3": 134000,
+  "allPrices": [
+   142500,
+   142000,
+   134000,
+   130500,
+   130000,
+   129000,
+   118500,
+   112500,
+   109500,
+   108000,
+   79000
+  ],
+  "rejected": false,
+  "topRejected": false,
+  "date": "2026-07-29",
+  "source": "KPPP (bidder view)",
+  "premium": 100.7
+ },
+ "ANJ|553": {
+  "base": 71000,
+  "reserve": 71500,
+  "status": "FINALIZED",
+  "bidderCount": 7,
+  "h1": 136500,
+  "h2": 136000,
+  "h3": 135500,
+  "allPrices": [
+   136500,
+   136000,
+   135500,
+   122500,
+   108500,
+   100500,
+   95500
+  ],
+  "rejected": false,
+  "topRejected": false,
+  "date": "2026-07-29",
+  "source": "KPPP (bidder view)",
+  "premium": 92.3
  }
 }
