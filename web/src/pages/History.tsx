@@ -35,6 +35,15 @@ export default function HistoryPage() {
         <div><b className="num">{S.relistedSites}</b><span>sites listed 2+ times</span></div>
         <div><b className="num">{h.rounds.length}</b><span>auction months</span></div>
       </div>
+      {h.realBidStats && <div className="card pad realbid" style={{ borderColor: 'var(--gold)' }}>
+        <div className="eyebrow">What real bidding reveals</div>
+        <div className="insights" style={{ gap: 12 }}>
+          <div><b style={{ fontFamily: 'var(--display)', fontSize: 30, color: 'var(--skip)' }}>{h.realBidStats.rejectedPct}%</b><p className="small muted">of {h.realBidStats.sites} real past results for this auction's sites were <b>rejected</b> — single bidder, below reserve, or the winner never paid.</p></div>
+          <div><b style={{ fontFamily: 'var(--display)', fontSize: 30 }}>{h.realBidStats.oneBidderPct}%</b><p className="small muted">drew just <b>one bidder</b> (median {h.realBidStats.medianBidders}). BDA rejects single bidders, so these can't sell.</p></div>
+          <div><b style={{ fontFamily: 'var(--display)', fontSize: 30 }}>+{h.realBidStats.premOne}% → +{h.realBidStats.premMany}%</b><p className="small muted">what the winner pays over base goes from about +{h.realBidStats.premOne}% with one bidder to +{h.realBidStats.premMany}% with 10+ bidders. <b>Bidder count is the price driver.</b></p></div>
+        </div>
+        <p className="tiny muted">{h.realBidStats.note}</p>
+      </div>}
       <div className="seg" role="tablist" style={{ alignSelf: 'start' }}>
         <button role="tab" aria-selected={tab === 'rounds'} className={tab === 'rounds' ? 'on' : ''} onClick={() => setTab('rounds')}>By auction round</button>
         <button role="tab" aria-selected={tab === 'lots'} className={tab === 'lots' ? 'on' : ''} onClick={() => setTab('lots')}>Every lot</button>

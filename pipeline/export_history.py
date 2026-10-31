@@ -55,8 +55,22 @@ def why(r):
 reasons = defaultdict(list)
 for r in rows:
     if r['status'] == 'CANCELLED': reasons[why(r['reason'])].append(dict(date=r['date'], title=r['title'], no=r['no'], reason=r['reason'], locality=r['locality']))
+import statistics as _st
+_KF=os.path.join(os.path.dirname(os.path.abspath(__file__)),'inputs','kppp_finals.json')
+_kf=json.load(open(_KF,encoding='utf8')) if os.path.exists(_KF) else {}
+_v=[x for x in _kf.values() if x.get('h1')]
+realBidStats=None
+if _v:
+    _prem=[(x['bidderCount'], round((x['h1']/x['base']-1)*100)) for x in _v if x.get('base')]
+    _one=[pr for n,pr in _prem if n<=1]; _many=[pr for n,pr in _prem if n>=10]
+    realBidStats=dict(sites=len(_v), rejectedPct=round(sum(1 for x in _v if x.get('rejected'))/len(_v)*100),
+        oneBidderPct=round(sum(1 for x in _v if x['bidderCount']==1)/len(_v)*100),
+        medianBidders=int(_st.median(x['bidderCount'] for x in _v)),
+        tenPlus=sum(1 for x in _v if x['bidderCount']>=10),
+        premOne=round(_st.median(_one)) if _one else None, premMany=round(_st.median(_many)) if _many else None,
+        note='From real bid sheets collected for current-auction sites via a signed-in KPPP account, de-identified (counts and amounts only).')
 json.dump(dict(rounds=out_rounds, lots=rows, cancellations=sorted(([k, v] for k, v in reasons.items()), key=lambda kv: -len(kv[1])),
-          finalsKnown=sum(1 for r in rows if r['final']), summary=dict(lots=len(rows), sold=sum(r['status'] in SOLD for r in rows),
+          finalsKnown=sum(1 for r in rows if r['final']), realBidStats=realBidStats, summary=dict(lots=len(rows), sold=sum(r['status'] in SOLD for r in rows),
           unsold=sum(r['status'] in UNSOLD for r in rows), relistedSites=multi, uniqueSites=len(repeat),
           first=min(r['date'] for r in rows), last=max(r['date'] for r in rows)),
           note="KPPP shows each lot's outcome, base rate and cancellation reason, but not bid amounts or how many people took part. Final bids shown here come from BDA's own archived result tables (T-08, T-11)."),

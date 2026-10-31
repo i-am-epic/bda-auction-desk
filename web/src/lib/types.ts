@@ -64,7 +64,7 @@ export interface HistoryRound {
   medianBase: number | null; minBase: number | null; maxBase: number | null; localities: [string, number, number][];
 }
 export interface History {
-  rounds: HistoryRound[]; lots: HistoryLot[]; note: string; finalsKnown: number;
+  rounds: HistoryRound[]; lots: HistoryLot[]; note: string; finalsKnown: number; realBidStats?: RealBidStats | null;
   cancellations: [string, { date: string; title: string; no: string; reason: string | null; locality: string | null }[]][];
   summary: { lots: number; sold: number; unsold: number; relistedSites: number; uniqueSites: number; first: string; last: string };
 }
@@ -73,3 +73,5 @@ export interface ModelPremium { n: number; alpha: number; cvMaePts: number; base
 export interface ModelSell { nTrain: number; nTest: number; auc: number; brier: number; brierBase: number; n: number; soldRate: number; coef: Record<string, number> }
 
 export interface RealBid { bidderCount: number; h1: number; h2: number | null; h3: number | null; rejected: boolean | null; date: string | null; base: number | null; premium: number | null; h1Grown: number; status: string | null }
+
+export interface RealBidStats { sites: number; rejectedPct: number; oneBidderPct: number; medianBidders: number; tenPlus: number; premOne: number | null; premMany: number | null; note: string }
