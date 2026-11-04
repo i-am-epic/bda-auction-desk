@@ -15,6 +15,7 @@ included in the repository.
 - [Supplemental checks](kppp_public_checks_2026-11-04.json): pagination, download signatures and exact export comparison.
 - [Client references](kppp_client_references_2026-11-04.json): 106 HTTP call-site references and source hashes, not 106 distinct verified APIs.
 - [Collector](collect_kppp_public.ps1) and [offline checks](test_collect_kppp_public.ps1).
+- [Site 303 extract](../../exports/bda_site_303_2026-11-04.json): public details, sanitized bidding observations and explicit payment-count unknowns.
 
 The full-index investigation retained 73 successful API responses and the separate item-wise/corrigendum
 run retained another 9. Additional browser checks verified downloads and lookup behavior. Raw responses
@@ -221,6 +222,35 @@ same search returned the live notice. The mismatched-filter result is not eviden
 
 Raw authenticated bodies, per-person histories, names, nicknames and identifiers were not added to the
 repository. The pre-close registration/interest question remains unresolved by this post-close sample.
+
+### Site 303 Payment Count Check
+
+The owner selected Site 303 for a further read-only inspection. Five fresh public requests reconfirmed
+notice `29761`, lot `38995`, the Rs. 400,000 EMD requirement and Rs. 500 auction fee. Three public
+documents, zero corrigendum records and zero recall-document records were returned. The linked site
+extract includes dates, dimensions, price calculations, document URLs and the public BDA notice contact.
+Notification contents, title/encumbrances and sale acceptance have not been independently verified.
+
+The normal My Auction Participations > View Summary workflow displays both Auction Fee Payment Details
+and EMD Payment Details, including transaction-reference, amount and status columns. These are views
+for the selected participation, not a site-wide participant register. Observed requests were:
+
+| Method | Path | Observed result |
+|---|---|---|
+| GET | `/auction-service/v1/api/e-auction/bids/{participationId}/get-participation-summary` | HTTP 200; lot, criteria, document summary and an EMD-requirement flag, not a verified payer total. |
+| POST | `/payment-service/v1/api/payments/payment-history` | HTTP 200; empty array and `X-Total-Count: 0` under the summary view's request context. |
+| GET | `/payment-service/v1/api/payments/get-successful-payment` | HTTP 400; failed lookup, not proof of zero successful payments. |
+
+The paths deliberately omit account-specific request identifiers. No other participant's payment
+record was requested, no payment was initiated and no bank/transaction details were retained. These
+observations do not establish a site-wide aggregation contract or authorization for other records.
+
+**Distinct EMD payers, distinct auction-fee payers, submitted participants and eligible participants
+remain unknown**, represented as `null`, not zero, in the extract. Three visible bidders and 48 bid-history
+records are the verified bidding evidence; they cannot be converted into a fee-payer total. The extract
+includes an unsent request for BDA to provide de-duplicated aggregate payment/participation counts at
+the registration cutoff, with failed, reversed and refunded payments distinguished. No names or bank
+references are needed for that aggregate request.
 
 ## 6. Other Findings and Follow-Up Work
 

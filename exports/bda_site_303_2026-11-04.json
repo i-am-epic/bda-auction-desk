@@ -1,0 +1,195 @@
+{
+  "schemaVersion": 1,
+  "asOfDate": "2026-11-04",
+  "scope": "Public auction details and authorized, anonymized post-close bidding observations; not an exhaustive payment or participant register.",
+  "notice": {
+    "id": 29761,
+    "number": "BDA/2026-27/AUCTION4491",
+    "departmentId": 1566,
+    "department": "Bengaluru Development Authority",
+    "title": "Site No-303 at Banashankari 6th Stage 11th Block Ganakallu",
+    "status": "BIDDING_CLOSED",
+    "type": "FORWARD",
+    "bidType": "DIRECT",
+    "procedure": "OPEN",
+    "groupType": "LOT_WISE",
+    "participationEvaluationRequiredYn": false,
+    "publishedDateRaw": "12-10-2026 15:20:36"
+  },
+  "site": {
+    "siteNumber": "303",
+    "locality": "Banashankari 6th Stage 11th Block Ganakallu",
+    "lotId": 38995,
+    "lotNumber": "LOT1",
+    "slotId": 33220,
+    "itemId": 55202,
+    "itemCode": "BDAEAS-4222",
+    "areaSqm": 90,
+    "eastWestMetresExpression": "(4.50 + 10.50) / 2",
+    "northSouthMetres": 12,
+    "apiUnit": "Sqm",
+    "apiQuantity": 1,
+    "areaSource": "Item specification, not the API quantity field.",
+    "coordinates": null,
+    "titleAndEncumbrancesVerified": false
+  },
+  "pricing": {
+    "currency": "INR",
+    "initialPricePerSqm": 84000,
+    "initialWholePlotAmount": 7560000,
+    "apiReservePricePerSqm": 84500,
+    "apiReserveWholePlotAmount": 7605000,
+    "incrementPerSqm": 500,
+    "incrementWholePlotAmount": 45000,
+    "highestObservedBidPerSqm": 117000,
+    "highestObservedWholePlotBid": 10530000,
+    "confirmedSalePrice": null,
+    "soldYn": null,
+    "legalMinimumOpeningBidVerified": false,
+    "qualification": "Whole-plot amounts are derived from the specified 90 sq. m. Highest observed bid is not proof of acceptance or sale. The API reserve is not a verified interpretation of the notification's minimum-bid rules."
+  },
+  "feesAndInterest": {
+    "currency": "INR",
+    "requiredEmd": 400000,
+    "auctionParticipationFee": 500,
+    "emdLevel": "NOTICE",
+    "lotWiseEmdYn": false,
+    "lotEmdRaw": null,
+    "distinctSuccessfulEmdPayers": null,
+    "distinctSuccessfulParticipationFeePayers": null,
+    "submittedParticipantCount": null,
+    "eligibleParticipantCount": null,
+    "payerCountVerification": "NOT_ESTABLISHED",
+    "qualification": "These are required payment amounts, not payment totals. Null counts mean unknown, not zero. Three visible bidders do not establish how many people paid either charge.",
+    "accountPaymentView": {
+      "scope": "SELECTED_ACCOUNT_PARTICIPATION_ONLY",
+      "tables": ["Auction Fee Payment Details", "EMD Payment Details"],
+      "columns": ["Number", "URN", "Type", "Bank Transaction Reference Number", "Mode", "Amount (INR)", "Status"],
+      "paymentRequestOutcome": "INCONCLUSIVE",
+      "observation": "In the selected participation summary, payment history returned zero matching records and the successful-payment lookup failed with HTTP 400. Neither response establishes a site-wide payer count or proves that this account has no successful payments elsewhere.",
+      "observedRequests": [
+        {
+          "method": "GET",
+          "pathTemplate": "/auction-service/v1/api/e-auction/bids/{participationId}/get-participation-summary",
+          "httpStatus": 200,
+          "purpose": "Selected participation's lot, criteria and document summary; includes an EMD-requirement flag, not a verified payer count."
+        },
+        {
+          "method": "POST",
+          "pathTemplate": "/payment-service/v1/api/payments/payment-history",
+          "httpStatus": 200,
+          "recordsReturned": 0,
+          "xTotalCount": 0,
+          "purpose": "Payment-history lookup made by the selected participation's summary view; zero matching records under the UI's request context."
+        },
+        {
+          "method": "GET",
+          "pathTemplate": "/payment-service/v1/api/payments/get-successful-payment",
+          "httpStatus": 400,
+          "recordsReturned": null,
+          "purpose": "Successful-payment lookup made by the summary view; failed request, not a zero-payment result."
+        }
+      ],
+      "paymentReferencesAndAccountDetailsRetained": false
+    }
+  },
+  "schedule": {
+    "sourceTimeZoneExplicit": false,
+    "interpretationTimeZone": "Asia/Kolkata",
+    "participationDeadlineRaw": "31-10-2026 17:00:00",
+    "queryDeadlineRaw": "13-10-2026 17:00:00",
+    "biddingStartRaw": "02-11-2026 10:00:00",
+    "scheduledBiddingEndRaw": "02-11-2026 16:00:00",
+    "recordedExtendedEndRaw": "02-11-2026 16:47:00",
+    "deltaMinutes": 5,
+    "extensionBeyondScheduledEndMinutes": 47,
+    "preAuctionMeetingYn": false,
+    "qualification": "Extension duration does not identify the number of bids, bidders or fee payers."
+  },
+  "changeEvidence": {
+    "corrigendumRecordsReturned": 0,
+    "recallDocumentRecordsReturned": 0,
+    "recallAuctionRaw": null,
+    "forceCloseBiddingYn": null,
+    "forceCloseDateRaw": null,
+    "qualification": "Values returned by the refreshed public snapshot; null force-close fields are not independently verified false values."
+  },
+  "displaySettings": {
+    "displayReservePriceMetYn": false,
+    "displayLastAcceptedBidAmountYn": true,
+    "displayBiddersListYn": true,
+    "displayBiddersRankYn": false,
+    "qualification": "Configuration flags alone do not prove live visibility or endpoint authorization."
+  },
+  "biddingEvidence": {
+    "auctionStateWhenObserved": "BIDDING_CLOSED",
+    "rankRecordsReturned": 3,
+    "distinctBiddersInReturnedRanks": 3,
+    "bidHistoryRecordsAcrossReturnedBidders": 48,
+    "historyResponsesObserved": 3,
+    "siteWidePopulationCompletenessVerified": false,
+    "bidderIdentitiesRetained": false,
+    "qualification": "The normal supplier UI loaded ranks and histories. These are actual bidding observations, not an EMD or participation-fee register."
+  },
+  "eligibilityAndDocuments": {
+    "conditions": [
+      "I have read all the Terms and Conditions given in the BDA website and I agree to all the Terms and Conditions",
+      "Refer BDA website bdakarnataka.in for terms and conditions"
+    ],
+    "mandatoryDocumentTypes": ["CONTACT DETAILS", "PHOTO IDENTITY AND SPECIMEN SIGNATURE FORMAT", "Aadhar", "PAN"],
+    "privateSubmittedDocumentsDownloaded": false,
+    "notificationContentsFullyVerified": false,
+    "publicDocuments": [
+      {
+        "name": "Auction Notification.pdf",
+        "mimeType": "application/pdf",
+        "createdDateRaw": "2026-10-06 16:16:32",
+        "url": "https://kppp.karnataka.gov.in/supplier-registration-service/v1/api/portal-service/29761/auction-document/3999da30-cf39-4448-8aba-4b0a9ca90fac"
+      },
+      {
+        "name": "Contact Details Format.doc",
+        "mimeType": "application/msword",
+        "createdDateRaw": "2026-10-06 16:16:43",
+        "url": "https://kppp.karnataka.gov.in/supplier-registration-service/v1/api/portal-service/29761/auction-document/a897dcee-933b-4c1c-a349-0a5c2b2190b0"
+      },
+      {
+        "name": "Photo Identity and Specimen Signature.pdf",
+        "mimeType": "application/pdf",
+        "createdDateRaw": "2026-10-06 16:16:52",
+        "url": "https://kppp.karnataka.gov.in/supplier-registration-service/v1/api/portal-service/29761/auction-document/4cf9816a-29ce-4fd5-a4e7-34bac4df3eb5"
+      }
+    ]
+  },
+  "previousRoundPublicEvidence": {
+    "noticeId": 19567,
+    "noticeNumber": "BDA/2025-26/AUCTION2228",
+    "lotId": 26874,
+    "status": "FINALIZED",
+    "initialPricePerSqm": 81000,
+    "soldYn": null,
+    "qualification": "Finalized is not proof of a sale. Do not attribute another round's bid or sale price to this round."
+  },
+  "sources": {
+    "publicRefreshStartedAtUtc": "2026-11-04T04:16:21.494Z",
+    "publicRequestsSucceeded": 5,
+    "publicNoticeUrl": "https://kppp.karnataka.gov.in/supplier-registration-service/v1/api/portal-service/29761/view-auction",
+    "publicLotUrl": "https://kppp.karnataka.gov.in/supplier-registration-service/v1/api/portal-service/29761/bidding-slot/33220/get-all-lots",
+    "authenticatedObservationDate": "2026-11-04",
+    "authenticatedObservationScope": "Owner-authorized, read-only UI navigation; only sanitized findings retained.",
+    "rawAuthenticatedBodiesRetainedInRepository": false
+  },
+  "officialAggregateCountRequest": {
+    "publicNoticeContactLabel": "BDA",
+    "publicNoticeContactPhone": "9483166622",
+    "contactSourceField": "auctionScheduleInformationDTO.auctionSchedule.mobileNumber",
+    "contactCurrentnessIndependentlyVerified": false,
+    "requestText": "For BDA/2026-27/AUCTION4491, Site 303, please provide aggregate counts as of the participation deadline, 31 October 2026 at 17:00: distinct participants with successfully settled Rs. 400,000 EMD; distinct participants with successfully settled Rs. 500 auction fee; and submitted/accepted participation counts. Please de-duplicate payments and report failed, reversed and refunded payments separately, with the cutoff used. No participant names, account numbers or transaction references are requested.",
+    "requestSent": false
+  },
+  "remainingEvidenceNeeded": [
+    "A site-wide count of distinct successfully settled EMD payers, with a stated cutoff and treatment of refunds, failed payments and duplicates.",
+    "A separate site-wide count of distinct successful auction-fee payers; payment transactions and people must not be conflated.",
+    "Confirmation of accepted participation and eligibility counts before equating fee payments with competitive bidders.",
+    "Official acceptance or award evidence before treating the highest bid as a completed sale."
+  ]
+}
