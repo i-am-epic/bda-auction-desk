@@ -2,10 +2,12 @@
 
 ## Scope and Deliverables
 
-Public, read-only investigation of KPPP and this repository, initially compared against commit
-`19e3c44904e770dd7572284b81f27eeb7c20990b`. No login, credentials, bidder identities, bid submission,
-payments or CAPTCHA bypass were used. The later participant-route investigation inspected public
-JavaScript only; authenticated responses were not tested.
+Read-only investigation of KPPP and this repository, initially compared against commit
+`19e3c44904e770dd7572284b81f27eeb7c20990b`. The original public collection used no login. A later,
+owner-authorized supplier-session inspection followed the application's read-only navigation; its
+separate findings appear in section 5. No bids, participation submissions, payments, account changes
+or CAPTCHA bypass were performed. No credentials, bidder identities or stable bidder identifiers are
+included in the repository.
 
 - [Public API guide](kppp_public_api.md): 20 endpoint templates with successful sample responses.
 - [Machine-readable endpoint catalogue](kppp_public_endpoints.json): methods, example requests, purposes and qualifications.
@@ -131,7 +133,7 @@ Do not conflate:
 |---|---|---|
 | Interested visitors | People considering or viewing a plot | No verified public source. |
 | Submitted participants | People who submitted an EOI/participation | Participant route found in evaluation client code; access and timing unverified. |
-| Actual bidders | People who placed bids | Bidder-facing client references live/past lists; completeness and authorized visibility unverified. |
+| Actual bidders | People who placed bids | Three distinct bidders observed in Site 303's post-close rank response; pre-close visibility and population completeness remain unverified. |
 
 Follow-up public probes of published notice `27118` and live notice `29973` returned
 `displayBiddersListYn: true`, `auctionSupplierList: null` and no participant count in detail/lot payloads.
@@ -158,7 +160,8 @@ GET /live-auction-service/v1/api/live-auction/{noticeId}/auction/{lotOrItemId}/g
 These are **source-discovered, not response-verified**. The last-five list cannot establish a total count
 or all registered participants. Do not change these distinct APIs' `pageSize` parameter based on the
 public search finding; their contracts have not been tested. The existing signed-in collector also
-references department-user ranks and per-supplier bid histories; those were not called here.
+references department-user ranks and per-supplier bid histories. Those distinct routes were subsequently
+observed in the supplier UI's post-close workflow, as described below.
 
 To investigate further, the account owner should sign in normally and open an auction they may access.
 Inspect only read-only data actually available to that account. Establish whether records represent EOI
@@ -166,6 +169,58 @@ submissions, eligible/paid participants, or people who bid; inspect pagination b
 Publish aggregate counts only after those semantics and permissions are verified. Do not copy credentials,
 personal identities, stable bidder identifiers or unsanitized HAR files into this repo. Do not submit bids,
 participation, payments or account changes as part of data inspection.
+
+### Authorized Supplier-Session Follow-Up
+
+On 4 November 2026, the account owner signed in and authorized read-only inspection. The observed path
+was Auction Management > Search Auction Notice > View Auction Bid Details > View Bid Details. For
+notice `29761`, lot `38995` (Site 303, `BDA/2026-27/AUCTION4491`), this ordinary supplier UI itself issued
+the rank and per-supplier-history requests below. No department role was assumed, identifiers guessed,
+or hidden evaluation endpoint invoked. A path containing `dept-user` is therefore not, by itself, proof
+of the account role required; nor does this observation establish permission for other accounts or states.
+
+All nine templates below returned HTTP 200 during this UI-led inspection. These are authenticated
+observations, not additions to the 20 verified public endpoints or to the public collector.
+
+| Method | Path | Observed purpose and limits |
+|---|---|---|
+| GET | `/auction-service/v1/api/e-auction/get-live-auctions/bidder` | Account-scoped live-auction list. An empty array does not mean there are no live auctions or bidders across KPPP. |
+| POST | `/auction-service/v1/api/e-auction/auctionparticipation-search?page={page}&size={size}` | The account's own participation records, with `X-Total-Count`; not the auction's total participants. |
+| POST | `/auction-service/v1/api/e-auction/by-filters?page={page}&size={size}` | Authenticated notice search. Exact notice, BDA and Bidding Closed filters returned one match. |
+| GET | `/auction-service/v1/api/e-auction/auction-notice/{noticeId}` | Notice metadata and display settings; no verified registration total. |
+| GET | `/auction-service/v1/api/e-auction/{noticeId}/lots` | Lot list; returned one lot for this notice. |
+| GET | `/auction-service/v1/api/e-auction/{noticeId}/lot/{lotId}/get-all-items` | Lot contents and property specifications. |
+| GET | `/auction-service/v1/api/e-auction/{noticeId}/slot/{slotId}` | Bidding-window details; observed slot `33220`. |
+| GET | `/live-auction-service/v1/api/live-auction/{noticeId}/auction/{lotId}/dept-user/get-past-bidder-ranks` | Three ranked bidder records, with price and submission-time fields. No pagination query or `X-Total-Count` was observed. |
+| GET | `/live-auction-service/v1/api/live-auction/{noticeId}/auction/{lotId}/supplier/{supplierId}/get-bidder-bids` | The UI automatically loaded histories for the three returned suppliers. Only their aggregate record count is retained here. |
+
+The observed Site 303 state was `BIDDING_CLOSED`, not a live auction or a finalized sale:
+
+- The rank response contained **3 records with 3 distinct supplier identifiers**, counted in memory.
+   This proves three visible bidders, not the full number of submitted, paid or eligible participants.
+- The highest displayed bid was **Rs. 117,000 per sq. m**, equivalent to **Rs. 10,530,000 (1.053 crore)**
+   for the specified 90 sq. m plot. It is a highest observed bid, not an accepted or winning sale price.
+- The three automatically loaded histories contained **48 bid-history records in aggregate**. This
+   does not establish the total bids across any participants omitted from the visible rank response.
+- The dialog initially displayed empty tables while requests were still outstanding. Wait for the
+   relevant successful response before interpreting `No results` or `No Record's found` as an empty set.
+- The application reported WebSocket handshake/fallback errors. Successful post-close HTTP reads do
+   not validate live streaming, refresh behavior or pre-close bidder visibility.
+
+For a live comparison, the authenticated search returned notice `29973`,
+`KHB/2026-27/AUCTION2334`, with status `Live Auction`. Unlike the closed Site 303 result, this row did
+not expose `View Auction Bid Details`; its menu contained `Query Response`. No live rank/history or
+evaluation endpoint was manually invoked to work around that missing action. The account-scoped
+Live Auctions list was also empty. This establishes a visibility limitation in the inspected UI for
+this account and sample, not a universal role rule or a zero-participant count.
+
+When navigating back to search, the application restored cached filters asynchronously. An initial
+attempt combined the restored BDA notice/status with the newly selected KHB department and returned
+no matches. After verifying all three filters together (exact KHB notice, Live Auction and KHB), the
+same search returned the live notice. The mismatched-filter result is not evidence about access or demand.
+
+Raw authenticated bodies, per-person histories, names, nicknames and identifiers were not added to the
+repository. The pre-close registration/interest question remains unresolved by this post-close sample.
 
 ## 6. Other Findings and Follow-Up Work
 
