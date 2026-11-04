@@ -252,6 +252,42 @@ includes an unsent request for BDA to provide de-duplicated aggregate payment/pa
 the registration cutoff, with failed, reversed and refunded payments distinguished. No names or bank
 references are needed for that aggregate request.
 
+### Deeper Payment-Workflow Inspection
+
+Public client-code inspection identified a more relevant notice-level payment-verification workflow:
+
+```text
+Client route: auction/view-payment-verification/{auctionId}
+Client method: verifyPayments
+GET /auction-service/v1/api/e-auction/{noticeId}/verify-payment-details
+```
+
+In `/kppp/eproc-auction-management/main.js`, the evaluation-workflow component places this response in
+`verfiyPaymentsList` and links to payment details and reconciliation using each row's `bidId` and
+`paymentType`. This is **source-only evidence**: the endpoint was not called, its supplier authorization,
+response schema and side effects were not verified, and it is not a demonstrated count of successful
+EMD or auction-fee payers. It is a concrete lead for an authorized auction official, not permission to
+open another participant's financial records. Do not count rows as people without verifying payment
+status, payment type, unique participants, duplicate attempts and the reporting cutoff.
+
+The public `/kppp/eproc-auction-partcipation/main.js` service and summary component explain the supplier
+view precisely: auction-fee history uses `paymentType: AUCTION_FEE`, `referenceId: this.bidId`, page 0,
+size 10 and `sort=paymentTs,desc`. The EMD lookup uses `paymentType: AUC_EMD`, the same participation
+`bidId` and the notice's `auctionBidType`. These are participation references, not notice IDs; replacing
+the reference with a site ID is not an established aggregation query.
+
+A normal summary navigation reconfirmed HTTP 400 for the EMD lookup with all expected parameters
+present, including `auctionBidType=DIRECT` and `paymentType=AUC_EMD`. Sanitized error inspection matched
+a no-payment/no-record condition and did not match a missing/invalid-parameter condition. This narrows
+the earlier diagnostic but does not establish the complete backend cause or a site-wide total. No
+request was modified to target another participant or bypass a missing UI action.
+
+The visible application reported Angular `14.2.12`. The two inspected public bundles contained
+1,178,994 and 1,017,439 characters respectively. They reference separate auction, payment and live-auction
+HTTP services. These client observations do not verify the backend language, database or permission
+model; identifying the frontend framework does not reveal withheld payment records. Exact EMD-payer
+and auction-fee-payer counts remain unknown in the extract.
+
 ## 6. Other Findings and Follow-Up Work
 
 1. **Historical price joins:** `export_lots_csv.py` keys archived final prices by `(group, site)` and

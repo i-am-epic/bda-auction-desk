@@ -67,6 +67,26 @@
       "columns": ["Number", "URN", "Type", "Bank Transaction Reference Number", "Mode", "Amount (INR)", "Status"],
       "paymentRequestOutcome": "INCONCLUSIVE",
       "observation": "In the selected participation summary, payment history returned zero matching records and the successful-payment lookup failed with HTTP 400. Neither response establishes a site-wide payer count or proves that this account has no successful payments elsewhere.",
+      "clientLookupContract": {
+        "referenceIdMeaning": "Selected participation bidId, not auction noticeId.",
+        "feePaymentType": "AUCTION_FEE",
+        "feeHistoryPage": 0,
+        "feeHistorySize": 10,
+        "feeHistorySort": "paymentTs,desc",
+        "emdPaymentType": "AUC_EMD",
+        "successfulPaymentQueryKeys": ["referenceId", "auctionBidType", "paymentType"],
+        "sourceVerification": "Observed in the public participation client service and summary component."
+      },
+      "successfulPaymentDiagnostic": {
+        "httpStatus": 400,
+        "allExpectedQueryParametersPresent": true,
+        "auctionBidType": "DIRECT",
+        "paymentType": "AUC_EMD",
+        "errorEntityName": "payment",
+        "errorMatchedNoPaymentOrNoRecordPattern": true,
+        "errorMatchedMissingOrInvalidParameterPattern": false,
+        "qualification": "The error content matched a no-payment/no-record condition for this lookup. This is not a site-wide payment count; the complete backend cause and records outside this reference remain unverified."
+      },
       "observedRequests": [
         {
           "method": "GET",
@@ -80,7 +100,7 @@
           "httpStatus": 200,
           "recordsReturned": 0,
           "xTotalCount": 0,
-          "purpose": "Payment-history lookup made by the selected participation's summary view; zero matching records under the UI's request context."
+          "purpose": "Auction-fee history filtered by paymentType AUCTION_FEE and the selected participation bidId; zero matching records under that request context."
         },
         {
           "method": "GET",
@@ -177,6 +197,35 @@
     "authenticatedObservationDate": "2026-11-04",
     "authenticatedObservationScope": "Owner-authorized, read-only UI navigation; only sanitized findings retained.",
     "rawAuthenticatedBodiesRetainedInRepository": false
+  },
+  "deeperClientInspection": {
+    "checkedOn": "2026-11-04",
+    "frontendAngularVersionObserved": "14.2.12",
+    "backendImplementationVerified": false,
+    "publicBundles": [
+      {
+        "path": "/kppp/eproc-auction-management/main.js",
+        "characters": 1178994,
+        "httpStatus": 200
+      },
+      {
+        "path": "/kppp/eproc-auction-partcipation/main.js",
+        "characters": 1017439,
+        "httpStatus": 200
+      }
+    ],
+    "paymentVerificationLead": {
+      "verification": "SOURCE_ONLY_NOT_CALLED",
+      "method": "GET",
+      "pathTemplate": "/auction-service/v1/api/e-auction/{noticeId}/verify-payment-details",
+      "clientRouteTemplate": "auction/view-payment-verification/{auctionId}",
+      "clientMethod": "verifyPayments",
+      "observedClientBehavior": "The evaluation-workflow component assigns the response to a payment-verification list, then links to details and reconciliation by bidId and paymentType.",
+      "supplierAuthorizationVerified": false,
+      "responseSchemaAndSideEffectsVerified": false,
+      "containsAllSuccessfulPayersVerified": false,
+      "qualification": "A potential lead for an authorized auction official, not a verified supplier-accessible payer counter. Payment records may require status filtering and per-person de-duplication."
+    }
   },
   "officialAggregateCountRequest": {
     "publicNoticeContactLabel": "BDA",
