@@ -1,0 +1,764 @@
+{
+    "scope":  "Heuristic HTTP call-site inventory of main.js, common.js and auction corrigendum chunk 976.js; not an exhaustive backend API specification. Nothing discovered here is automatically called.",
+    "sources":  [
+                    {
+                        "url":  "https://kppp.karnataka.gov.in/main.js",
+                        "characters":  1590975,
+                        "sha256Utf8":  "6ba58ee2f2cd1d497132a9a40cb843362ef9f7e61bcebc4cd112cd54d601d85f"
+                    },
+                    {
+                        "url":  "https://kppp.karnataka.gov.in/common.js",
+                        "characters":  8685,
+                        "sha256Utf8":  "44653dbd252391a118157b81329ae0fd8320dea140b705ed33331bb25eee7a51"
+                    },
+                    {
+                        "url":  "https://kppp.karnataka.gov.in/976.js",
+                        "characters":  53673,
+                        "sha256Utf8":  "9a968acc21eefa28b1807d5567424c879a3732314e3d22f70df2717b793d777b"
+                    }
+                ],
+    "references":  [
+                       {
+                           "source":  "main.js",
+                           "characterOffset":  8314,
+                           "method":  "POST",
+                           "expression":  "this._http.post(`${G.N.supplierURL}/suppliers/initiate-email-verification`,n,{observe:\"response\"})}",
+                           "verification":  "CLIENT_REFERENCE_ONLY"
+                       },
+                       {
+                           "source":  "main.js",
+                           "characterOffset":  8469,
+                           "method":  "GET",
+                           "expression":  "this._http.get(`${G.N.supplierURL}/suppliers/complete-email-verification`,{params:a,observe:\"response\"})}",
+                           "verification":  "CLIENT_REFERENCE_ONLY"
+                       },
+                       {
+                           "source":  "main.js",
+                           "characterOffset":  8616,
+                           "method":  "POST",
+                           "expression":  "this._http.post(`${G.N.supplierURL}/direct-supplier-infos/initiate-email-verification`,n,{observe:\"response\"})}",
+                           "verification":  "CLIENT_REFERENCE_ONLY"
+                       },
+                       {
+                           "source":  "main.js",
+                           "characterOffset":  8789,
+                           "method":  "GET",
+                           "expression":  "this._http.get(`${G.N.supplierURL}/direct-supplier-infos/complete-email-verification`,{params:a,observe:\"response\"})}",
+                           "verification":  "CLIENT_REFERENCE_ONLY"
+                       },
+                       {
+                           "source":  "main.js",
+                           "characterOffset":  8937,
+                           "method":  "GET",
+                           "expression":  "this._http.get(`${G.N.supplierURL}/check-login-name-exists/`+n,{observe:\"response\"})}",
+                           "verification":  "CLIENT_REFERENCE_ONLY"
+                       },
+                       {
+                           "source":  "main.js",
+                           "characterOffset":  9044,
+                           "method":  "POST",
+                           "expression":  "this._http.post(`${G.N.supplierURL}/save-captcha`,n,{responseType:\"text\"})}",
+                           "verification":  "CLIENT_REFERENCE_ONLY"
+                       },
+                       {
+                           "source":  "main.js",
+                           "characterOffset":  180593,
+                           "method":  "GET",
+                           "expression":  "this.http.get(`${a}${n}/download-file`,g)}",
+                           "verification":  "CLIENT_REFERENCE_ONLY"
+                       },
+                       {
+                           "source":  "main.js",
+                           "characterOffset":  180746,
+                           "method":  "GET",
+                           "expression":  "this.http.get(`${a}${n}`,g)}",
+                           "verification":  "CLIENT_REFERENCE_ONLY"
+                       },
+                       {
+                           "source":  "main.js",
+                           "characterOffset":  180808,
+                           "method":  "GET",
+                           "expression":  "this.http.get(`${G.N.supplierRegistrationURL}/portal-service/${n}/get-goods-tender-files`,{observe:\"response\"})}",
+                           "verification":  "CLIENT_REFERENCE_ONLY"
+                       },
+                       {
+                           "source":  "main.js",
+                           "characterOffset":  180955,
+                           "method":  "GET",
+                           "expression":  "this.http.get(`${G.N.supplierRegistrationURL}/portal-service/${n}/goods-tender-file/${a}/download-file`,{responseType:\"blob\"})}",
+                           "verification":  "CLIENT_REFERENCE_ONLY"
+                       },
+                       {
+                           "source":  "main.js",
+                           "characterOffset":  181118,
+                           "method":  "GET",
+                           "expression":  "this.http.get(`${G.N.supplierRegistrationURL}/portal-service/${n}/get-prequal-tender-files`,{observe:\"response\"})}",
+                           "verification":  "CLIENT_REFERENCE_ONLY"
+                       },
+                       {
+                           "source":  "main.js",
+                           "characterOffset":  181275,
+                           "method":  "GET",
+                           "expression":  "this.http.get(`${G.N.supplierRegistrationURL}/portal-service/${n}/prequal-tender-file/${a}/download-file`,{responseType:\"blob\"})}",
+                           "verification":  "CLIENT_REFERENCE_ONLY"
+                       },
+                       {
+                           "source":  "main.js",
+                           "characterOffset":  181438,
+                           "method":  "GET",
+                           "expression":  "this.http.get(`${G.N.supplierRegistrationURL}/portal-service/${n}/get-works-tender-files`,{observe:\"response\"})}",
+                           "verification":  "CLIENT_REFERENCE_ONLY"
+                       },
+                       {
+                           "source":  "main.js",
+                           "characterOffset":  181591,
+                           "method":  "GET",
+                           "expression":  "this.http.get(`${G.N.supplierRegistrationURL}/portal-service/${n}/works-tender-file/${a}/download-file`,{responseType:\"blob\"})}",
+                           "verification":  "CLIENT_REFERENCE_ONLY"
+                       },
+                       {
+                           "source":  "main.js",
+                           "characterOffset":  181755,
+                           "method":  "GET",
+                           "expression":  "this.http.get(`${G.N.supplierRegistrationURL}/portal-service/${n}/get-services-tender-files`,{observe:\"response\"})}",
+                           "verification":  "CLIENT_REFERENCE_ONLY"
+                       },
+                       {
+                           "source":  "main.js",
+                           "characterOffset":  181914,
+                           "method":  "GET",
+                           "expression":  "this.http.get(`${G.N.supplierRegistrationURL}/portal-service/${n}/services-tender-file/${a}/download-file`,{responseType:\"blob\"})}",
+                           "verification":  "CLIENT_REFERENCE_ONLY"
+                       },
+                       {
+                           "source":  "main.js",
+                           "characterOffset":  182074,
+                           "method":  "GET",
+                           "expression":  "this.http.get(`${G.N.supplierRegistrationURL}/portal-service/${n}/auction-documents`,{observe:\"response\"})}",
+                           "verification":  "CLIENT_REFERENCE_ONLY"
+                       },
+                       {
+                           "source":  "main.js",
+                           "characterOffset":  182218,
+                           "method":  "GET",
+                           "expression":  "this.http.get(`${G.N.supplierRegistrationURL}/portal-service/${n}/auction-document/${a}`,{responseType:\"blob\"})}",
+                           "verification":  "CLIENT_REFERENCE_ONLY"
+                       },
+                       {
+                           "source":  "main.js",
+                           "characterOffset":  406403,
+                           "method":  "GET",
+                           "expression":  "this.http.get(`${G.N.supplierRegistrationURL}/portal-service/bids/${n}/tender-category/${a}/get-selected-bid-for-lumpsum`,{observe:\"response\"})}",
+                           "verification":  "CLIENT_REFERENCE_ONLY"
+                       },
+                       {
+                           "source":  "main.js",
+                           "characterOffset":  406572,
+                           "method":  "GET",
+                           "expression":  "this.http.get(`${G.N.supplierRegistrationURL}/portal-service/bids/${n}/tender-category/${a}/bid-groups-details`,{observe:\"response\"})}",
+                           "verification":  "CLIENT_REFERENCE_ONLY"
+                       },
+                       {
+                           "source":  "main.js",
+                           "characterOffset":  406732,
+                           "method":  "GET",
+                           "expression":  "this.http.get(`${G.N.supplierRegistrationURL}/portal-service/bids/${n}/tender-category/${g}/bid-item-group/${a}/bid-items/get-selected-bid-item`,{observe:\"response\"})}",
+                           "verification":  "CLIENT_REFERENCE_ONLY"
+                       },
+                       {
+                           "source":  "main.js",
+                           "characterOffset":  406935,
+                           "method":  "GET",
+                           "expression":  "this.http.get(`${G.N.supplierRegistrationURL}/portal-service/bids/${n}/tender-category/${g}/bidItem/${a}/get-selected-bid-for-itemwise`,{observe:\"response\"})}",
+                           "verification":  "CLIENT_REFERENCE_ONLY"
+                       },
+                       {
+                           "source":  "main.js",
+                           "characterOffset":  430636,
+                           "method":  "GET",
+                           "expression":  "this.http.get(`${G.N.supplierRegistrationURL}/portal-service/validateUser/${n}`)}",
+                           "verification":  "CLIENT_REFERENCE_ONLY"
+                       },
+                       {
+                           "source":  "main.js",
+                           "characterOffset":  430743,
+                           "method":  "PUT",
+                           "expression":  "this.http.put(`${G.N.supplierRegistrationURL}/portal-service/resetPasswordWithTemporaryPassword/${n}`,a,{observe:\"response\"})}",
+                           "verification":  "CLIENT_REFERENCE_ONLY"
+                       },
+                       {
+                           "source":  "main.js",
+                           "characterOffset":  430899,
+                           "method":  "POST",
+                           "expression":  "this.http.post(`${G.N.supplierRegistrationURL}/portal-service/${n}/verifyCertificate`,a,{observe:\"response\"})}",
+                           "verification":  "CLIENT_REFERENCE_ONLY"
+                       },
+                       {
+                           "source":  "main.js",
+                           "characterOffset":  431033,
+                           "method":  "PUT",
+                           "expression":  "this.http.put(`${G.N.supplierRegistrationURL}/direct-supplier/${a}/generate-mobile-otp`,n)}",
+                           "verification":  "CLIENT_REFERENCE_ONLY"
+                       },
+                       {
+                           "source":  "main.js",
+                           "characterOffset":  431146,
+                           "method":  "PUT",
+                           "expression":  "this.http.put(`${G.N.supplierRegistrationURL}/direct-supplier/${a}/verify-mobile-otp`,n)}",
+                           "verification":  "CLIENT_REFERENCE_ONLY"
+                       },
+                       {
+                           "source":  "main.js",
+                           "characterOffset":  431270,
+                           "method":  "GET",
+                           "expression":  "this.http.get(`${G.N.supplierRegistrationURL}/${n}/get-supplier-details`)}",
+                           "verification":  "CLIENT_REFERENCE_ONLY"
+                       },
+                       {
+                           "source":  "main.js",
+                           "characterOffset":  431366,
+                           "method":  "PUT",
+                           "expression":  "this.http.put(`${G.N.supplierRegistrationURL}/direct-supplier/${a}/resend-mobile-otp`,n)}",
+                           "verification":  "CLIENT_REFERENCE_ONLY"
+                       },
+                       {
+                           "source":  "main.js",
+                           "characterOffset":  553381,
+                           "method":  "GET",
+                           "expression":  "this.http.get(`${this.prefix}${p}${this.suffix}`)}}var Gd=S(8913);let Fc=(()=\u003e{class s{constructor(){this.showLoader=!1}",
+                           "verification":  "CLIENT_REFERENCE_ONLY"
+                       },
+                       {
+                           "source":  "main.js",
+                           "characterOffset":  704595,
+                           "method":  "GET",
+                           "expression":  "this.http.get(`${e.N.supplierRegistrationURL}/portal-service/departments/activeDepartment`)}",
+                           "verification":  "CLIENT_REFERENCE_ONLY"
+                       },
+                       {
+                           "source":  "main.js",
+                           "characterOffset":  704723,
+                           "method":  "GET",
+                           "expression":  "this.http.get(`${e.N.supplierRegistrationURL}/suppliers/view-blacklist-supplier`)}",
+                           "verification":  "CLIENT_REFERENCE_ONLY"
+                       },
+                       {
+                           "source":  "main.js",
+                           "characterOffset":  704845,
+                           "method":  "GET",
+                           "expression":  "this.http.get(`${e.N.supplierRegistrationURL}/suppliers/${re}/entityName/${G}/get-supplier-files`)}",
+                           "verification":  "CLIENT_REFERENCE_ONLY"
+                       },
+                       {
+                           "source":  "main.js",
+                           "characterOffset":  704971,
+                           "method":  "GET",
+                           "expression":  "this.http.get(`${e.N.supplierRegistrationURL}/suppliers/download-object/${G}`,{responseType:\"blob\"})}",
+                           "verification":  "CLIENT_REFERENCE_ONLY"
+                       },
+                       {
+                           "source":  "main.js",
+                           "characterOffset":  705114,
+                           "method":  "POST",
+                           "expression":  "this.http.post(`${e.N.supplierRegistrationURL}/portal-service/search/auction-search?page=`+G+\"\u0026pageSize=\"+re,$,{observe:\"response\"}):\"closure\"==oe?this.http.post(`${e.N.supplierRegistrationURL}/portal-service/search/auctions-ending-today?page=`+G+\"\u0026pageSize=\"+re,$,{observe:\"response\"}):void 0}",
+                           "verification":  "CLIENT_REFERENCE_ONLY"
+                       },
+                       {
+                           "source":  "main.js",
+                           "characterOffset":  705261,
+                           "method":  "POST",
+                           "expression":  "this.http.post(`${e.N.supplierRegistrationURL}/portal-service/search/auctions-ending-today?page=`+G+\"\u0026pageSize=\"+re,$,{observe:\"response\"}):void 0}",
+                           "verification":  "CLIENT_REFERENCE_ONLY"
+                       },
+                       {
+                           "source":  "main.js",
+                           "characterOffset":  705440,
+                           "method":  "GET",
+                           "expression":  "this.http.get(`${e.N.supplierRegistrationURL}/portal-service/`+G+\"/view-auction\")}",
+                           "verification":  "CLIENT_REFERENCE_ONLY"
+                       },
+                       {
+                           "source":  "main.js",
+                           "characterOffset":  705555,
+                           "method":  "GET",
+                           "expression":  "this.http.get(`${e.N.supplierRegistrationURL}/portal-service/`+G+\"/slot/\"+re+\"/get-all-items\")}",
+                           "verification":  "CLIENT_REFERENCE_ONLY"
+                       },
+                       {
+                           "source":  "main.js",
+                           "characterOffset":  705685,
+                           "method":  "GET",
+                           "expression":  "this.http.get(`${e.N.supplierRegistrationURL}/portal-service/`+G+\"/bidding-slot/\"+re+\"/get-all-lots\")}",
+                           "verification":  "CLIENT_REFERENCE_ONLY"
+                       },
+                       {
+                           "source":  "main.js",
+                           "characterOffset":  705814,
+                           "method":  "GET",
+                           "expression":  "this.http.get(`${e.N.supplierRegistrationURL}/portal-service/${G}/lot/${re}/get-all-items`)}",
+                           "verification":  "CLIENT_REFERENCE_ONLY"
+                       },
+                       {
+                           "source":  "main.js",
+                           "characterOffset":  705938,
+                           "method":  "GET",
+                           "expression":  "this.http.get(`${e.N.supplierRegistrationURL}/portal-service/${G}/get-recall-auction-documents`)}",
+                           "verification":  "CLIENT_REFERENCE_ONLY"
+                       },
+                       {
+                           "source":  "main.js",
+                           "characterOffset":  706378,
+                           "method":  "GET",
+                           "expression":  "this._http.get(`${t.N.supplierRegistrationURL}/portal-service/${G}/get-scheduled-items`,{observe:\"response\"})}",
+                           "verification":  "CLIENT_REFERENCE_ONLY"
+                       },
+                       {
+                           "source":  "main.js",
+                           "characterOffset":  706515,
+                           "method":  "GET",
+                           "expression":  "this._http.get(`${t.N.supplierRegistrationURL}/portal-service/${G}/indent-items/${re}/delivery-schedules?page=0\u0026size=1000`)}",
+                           "verification":  "CLIENT_REFERENCE_ONLY"
+                       },
+                       {
+                           "source":  "main.js",
+                           "characterOffset":  706667,
+                           "method":  "GET",
+                           "expression":  "this._http.get(`${t.N.supplierRegistrationURL}/portal-service/${G}/goods-tender-full-view`)}",
+                           "verification":  "CLIENT_REFERENCE_ONLY"
+                       },
+                       {
+                           "source":  "main.js",
+                           "characterOffset":  706792,
+                           "method":  "GET",
+                           "expression":  "this._http.get(`${t.N.supplierRegistrationURL}/tender-service/${G}/tender-goods-group/${re}/items-pagination?page=`+$+\"\u0026size=\"+oe,{observe:\"response\"})}",
+                           "verification":  "CLIENT_REFERENCE_ONLY"
+                       },
+                       {
+                           "source":  "main.js",
+                           "characterOffset":  706975,
+                           "method":  "GET",
+                           "expression":  "this._http.get(`${t.N.supplierRegistrationURL}/portal-service/${G}/get-goods-tender-general-info`)}",
+                           "verification":  "CLIENT_REFERENCE_ONLY"
+                       },
+                       {
+                           "source":  "main.js",
+                           "characterOffset":  707106,
+                           "method":  "GET",
+                           "expression":  "this._http.get(`${t.N.supplierRegistrationURL}/portal-service/`+G+\"/goods-tender-addendums?approvedStatus=true\",{observe:\"response\"})}",
+                           "verification":  "CLIENT_REFERENCE_ONLY"
+                       },
+                       {
+                           "source":  "main.js",
+                           "characterOffset":  707299,
+                           "method":  "GET",
+                           "expression":  "this._http.get(`${t.N.supplierRegistrationURL}/portal-service/`+G+\"/tender-query-response/\"+re+\"/goods-addendum-tender-query-response\",{observe:\"response\"})}",
+                           "verification":  "CLIENT_REFERENCE_ONLY"
+                       },
+                       {
+                           "source":  "main.js",
+                           "characterOffset":  707495,
+                           "method":  "GET",
+                           "expression":  "this._http.get(`${t.N.supplierRegistrationURL}/portal-service/`+G+\"/addendum/\"+re+\"/get-goods-addendum-files\",{observe:\"response\"})}",
+                           "verification":  "CLIENT_REFERENCE_ONLY"
+                       },
+                       {
+                           "source":  "main.js",
+                           "characterOffset":  707669,
+                           "method":  "GET",
+                           "expression":  "this._http.get(`${t.N.supplierRegistrationURL}/portal-service/`+G+\"/addendum/\"+re+\"/addendum-upload-file/\"+$+\"/addendum-download-file\",{responseType:\"blob\"})}",
+                           "verification":  "CLIENT_REFERENCE_ONLY"
+                       },
+                       {
+                           "source":  "main.js",
+                           "characterOffset":  707868,
+                           "method":  "GET",
+                           "expression":  "this._http.get(`${t.N.supplierRegistrationURL}/portal-service/`+G+\"/tender-query-response/\"+re+\"/addendum-query-download-file\",{responseType:\"blob\"})}",
+                           "verification":  "CLIENT_REFERENCE_ONLY"
+                       },
+                       {
+                           "source":  "main.js",
+                           "characterOffset":  708047,
+                           "method":  "GET",
+                           "expression":  "this._http.get(`${t.N.supplierRegistrationURL}/portal-service/${G}/goods-tender-corrigendums`,{observe:\"response\"})}",
+                           "verification":  "CLIENT_REFERENCE_ONLY"
+                       },
+                       {
+                           "source":  "main.js",
+                           "characterOffset":  708191,
+                           "method":  "GET",
+                           "expression":  "this._http.get(`${t.N.supplierRegistrationURL}/portal-service/${G}/tender-corrigendum/${re}/get-goods-corrigendum`,{observe:\"response\"})}",
+                           "verification":  "CLIENT_REFERENCE_ONLY"
+                       },
+                       {
+                           "source":  "main.js",
+                           "characterOffset":  708364,
+                           "method":  "GET",
+                           "expression":  "this._http.get(`${t.N.supplierRegistrationURL}/portal-service/${G}/corrigendum/${re}/get-corrigendum-files`,{observe:\"response\"})}",
+                           "verification":  "CLIENT_REFERENCE_ONLY"
+                       },
+                       {
+                           "source":  "main.js",
+                           "characterOffset":  708533,
+                           "method":  "GET",
+                           "expression":  "this._http.get(`${t.N.supplierRegistrationURL}/portal-service/${G}/corrigendum/${re}/corrigendum-upload-file/${$}/download-file`,{responseType:\"blob\"})}",
+                           "verification":  "CLIENT_REFERENCE_ONLY"
+                       },
+                       {
+                           "source":  "main.js",
+                           "characterOffset":  708999,
+                           "method":  "GET",
+                           "expression":  "this._http.get(`${t.N.supplierURL}/portal-service/metrics/get-count`,{observe:\"response\"})}",
+                           "verification":  "CLIENT_REFERENCE_ONLY"
+                       },
+                       {
+                           "source":  "main.js",
+                           "characterOffset":  709118,
+                           "method":  "GET",
+                           "expression":  "this._http.get(`${t.N.supplierURL}/portal-service/metrics/get-portal-metrics`,{observe:\"response\"})}",
+                           "verification":  "CLIENT_REFERENCE_ONLY"
+                       },
+                       {
+                           "source":  "main.js",
+                           "characterOffset":  709247,
+                           "method":  "GET",
+                           "expression":  "this._http.get(`${t.N.supplierURL}/portal-service/ANNOUNCEMENTS/get-portal-announcements`,{observe:\"response\"})}",
+                           "verification":  "CLIENT_REFERENCE_ONLY"
+                       },
+                       {
+                           "source":  "main.js",
+                           "characterOffset":  709387,
+                           "method":  "GET",
+                           "expression":  "this._http.get(`${t.N.supplierURL}/portal-service/EVENTS/get-portal-announcements`,{observe:\"response\"})}",
+                           "verification":  "CLIENT_REFERENCE_ONLY"
+                       },
+                       {
+                           "source":  "main.js",
+                           "characterOffset":  709509,
+                           "method":  "GET",
+                           "expression":  "this._http.get(`${t.N.supplierURL}/portal-service/get-current-time`,{observe:\"response\"})}",
+                           "verification":  "CLIENT_REFERENCE_ONLY"
+                       },
+                       {
+                           "source":  "main.js",
+                           "characterOffset":  712877,
+                           "method":  "GET",
+                           "expression":  "this._http.get(`${t.N.supplierRegistrationURL}/portal-service/${R}/service-tender-full-view`)}",
+                           "verification":  "CLIENT_REFERENCE_ONLY"
+                       },
+                       {
+                           "source":  "main.js",
+                           "characterOffset":  713002,
+                           "method":  "GET",
+                           "expression":  "this._http.get(`${t.N.supplierRegistrationURL}/portal-service/${R}/get-services-tender-general-info`)}",
+                           "verification":  "CLIENT_REFERENCE_ONLY"
+                       },
+                       {
+                           "source":  "main.js",
+                           "characterOffset":  713136,
+                           "method":  "GET",
+                           "expression":  "this._http.get(`${t.N.supplierRegistrationURL}/portal-service/`+R+\"/services-tender-addendums?approvedStatus=true\",{observe:\"response\"})}",
+                           "verification":  "CLIENT_REFERENCE_ONLY"
+                       },
+                       {
+                           "source":  "main.js",
+                           "characterOffset":  713331,
+                           "method":  "GET",
+                           "expression":  "this._http.get(`${t.N.supplierRegistrationURL}/portal-service/`+R+\"/tender-query-response/\"+Y+\"/addendum-services-query-response\",{observe:\"response\"})}",
+                           "verification":  "CLIENT_REFERENCE_ONLY"
+                       },
+                       {
+                           "source":  "main.js",
+                           "characterOffset":  713521,
+                           "method":  "GET",
+                           "expression":  "this._http.get(`${t.N.supplierRegistrationURL}/portal-service/`+R+\"/addendum/\"+Y+\"/get-services-addendum-files\",{observe:\"response\"})}",
+                           "verification":  "CLIENT_REFERENCE_ONLY"
+                       },
+                       {
+                           "source":  "main.js",
+                           "characterOffset":  713696,
+                           "method":  "GET",
+                           "expression":  "this._http.get(`${t.N.supplierRegistrationURL}/portal-service/`+R+\"/addendum/\"+Y+\"/addendum-upload-file/\"+z+\"/addendum-services-download-file\",{responseType:\"blob\"})}",
+                           "verification":  "CLIENT_REFERENCE_ONLY"
+                       },
+                       {
+                           "source":  "main.js",
+                           "characterOffset":  713902,
+                           "method":  "GET",
+                           "expression":  "this._http.get(`${t.N.supplierRegistrationURL}/portal-service/`+R+\"/tender-query-response/\"+Y+\"/services-addendum-download-file\",{responseType:\"blob\"})}",
+                           "verification":  "CLIENT_REFERENCE_ONLY"
+                       },
+                       {
+                           "source":  "main.js",
+                           "characterOffset":  714083,
+                           "method":  "GET",
+                           "expression":  "this._http.get(`${t.N.supplierRegistrationURL}/portal-service/${R}/services-tender-corrigendums`,{observe:\"response\"})}",
+                           "verification":  "CLIENT_REFERENCE_ONLY"
+                       },
+                       {
+                           "source":  "main.js",
+                           "characterOffset":  714229,
+                           "method":  "GET",
+                           "expression":  "this._http.get(`${t.N.supplierRegistrationURL}/portal-service/${R}/tender-corrigendum/${Y}/get-services-corrigendum`,{observe:\"response\"})}",
+                           "verification":  "CLIENT_REFERENCE_ONLY"
+                       },
+                       {
+                           "source":  "main.js",
+                           "characterOffset":  714403,
+                           "method":  "GET",
+                           "expression":  "this._http.get(`${t.N.supplierRegistrationURL}/portal-service/${R}/corrigendum/${Y}/get-services-corrigendum-files`,{observe:\"response\"})}",
+                           "verification":  "CLIENT_REFERENCE_ONLY"
+                       },
+                       {
+                           "source":  "main.js",
+                           "characterOffset":  714579,
+                           "method":  "GET",
+                           "expression":  "this._http.get(`${t.N.supplierRegistrationURL}/portal-service/${R}/corrigendum/${Y}/corrigendum-upload-file/${z}/services-download-file`,{responseType:\"blob\"})}",
+                           "verification":  "CLIENT_REFERENCE_ONLY"
+                       },
+                       {
+                           "source":  "main.js",
+                           "characterOffset":  715163,
+                           "method":  "POST",
+                           "expression":  "this.http.post(`${t.N.supplierRegistrationURL}/portal-service/search-eproc-tenders?page=`+Y+\"\u0026size=\"+z+\"\u0026order-by-tender-publish=\"+!0,R,{observe:\"response\"})}",
+                           "verification":  "CLIENT_REFERENCE_ONLY"
+                       },
+                       {
+                           "source":  "main.js",
+                           "characterOffset":  715353,
+                           "method":  "POST",
+                           "expression":  "this.http.post(`${t.N.supplierRegistrationURL}/portal-service/works/search-eproc-tenders?page=`+Y+\"\u0026size=\"+z+\"\u0026order-by-tender-publish=\"+!0,R,{observe:\"response\"})}",
+                           "verification":  "CLIENT_REFERENCE_ONLY"
+                       },
+                       {
+                           "source":  "main.js",
+                           "characterOffset":  715552,
+                           "method":  "POST",
+                           "expression":  "this.http.post(`${t.N.supplierRegistrationURL}/portal-service/services/search-eproc-tenders?page=`+Y+\"\u0026size=\"+z+\"\u0026order-by-tender-publish=\"+!0,R,{observe:\"response\"})}",
+                           "verification":  "CLIENT_REFERENCE_ONLY"
+                       },
+                       {
+                           "source":  "main.js",
+                           "characterOffset":  716339,
+                           "method":  "POST",
+                           "expression":  "this.http.post(`${t.N.supplierRegistrationURL}/portal-service/prequal/search-eproc-tenders`,R,{params:z,observe:\"response\"})}",
+                           "verification":  "CLIENT_REFERENCE_ONLY"
+                       },
+                       {
+                           "source":  "main.js",
+                           "characterOffset":  716500,
+                           "method":  "GET",
+                           "expression":  "this.http.get(`${t.N.supplierRegistrationURL}/portal-service/${R}/prequal-tender-full-view`)}",
+                           "verification":  "CLIENT_REFERENCE_ONLY"
+                       },
+                       {
+                           "source":  "main.js",
+                           "characterOffset":  716620,
+                           "method":  "GET",
+                           "expression":  "this.http.get(`${t.N.supplierRegistrationURL}/portal-service/${R}/get-prequal-tender-general-info`)}",
+                           "verification":  "CLIENT_REFERENCE_ONLY"
+                       },
+                       {
+                           "source":  "main.js",
+                           "characterOffset":  716745,
+                           "method":  "GET",
+                           "expression":  "this.http.get(`${t.N.supplierRegistrationURL}/portal-service/active-work-categories`)}",
+                           "verification":  "CLIENT_REFERENCE_ONLY"
+                       },
+                       {
+                           "source":  "main.js",
+                           "characterOffset":  719910,
+                           "method":  "GET",
+                           "expression":  "this.http.get(`${t.N.supplierRegistrationURL}/portal-service/${R}/prequal-tender-addendums?approvedStatus=true`,{observe:\"response\"})}",
+                           "verification":  "CLIENT_REFERENCE_ONLY"
+                       },
+                       {
+                           "source":  "main.js",
+                           "characterOffset":  720084,
+                           "method":  "GET",
+                           "expression":  "this.http.get(`${t.N.supplierRegistrationURL}/portal-service/`+R+\"/prequal-tender-addendum/\"+Y+\"/prequal-addendum-get-file\",{observe:\"response\"})}",
+                           "verification":  "CLIENT_REFERENCE_ONLY"
+                       },
+                       {
+                           "source":  "main.js",
+                           "characterOffset":  720273,
+                           "method":  "GET",
+                           "expression":  "this.http.get(`${t.N.supplierRegistrationURL}/portal-service/`+R+\"/prequal-tender-addendum/\"+Y+\"/addendum-download-file/\"+z+\"/prequal-addendum-download-file\",{responseType:\"blob\"})}",
+                           "verification":  "CLIENT_REFERENCE_ONLY"
+                       },
+                       {
+                           "source":  "main.js",
+                           "characterOffset":  720485,
+                           "method":  "GET",
+                           "expression":  "this.http.get(`${t.N.supplierRegistrationURL}/portal-service/${R}/prequal-tender-corrigendums`,{observe:\"response\"})}",
+                           "verification":  "CLIENT_REFERENCE_ONLY"
+                       },
+                       {
+                           "source":  "main.js",
+                           "characterOffset":  720631,
+                           "method":  "GET",
+                           "expression":  "this.http.get(`${t.N.supplierRegistrationURL}/portal-service/${R}/prequal-tender-corrigendum/${Y}/get-prequal-corrigendum`,{observe:\"response\"})}",
+                           "verification":  "CLIENT_REFERENCE_ONLY"
+                       },
+                       {
+                           "source":  "main.js",
+                           "characterOffset":  720813,
+                           "method":  "GET",
+                           "expression":  "this.http.get(`${t.N.supplierRegistrationURL}/portal-service/${R}/prequal-tender-corrigendum/${Y}/corrigendum-get-files`,{observe:\"response\"})}",
+                           "verification":  "CLIENT_REFERENCE_ONLY"
+                       },
+                       {
+                           "source":  "main.js",
+                           "characterOffset":  720997,
+                           "method":  "GET",
+                           "expression":  "this.http.get(`${t.N.supplierRegistrationURL}/portal-service/${R}/prequal-tender-corrigendum/${Y}/corrigendum-download-file/${z}/prequal-download-file`,{responseType:\"blob\"})}",
+                           "verification":  "CLIENT_REFERENCE_ONLY"
+                       },
+                       {
+                           "source":  "main.js",
+                           "characterOffset":  721210,
+                           "method":  "GET",
+                           "expression":  "this.http.get(`${t.N.supplierRegistrationURL}/portal-service/tender-eval/${R}/commercial-evaluation/tender-category/${Y}/commercial-comparison/download-detailed`,{responseType:\"blob\"})}",
+                           "verification":  "CLIENT_REFERENCE_ONLY"
+                       },
+                       {
+                           "source":  "main.js",
+                           "characterOffset":  721918,
+                           "method":  "GET",
+                           "expression":  "this.http.get(`${t.N.supplierRegistrationURL}/portal-service/departments/activeDepartment`,{observe:\"response\"})}",
+                           "verification":  "CLIENT_REFERENCE_ONLY"
+                       },
+                       {
+                           "source":  "main.js",
+                           "characterOffset":  722064,
+                           "method":  "GET",
+                           "expression":  "this.http.get(`${t.N.supplierRegistrationURL}/portal-service/departments/activeLocation/${G}`,{observe:\"response\"})}",
+                           "verification":  "CLIENT_REFERENCE_ONLY"
+                       },
+                       {
+                           "source":  "main.js",
+                           "characterOffset":  722612,
+                           "method":  "GET",
+                           "expression":  "this._http.get(`${t.N.supplierRegistrationURL}/portal-service/${G}/works-tender-full-view`)}",
+                           "verification":  "CLIENT_REFERENCE_ONLY"
+                       },
+                       {
+                           "source":  "main.js",
+                           "characterOffset":  722746,
+                           "method":  "GET",
+                           "expression":  "this._http.get(`${t.N.supplierRegistrationURL}/portal-service/${G}/tender-loss-capitalizations\\n    `)}",
+                           "verification":  "CLIENT_REFERENCE_ONLY"
+                       },
+                       {
+                           "source":  "main.js",
+                           "characterOffset":  722881,
+                           "method":  "GET",
+                           "expression":  "this._http.get(`${t.N.supplierRegistrationURL}/portal-service/${G}/tender-sub-estimates/${re}/tender-works-items/${$}/tender-item-tax-components`,{params:oe,observe:\"response\"})}",
+                           "verification":  "CLIENT_REFERENCE_ONLY"
+                       },
+                       {
+                           "source":  "main.js",
+                           "characterOffset":  723093,
+                           "method":  "GET",
+                           "expression":  "this._http.get(`${t.N.supplierRegistrationURL}/portal-service/${G}/tender-tax-components`,{params:re,observe:\"response\"})}",
+                           "verification":  "CLIENT_REFERENCE_ONLY"
+                       },
+                       {
+                           "source":  "main.js",
+                           "characterOffset":  723246,
+                           "method":  "GET",
+                           "expression":  "this._http.get(`${t.N.supplierRegistrationURL}/portal-service/${G}/get-works-tender-general-info`)}",
+                           "verification":  "CLIENT_REFERENCE_ONLY"
+                       },
+                       {
+                           "source":  "main.js",
+                           "characterOffset":  723377,
+                           "method":  "GET",
+                           "expression":  "this._http.get(`${t.N.supplierRegistrationURL}/portal-service/`+G+\"/works-tender-addendums?approvedStatus=true\",{observe:\"response\"})}",
+                           "verification":  "CLIENT_REFERENCE_ONLY"
+                       },
+                       {
+                           "source":  "main.js",
+                           "characterOffset":  723570,
+                           "method":  "GET",
+                           "expression":  "this._http.get(`${t.N.supplierRegistrationURL}/portal-service/`+G+\"/tender-query-response/\"+re+\"/addendum-works-query-response\",{observe:\"response\"})}",
+                           "verification":  "CLIENT_REFERENCE_ONLY"
+                       },
+                       {
+                           "source":  "main.js",
+                           "characterOffset":  723759,
+                           "method":  "GET",
+                           "expression":  "this._http.get(`${t.N.supplierRegistrationURL}/portal-service/`+G+\"/addendum/\"+re+\"/get-works-addendum-files\",{observe:\"response\"})}",
+                           "verification":  "CLIENT_REFERENCE_ONLY"
+                       },
+                       {
+                           "source":  "main.js",
+                           "characterOffset":  723933,
+                           "method":  "GET",
+                           "expression":  "this._http.get(`${t.N.supplierRegistrationURL}/portal-service/`+G+\"/addendum/\"+re+\"/addendum-upload-file/\"+$+\"/addendum-works-download-file\",{responseType:\"blob\"})}",
+                           "verification":  "CLIENT_REFERENCE_ONLY"
+                       },
+                       {
+                           "source":  "main.js",
+                           "characterOffset":  724138,
+                           "method":  "GET",
+                           "expression":  "this._http.get(`${t.N.supplierRegistrationURL}/portal-service/`+G+\"/tender-query-response/\"+re+\"/works-addendum-download-file\",{responseType:\"blob\"})}",
+                           "verification":  "CLIENT_REFERENCE_ONLY"
+                       },
+                       {
+                           "source":  "main.js",
+                           "characterOffset":  724317,
+                           "method":  "GET",
+                           "expression":  "this._http.get(`${t.N.supplierRegistrationURL}/portal-service/${G}/works-tender-corrigendums`,{observe:\"response\"})}",
+                           "verification":  "CLIENT_REFERENCE_ONLY"
+                       },
+                       {
+                           "source":  "main.js",
+                           "characterOffset":  724461,
+                           "method":  "GET",
+                           "expression":  "this._http.get(`${t.N.supplierRegistrationURL}/portal-service/${G}/tender-corrigendum/${re}/get-works-corrigendum`,{observe:\"response\"})}",
+                           "verification":  "CLIENT_REFERENCE_ONLY"
+                       },
+                       {
+                           "source":  "main.js",
+                           "characterOffset":  724634,
+                           "method":  "GET",
+                           "expression":  "this._http.get(`${t.N.supplierRegistrationURL}/portal-service/${G}/corrigendum/${re}/get-works-corrigendum-files`,{observe:\"response\"})}",
+                           "verification":  "CLIENT_REFERENCE_ONLY"
+                       },
+                       {
+                           "source":  "main.js",
+                           "characterOffset":  724809,
+                           "method":  "GET",
+                           "expression":  "this._http.get(`${t.N.supplierRegistrationURL}/portal-service/${G}/corrigendum/${re}/corrigendum-upload-file/${$}/works-download-file`,{responseType:\"blob\"})}",
+                           "verification":  "CLIENT_REFERENCE_ONLY"
+                       },
+                       {
+                           "source":  "976.js",
+                           "characterOffset":  32430,
+                           "method":  "GET",
+                           "expression":  "this.http.get(`${b.N.supplierRegistrationURL}/portal-service/${i}/auction-corrigendum`)}",
+                           "verification":  "CLIENT_REFERENCE_ONLY"
+                       },
+                       {
+                           "source":  "976.js",
+                           "characterOffset":  32545,
+                           "method":  "GET",
+                           "expression":  "this.http.get(`${b.N.supplierRegistrationURL}/portal-service/${i}/auction-corrigendum/${t}/get-auction-corrigendum`)}",
+                           "verification":  "CLIENT_REFERENCE_ONLY"
+                       },
+                       {
+                           "source":  "976.js",
+                           "characterOffset":  32703,
+                           "method":  "GET",
+                           "expression":  "this.http.get(`${b.N.supplierRegistrationURL}/portal-service/${i}/auction-corrigendum/${t}/get-auction-corrigendum-files`)}",
+                           "verification":  "CLIENT_REFERENCE_ONLY"
+                       },
+                       {
+                           "source":  "976.js",
+                           "characterOffset":  32865,
+                           "method":  "GET",
+                           "expression":  "this.http.get(`${b.N.supplierRegistrationURL}/portal-service/${i}/auction-corrigendum/${t}/auction-corrigendum-file/uuid/${a}/auction-download-file`,{responseType:\"blob\"})}",
+                           "verification":  "CLIENT_REFERENCE_ONLY"
+                       }
+                   ]
+}

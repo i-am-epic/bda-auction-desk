@@ -9,12 +9,21 @@ A website that rates every plot in a Bangalore Development Authority (BDA) e-auc
 - surroundings and terrain, road width, area growth and upcoming projects
 - rental, resale and commercial returns, and how different buyers will see it
 
-It also lists every past BDA auction round on KPPP.
+It also lists historical BDA auctions collected from KPPP.
 
 - `web/` is the website (Vite, React, TypeScript, Leaflet). It is static and deploys to Vercel.
 - `pipeline/` holds the Python scripts that turn one BDA notice into the website's data.
 
 See [ARCHITECTURE.md](ARCHITECTURE.md) for how the pieces fit together.
+
+## KPPP data research
+
+The [4 November 2026 findings](pipeline/tools/kppp_research_2026-11-04.md) document 20 verified public API
+routes, a [4,469-notice BDA index](exports/bda_kppp_notice_index_2026-11-04.csv), lot/item details,
+corrigenda, pagination corrections, and the limits of live participant counts. See the
+[API reference](pipeline/tools/kppp_public_api.md) and [read-only collector](pipeline/tools/collect_kppp_public.ps1).
+The research index includes re-listings and non-property auctions; it is not a count of unique plots or
+completed sales, and is separate from the website's existing processed data.
 
 ## Run the website locally
 ```

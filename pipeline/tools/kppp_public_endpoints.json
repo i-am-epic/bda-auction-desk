@@ -1,0 +1,28 @@
+{
+  "checkedOn": "2026-11-04",
+  "baseUrl": "https://kppp.karnataka.gov.in/supplier-registration-service/v1/api/portal-service",
+  "scope": "20 public endpoint templates with successful sample responses; not an exhaustive backend inventory or authorization guarantee for other records.",
+  "authenticationUsed": false,
+  "endpoints": [
+    {"method":"POST","path":"/search/auction-search?page={page}&size={size}","purpose":"Paginated auction notice search","example":"/search/auction-search?page=0&size=100","body":{"auctionStatus":"FINALIZED","departmentId":1566},"response":"array; X-Total-Count header","status":200,"notes":"pageSize was ignored in controlled tests; use size. Header counts are notices, not unique properties."},
+    {"method":"POST","path":"/search/auctions-ending-today?page={page}&size={size}","purpose":"Closing-today auction search","example":"/search/auctions-ending-today?page=0&size=1","body":{"auctionStatus":"LIVE_AUCTION"},"response":"array; X-Total-Count header","status":200,"notes":"Returned total 71, versus homepage count 23; reconcile semantics and dates."},
+    {"method":"GET","path":"/{noticeId}/view-auction","purpose":"Notice, group type, rules, slots, fees, EMD, criteria, cancellation and deadlines","example":"/29761/view-auction","response":"object of DTOs","status":200},
+    {"method":"GET","path":"/{noticeId}/bidding-slot/{slotId}/get-all-lots","purpose":"Lot pricing, increments, extended end time and nested items","example":"/29761/bidding-slot/33220/get-all-lots","response":"array","status":200},
+    {"method":"GET","path":"/{noticeId}/slot/{slotId}/get-all-items","purpose":"Item-wise auction pricing and specifications","example":"/25447/slot/27808/get-all-items","response":"array","status":200,"notes":"Requires ITEM_WISE group; lot-wise notice 29761 returned HTTP 400, errorKey itemwise."},
+    {"method":"GET","path":"/{noticeId}/lot/{lotId}/get-all-items","purpose":"Items and specifications in a lot","example":"/29761/lot/38995/get-all-items","response":"array","status":200},
+    {"method":"GET","path":"/{noticeId}/auction-documents","purpose":"Notice attachment metadata and UUIDs","example":"/29761/auction-documents","response":"array","status":200},
+    {"method":"GET","path":"/{noticeId}/auction-document/{uuid}","purpose":"Download notice attachment","example":"/29761/auction-document/3999da30-cf39-4448-8aba-4b0a9ca90fac","response":"binary","status":200,"notes":"Returned application/octet-stream; PDF signature verified, 24210758 bytes. Text/OCR not verified."},
+    {"method":"GET","path":"/{noticeId}/get-recall-auction-documents","purpose":"Recall/cancellation attachment metadata","example":"/1095/get-recall-auction-documents","response":"array","status":200,"notes":"Returned metadata for Auction_1095.json; contents not downloaded."},
+    {"method":"GET","path":"/{noticeId}/auction-corrigendum","purpose":"List notice corrigenda","example":"/25447/auction-corrigendum","response":"array","status":200,"notes":"IDs 1071 and 1072; empty arrays on Site 303 notices."},
+    {"method":"GET","path":"/{noticeId}/auction-corrigendum/{corrigendumId}/get-auction-corrigendum","purpose":"Original/revised dates, reasons and approval state","example":"/25447/auction-corrigendum/1072/get-auction-corrigendum","response":"object","status":200},
+    {"method":"GET","path":"/{noticeId}/auction-corrigendum/{corrigendumId}/get-auction-corrigendum-files","purpose":"Corrigendum file metadata","example":"/25447/auction-corrigendum/1071/get-auction-corrigendum-files","response":"array","status":200},
+    {"method":"GET","path":"/{noticeId}/auction-corrigendum/{corrigendumId}/auction-corrigendum-file/uuid/{uuid}/auction-download-file","purpose":"Download corrigendum attachment","example":"/25447/auction-corrigendum/1071/auction-corrigendum-file/uuid/aec83fab-2692-4c6e-93b3-fc85a0ceb7ff/auction-download-file","response":"binary","status":200,"notes":"12821 bytes; DOCX metadata and ZIP signature 504b0304 verified."},
+    {"method":"GET","path":"/departments/activeDepartment","purpose":"Department directory and stable department IDs","example":"/departments/activeDepartment","response":"envelope with responseObject array","status":200,"notes":"BDA departmentId is 1566."},
+    {"method":"GET","path":"/departments/activeLocation/{departmentId}","purpose":"Procuring-entity location lookup","example":"/departments/activeLocation/1566","response":"envelope with responseObject array","status":200,"notes":"BDA returned an empty array; this is not a parcel-coordinate service."},
+    {"method":"GET","path":"/get-current-time","purpose":"Portal server time","example":"/get-current-time","response":"epochTime and currentTime","status":200},
+    {"method":"GET","path":"/metrics/get-count","purpose":"Homepage portal-wide auction/tender counters","example":"/metrics/get-count","response":"object","status":200,"notes":"24 live auctions, 23 ending today, 3930 live tenders in the snapshot."},
+    {"method":"GET","path":"/metrics/get-portal-metrics","purpose":"Alternative stored portal counters","example":"/metrics/get-portal-metrics","response":"object","status":200,"notes":"Disagreed with homepage feed: 0 live auctions and 2 live tenders. Freshness/semantics not established."},
+    {"method":"GET","path":"/ANNOUNCEMENTS/get-portal-announcements","purpose":"Portal announcements, including rescheduling messages","example":"/ANNOUNCEMENTS/get-portal-announcements","response":"JSON feed","status":200},
+    {"method":"GET","path":"/EVENTS/get-portal-announcements","purpose":"Portal notification feed","example":"/EVENTS/get-portal-announcements","response":"JSON feed","status":200}
+  ]
+}

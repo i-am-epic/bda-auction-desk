@@ -1,0 +1,29 @@
+{
+  "checkedOn": "2026-11-04",
+  "methodology": "Summaries transcribed from Playwright same-origin fetch tests. Requests used credentials: omit, no Authorization header. Binary files were inspected in memory, not retained. These are supplemental summaries, not raw HTTP transcripts.",
+  "baseUrl": "https://kppp.karnataka.gov.in/supplier-registration-service/v1/api/portal-service",
+  "checks": [
+    {"method":"POST","path":"/search/auction-search?page=0&pageSize=25","body":{"auctionStatus":"LIVE_AUCTION"},"status":200,"total":24,"rows":10},
+    {"method":"POST","path":"/search/auction-search?page=0&size=1","body":{"auctionStatus":"LIVE_AUCTION"},"status":200,"total":24,"rows":1,"firstNoticeId":29973},
+    {"method":"POST","path":"/search/auction-search?page=0&size=25","body":{"auctionStatus":"LIVE_AUCTION"},"status":200,"total":24,"rows":24,"firstNoticeId":29973,"lastNoticeId":30187},
+    {"method":"POST","path":"/search/auction-search?page=1&size=10","body":{"auctionStatus":"LIVE_AUCTION"},"status":200,"total":24,"rows":10,"firstNoticeId":29997,"lastNoticeId":30010},
+    {"method":"POST","path":"/search/auction-search?page=0&pageSize=5","body":{"auctionStatus":"CANCELLED","auctionNoticeNumber":"BDA"},"status":200,"total":0,"rows":0},
+    {"method":"GET","path":"/29761/slot/33220/get-all-items","status":400,"errorKey":"itemwise","title":"auction notice group type is not Item wise."},
+    {"method":"GET","path":"/29761/lot/38995/get-all-items","status":200,"itemId":55202,"itemCode":"BDAEAS-4222","uomName":"Sqm","quantity":"1.0000","price":"84000.00"},
+    {"method":"GET","path":"/29761/auction-document/3999da30-cf39-4448-8aba-4b0a9ca90fac","status":200,"contentType":"application/octet-stream","bytes":24210758,"signature":"%PDF-1.4","textExtraction":"Webpage reader could not extract meaningful content; minimum-bid clause not verified."},
+    {"method":"GET","path":"/25447/auction-corrigendum/1071/auction-corrigendum-file/uuid/aec83fab-2692-4c6e-93b3-fc85a0ceb7ff/auction-download-file","status":200,"contentType":"application/octet-stream","bytes":12821,"signatureHex":"504b0304"},
+    {"method":"GET","path":"/departments/activeLocation/1566","status":200,"data":{"responseMessage":"Procuring entity found successfully","responseCode":"200","responseObject":[],"error":false}}
+  ],
+  "repositoryComparison": {
+    "repository": "i-am-epic/bda-auction-desk",
+    "commit": "19e3c44904e770dd7572284b81f27eeb7c20990b",
+    "file": "exports/bda_kppp_lot_history.csv",
+    "existingUniqueNoticeIds": 2742,
+    "collectedUniqueNoticeIds": 4469,
+    "additionalNoticeIds": 1727,
+    "existingNoticeIdsMissingFromNewIndex": 0,
+    "indexHasCorrigendumCount": 1,
+    "indexHasCorrigendumNoticeId": 25447,
+    "comparison": "Parsed CSV using PowerShell ConvertFrom-Csv and compared notice IDs with the collected JSON index."
+  }
+}
