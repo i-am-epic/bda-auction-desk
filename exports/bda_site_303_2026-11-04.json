@@ -232,6 +232,22 @@
     "publicNoticeContactPhone": "9483166622",
     "contactSourceField": "auctionScheduleInformationDTO.auctionSchedule.mobileNumber",
     "contactCurrentnessIndependentlyVerified": false,
+    "contactPublicationCheck": {
+      "checkedOn": "2026-11-05",
+      "officialWebsiteAlsoListsPhone": true,
+      "sourceUrl": "https://bdakarnataka.in/",
+      "contactPageUrl": "https://bdakarnataka.in/contact",
+      "phoneCalled": false,
+      "recipientEmailVerified": true,
+      "recipientEmail": "bda.helpline2025@gmail.com",
+      "recipientRole": "Published general BDA helpline; forwarding to the E-Auction Section requested.",
+      "sourceSection": "Helpline Contact",
+      "digitalSignatureRequiredByPublishedInstructions": true,
+      "acceptedSigningMethodConfirmed": false
+    },
+    "draftRequestPath": "../pipeline/tools/bda_site_303_aggregate_count_request.md",
+    "recipientApprovedForSending": false,
+    "requestDigitallySigned": false,
     "requestText": "For BDA/2026-27/AUCTION4491, Site 303, please provide aggregate counts as of the participation deadline, 31 October 2026 at 17:00: distinct participants with successfully settled Rs. 400,000 EMD; distinct participants with successfully settled Rs. 500 auction fee; and submitted/accepted participation counts. Please de-duplicate payments and report failed, reversed and refunded payments separately, with the cutoff used. No participant names, account numbers or transaction references are requested.",
     "requestSent": false
   },

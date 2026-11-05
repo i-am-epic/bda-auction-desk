@@ -288,6 +288,20 @@ HTTP services. These client observations do not verify the backend language, dat
 model; identifying the frontend framework does not reveal withheld payment records. Exact EMD-payer
 and auction-fee-payer counts remain unknown in the extract.
 
+### Official Enquiry Prepared on 5 November
+
+The owner chose to request aggregate counts from BDA. An [unsent enquiry draft](bda_site_303_aggregate_count_request.md)
+asks for distinct EMD payers, auction-fee payers, applicants who paid both, submitted applications and
+eligible applicants. It distinguishes payments settled by the participation deadline from later refunds.
+
+The official BDA contact page's Helpline Contact section publishes `bda.helpline2025@gmail.com` and
+`+91 9483166622`. This is a general helpline, not a verified direct auction-section mailbox. The page
+also states that emails must be digitally signed before BDA will accept them and take further action.
+Publication was checked on 5 November 2026; neither the phone nor the inbox was contacted. Recipient
+approval, sender details and confirmation of an accepted signing method remain outstanding. The draft
+is not a submitted RTI application and no personal sender information, private key or signing PIN is
+included in the repository.
+
 ## 6. Other Findings and Follow-Up Work
 
 1. **Historical price joins:** `export_lots_csv.py` keys archived final prices by `(group, site)` and
