@@ -99,4 +99,13 @@ PROJECTS = {
         P('boost', 'Blue Line (Kasturi Nagar) + Purple Line (Benniganahalli)', 'Purple operational; Blue by 2028*', 'Interchange-level metro access.', S_METRO),
         PREMIUM_FAR,
     ],
+    'NPKL': [
+        P('boost', 'Purple Line to Challaghatta (Kengeri terminus)', 'Operational', 'Kengeri / Challaghatta metro gives the west a direct run to Majestic and the central IT corridor; feeder buses from the layout.', S_METRO),
+        P('boost', 'Mysore Road + NICE Road access', 'Operational', 'Quick reach to ORR-south, Electronic City and the airport expressway via NICE Road, and into the city on Mysore Rd.', S_ROADS),
+        P('boost', 'Kengeri ORR-Ullal grade separator', 'Due 2026*', 'Signal-free approach from Ullal to Mysore Rd, cutting the west-side commute.', S_ROADS),
+        SETBACKS,
+        GBA_HANDOVER,
+        P('concern', 'Brand-new layout — trunk infrastructure still going in', 'Ongoing', 'Roads, underground drainage, piped water and streetlights are incomplete in parts; expect tankers and unpaved stretches early. Check the specific block on site.', S_WATER),
+        P('concern', 'Far west, village-interface pockets', 'Check', 'Several sectors abut villages and farmland; verify approach-road width, encroachment, and that the survey number is in the final BDA plan.', S_WATER),
+    ],
 }
