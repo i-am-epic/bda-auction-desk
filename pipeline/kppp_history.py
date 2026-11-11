@@ -5,7 +5,7 @@ import json, sys, subprocess, time
 from concurrent.futures import ThreadPoolExecutor
 API = 'https://kppp.karnataka.gov.in/supplier-registration-service/v1/api/portal-service'
 WORDS = ['BANASHANKARI', 'ANJANAPURA', 'ARKAVATHI', 'ARKAVATHY', 'VISHWESHWARAIAH', 'J P NAGAR', 'JP NAGAR',
-         'KUMARASWAMY', 'BTM', 'NGEF']
+         'KUMARASWAMY', 'BTM', 'NGEF', 'KEMPEGOWDA', 'NADAPRABHU']
 STATUSES = ['FINALIZED', 'NO_PARTICIPATIONS', 'NO_BIDS_RECEIVED', 'BIDDING_CLOSED', 'EVALUATED', 'UNDER_EVALUATION', 'CANCELLED']
 NL = chr(10)
 

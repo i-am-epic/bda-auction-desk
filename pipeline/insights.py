@@ -327,6 +327,9 @@ for s in sites:
         comp = max(0.3, min(5, 0.5*comp + 0.5*(1 + 4*ml['pSell'])))
         s['competition'] = round(comp, 1)
         s['compLabel'] = 'Very high' if comp >= 4.3 else 'High' if comp >= 3.4 else 'Moderate' if comp >= 2.4 else 'Low' if comp >= 1.4 else 'Very low'
+        if ml.get('provPrice'):   # no usable final-bid data for this layout: prices are a base-anchored placeholder
+            s['provPrice'] = True
+            s['flags'].append(dict(sev='warn', text='Price estimate is provisional — this layout has no usable past final bids at the current base, so the expected and fair figures are anchored to the base rate, not modelled from local sales'))
     s['expPremium'] = round((exp/s['rate'] - 1)*100)
     if s['realBid']:   # real bidding on this exact site beats any model
         rbx = s['realBid']; grown = rbx['h1Grown']

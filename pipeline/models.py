@@ -112,14 +112,29 @@ past = defaultdict(list)
 for l in lots: past[(l['g'], l['site'])].append(l['sold'])
 norm = lambda t: re.sub(r'[^0-9A-Z]', '', str(t).upper())
 scores = {}
+trained_groups = {b['group'] for b in bids}   # localities that have real final bids to learn a premium from
+# For a locality flagged provisional in market.py (e.g. NPKL), the learned premium % is stale (its only past bids are
+# old rounds at a much lower base), so anchor the expected bid to what winners ACTUALLY paid per ft2 here — the real
+# comps (p25/median/p75) — expressed as a premium over today's base. Falls back to a modest band if no comps exist.
+PROV_MU, PROV_LO, PROV_HI = math.log(1.20), math.log(1.05), math.log(1.40)
+prem_over = lambda rs_ft2, base: math.log(max(rs_ft2 * SQFT, base) / base)   # Rs/ft2 resale -> log premium over base Rs/m2
 for s in sites:
     g = s['group']
     prev = past.get((g, norm(s['site'])), [])
-    px = np.array([prem_x(s.get('area_corr') or s['area'], s['rate'], g)])
-    mu = float(prem_model.predict(px)[0])
     sx = np.array([sell_x(g, s['rate'], now, len(prev), any(not p for p in prev), norm(s['site']), cur_sup[g])])
+    if MARKET.get(g, {}).get('provisional') or g not in trained_groups:
+        cg = comps.get(g)
+        if cg:
+            mu, lo, hi = prem_over(cg['medianSqft'], s['rate']), prem_over(cg['p25'], s['rate']), prem_over(cg['p75'], s['rate'])
+        else:
+            mu, lo, hi = PROV_MU, PROV_LO, PROV_HI
+        prov = True
+    else:
+        px = np.array([prem_x(s.get('area_corr') or s['area'], s['rate'], g)])
+        mu, lo, hi, prov = float(prem_model.predict(px)[0]), None, None, False
+        lo, hi = mu + q10, mu + q90
     scores[s['sl'] + '|' + s['site']] = dict(pSell=round(float(clf.predict_proba(sx)[0, 1]), 3), mu=round(mu, 4),
-                                             lo=round(mu + q10, 4), hi=round(mu + q90, 4))
+                                             lo=round(lo, 4), hi=round(hi, 4), provPrice=prov)
 json.dump(dict(
     premium=dict(n=len(y), alpha=alpha, cvMaePts=round(mae * 100), baselineGlobalPts=round(base_glob * 100), baselineOldRulePts=round(base_rule * 100),
                  sigma=round(sigma, 3), q10=round(q10, 3), q90=round(q90, 3), coef=coef, medianPremium=round(float(np.median(np.exp(y)) - 1) * 100),

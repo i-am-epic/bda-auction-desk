@@ -28,7 +28,7 @@ KEEP = ['sl', 'site', 'layout', 'zone', 'group', 'locality', 'source', 'status',
         'projectCost', 'builtUpSqft', 'floors', 'far', 'use', 'rentMonthly', 'rentalYield', 'commercialYield', 'resaleReturn', 'value5y',
         'gain5y', 'score', 'scoreParts', 'verdict', 'greatFind', 'sleeper', 'flags', 'surroundRisks', 'surroundGoods', 'vastu',
         'findings', 'description', 'personas', 'pros', 'cons', 'kppp', 'prevRounds', 'prevBase', 'baseChange', 'marketCap', 'commercial',
-        'road', 'metro', 'hubs', 'growth', 'projects', 'pSell', 'comps', 'realBid', 'geotag', 'geoNote', 'polyArea', 'polyDrawn', 'irregularity', 'usability', 'tier']
+        'road', 'metro', 'hubs', 'growth', 'projects', 'pSell', 'comps', 'realBid', 'provPrice', 'geotag', 'geoNote', 'polyArea', 'polyDrawn', 'irregularity', 'usability', 'tier']
 rows = []
 for s in sites:
     r = {k: s.get(k) for k in KEEP}

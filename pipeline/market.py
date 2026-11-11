@@ -101,4 +101,11 @@ MARKET = {
    story='A mature, fully built BDA layout off Old Madras Road in Kasturi Nagar, east of the old NGEF factory land. Benniganahalli Purple Line station is close, and the Blue Line is coming to Kasturi Nagar.',
    drivers=['Purple Line Benniganahalli plus the upcoming Blue Line', 'Central-east address near ORR and Old Madras Rd'],
    watch=['Lot 3C-319 is a small trapezoid (82 m²)', 'Not on the BDA geotag map']),
+ # Provisional entry — far-west new layout, fast-growing on a low base. Reuses the shared model for now;
+ # to be re-based on NPKL's own closed sales once enough accumulate (see auctions/npkl).
+ 'NPKL': dict(name='Nadaprabhu Kempegowda Layout (west)', lo=9000, mid=11000, hi=13000, tier=3, cagr=8.0, growth='Strong', demand=3, provisional=True,
+   ask='96 past BDA auction results here cleared at a median Rs 11,241/ft² (middle half Rs 9,441-13,146). Portal listings read lower (~Rs 6,500-8,300/ft², Housing.com/99acres), so treat these as provisional. BDA base is Rs 80,000/m² (~Rs 7,430/ft²).',
+   story="BDA's large new layout on the western fringe — Kommaghatta, Bheemanakuppe, Sulikere, Kannalli, Kodigehalli and nearby villages off Mysore Road and the NICE Road, near Kengeri. Formed in the 2020s and still developing: trunk roads and services are going in, titles are clean, and prices are appreciating fast on a low base, but amenities and resale depth lag the established South/West layouts. Market figures here are provisional until NPKL's own sales give firmer comps.",
+   drivers=['Mysore Road + Kengeri (Purple Line metro terminus / Challaghatta depot)', 'NICE Road access to ORR and the south', 'Large contiguous BDA layout with clean titles', 'West-Bengaluru / Bidadi industrial growth'],
+   watch=['Far west — village-level amenities still maturing', 'Thin resale history, so price discovery is early', 'Infrastructure and lake-buffer timelines vary by block', 'Provisional market model — not yet re-based on NPKL sales']),
 }

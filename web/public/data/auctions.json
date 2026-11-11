@@ -1,5 +1,37 @@
 [
  {
+  "id": "npkl",
+  "code": "NPKL",
+  "title": "BDA e-auction — Nadaprabhu Kempegowda Layout",
+  "notice": "BDA/EM/e-Auction/NPKL/2026-27",
+  "noticeDate": "2026-11-03",
+  "eoiDeadline": "2026-11-16T17:00:00+05:30",
+  "bidDays": [
+   {
+    "date": "2026-11-17",
+    "range": "Sl 1-25"
+   },
+   {
+    "date": "2026-11-18",
+    "range": "Sl 26-50"
+   },
+   {
+    "date": "2026-11-19",
+    "range": "Sl 51-75"
+   },
+   {
+    "date": "2026-11-20",
+    "range": "Sl 76-101"
+   }
+  ],
+  "status": "bidding",
+  "sites": 101,
+  "strong": 2,
+  "great": 2,
+  "localities": 1,
+  "generated": "2026-11-11"
+ },
+ {
   "id": "t15",
   "code": "T-15",
   "title": "BDA e-auction T-15/2026-27",
