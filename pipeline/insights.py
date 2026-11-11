@@ -255,9 +255,11 @@ for s in sites:
     billed = s.get('area_corr', s['area'])
     f = s['usability']
     fair_mid = m['mid']*SQFT*f*(1+vastu_adj); fair_lo = m['lo']*SQFT*f*(1+vastu_adj); fair_hi = m['hi']*SQFT*f*(1+vastu_adj)
-    # blend in real auction results: what winners actually paid per ft2 in this locality (weight grows with the number of results)
+    # blend in real auction results: what winners actually paid per ft2 in this locality (weight grows with the number of results).
+    # Skipped for a provisional locality: there the auction comps are the CLEARING price (an auction premium over resale),
+    # not resale value, so fair value stays on the open market while the expected bid (models.py) follows the comps.
     s['comps'] = (MODELS or {}).get('comps', {}).get(s['group'])
-    if s['comps']:
+    if s['comps'] and not m.get('provisional'):
         w = s['comps']['n'] / (s['comps']['n'] + 8)
         k = ((1 - w)*m['mid'] + w*s['comps']['medianSqft']) / m['mid']
         fair_mid, fair_lo, fair_hi = fair_mid*k, fair_lo*k, fair_hi*k
