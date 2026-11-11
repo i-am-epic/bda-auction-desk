@@ -11,6 +11,12 @@ One folder per auction: `auctions/<id>/`. Each holds `notice.py` (the transcribe
    ```
    This copies `auctions/_template/` → `auctions/t16/` and sets `AUCTION['id']='t16'`.
 
+   **Auto-fill shortcut:** `python fetch_bda.py t16` pulls the BDA geotag map (`http://106.51.29.213/`, which
+   embeds a GeoJSON with Sl_No, Site_No, Layout, dimensions, Area, Division + polygons), joins it to KPPP for
+   base rates and dates, writes `auctions/t16/geotag.json`, and prints a ready `ROWS` block to paste. It needs
+   the geotag server to be serving that auction (BDA switches it per round) — until then, transcribe by hand.
+   Spot-check the base rates it fills: site numbers recur across sub-blocks, so a few may need a manual fix.
+
 2. **Fill `auctions/t16/notice.py`** — the four TODOs:
    - `AUCTION` facts: code, title, notice no., dates, `bidDays`/`slots`, EMD/fee, notice & corrigendum PDF URLs, `geotag_url`.
    - `ROWS`: one site per line from the notice PDF — `sl | site | layout | EW | NS | area_sqm | base_rate | zone | group`.
