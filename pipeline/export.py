@@ -10,6 +10,9 @@ from sites import AUCTION
 src, root = sys.argv[1], sys.argv[2]
 out = os.path.join(root, AUCTION['id'])
 os.makedirs(out, exist_ok=True)
+# Auction outcomes (sold / no-bids), collected from KPPP public status after bidding — keyed by notice number.
+_res_p = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'auctions', AUCTION['id'], 'results.json')
+RESULTS = json.load(open(_res_p, encoding='utf8')) if os.path.exists(_res_p) else {}
 pack = json.load(open(src, encoding='utf8'))
 sites, hist = pack['sites'], pack['history']
 
@@ -39,6 +42,8 @@ for s in sites:
     r['near'] = {k: dict(m=v['m'], name=v.get('name') or '') for k, v in (g.get('near') or {}).items()}
     r['bidDay'] = None if s['sl'].startswith('C') else next((d for a, b, d in AUCTION['slots'] if a <= int(s['sl']) <= b), None)
     r['placement'] = s.get('placement')
+    _no = (s.get('kppp') or {}).get('no')
+    r['outcome'] = (RESULTS.get(_no) or {}).get('outcome') if _no else None
     rows.append(r)
 
 groups = {}

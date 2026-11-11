@@ -5,13 +5,16 @@ export interface Filters {
   q: string; budgetMax: number; budgetMin: number; zone: string; verdict: string; growth: string; comp: string; size: string;
   facing: string; road: string; sort: string;
   commercial: boolean; previous: boolean; fresh: boolean; great: boolean; sleeper: boolean; clean: boolean; approx: boolean; added: boolean; withdrawn: boolean;
+  sold: boolean; nobids: boolean;
 }
 export const BUDGET_MAX = 600; // lakh; slider top means "any"
 export const DEFAULT_FILTERS: Filters = {
   q: '', budgetMax: BUDGET_MAX, budgetMin: 0, zone: '', verdict: '', growth: '', comp: '', size: '', facing: '', road: '', sort: 'score',
   commercial: false, previous: false, fresh: false, great: false, sleeper: false, clean: false, approx: false, added: false, withdrawn: false,
+  sold: false, nobids: false,
 };
 export const CHIPS: { key: keyof Filters; label: string }[] = [
+  { key: 'sold', label: 'Sold (drew bids)' }, { key: 'nobids', label: 'No bids' },
   { key: 'great', label: 'Great finds' }, { key: 'sleeper', label: 'Sleepers' }, { key: 'commercial', label: 'Commercial potential' },
   { key: 'previous', label: 'Auctioned before' }, { key: 'fresh', label: 'First time on auction' }, { key: 'clean', label: 'No red flags' },
   { key: 'approx', label: 'Not on BDA map' }, { key: 'added', label: 'Added by corrigendum' }, { key: 'withdrawn', label: 'Show withdrawn' },
@@ -54,6 +57,8 @@ export function applyFilters(all: Site[], f: Filters): Site[] {
     if (f.clean && hasRedFlag(s)) return false;
     if (f.approx && s.geotag !== 'approx') return false;
     if (f.added && !s.source.startsWith('Corr')) return false;
+    if (f.sold && s.outcome?.status !== 'sold') return false;
+    if (f.nobids && s.outcome?.status !== 'nobids') return false;
     if (q && !`${s.site} ${s.layout} ${s.locality} ${s.kppp?.no ?? ''}`.toLowerCase().includes(q)) return false;
     return true;
   });

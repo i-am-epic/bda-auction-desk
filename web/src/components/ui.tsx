@@ -26,6 +26,17 @@ export function ScoreRing({ site, size = 52 }: { site: Pick<Site, 'score' | 'ver
 
 export const Verdict = ({ s }: { s: Pick<Site, 'verdict'> }) => <span className={`verdict ${tone(s)}`}>{VERDICT_SHORT[s.verdict]}</span>;
 
+/** Auction-result badge shown once bidding has closed. */
+export function OutcomeBadge({ o }: { o: Site['outcome'] }) {
+  if (!o) return null;
+  const title = o.status === 'sold'
+    ? (o.pending ? 'Bidding closed with bids — BDA confirmation pending' : 'Sold at auction')
+    : 'No valid bids — drew no participation';
+  return <span className={`pill ${o.status === 'sold' ? 'sold' : 'nobids'}`} title={title}>
+    {o.status === 'sold' ? '● ' : '○ '}{o.label}{o.rate ? ` · ${inr(o.total!)}` : ''}{o.pending && o.status === 'sold' ? '*' : ''}
+  </span>;
+}
+
 export function Meter({ label, value, max = 10, note }: { label: ReactNode; value: number; max?: number; note?: string }) {
   return (
     <div className="meter">
@@ -72,7 +83,7 @@ export function SiteCard({ s, selected, onHover }: { s: Site; selected?: boolean
         </div>
         <StarButton id={s.id} />
       </div>
-      <div className="row" style={{ justifyContent: 'space-between' }}><Verdict s={s} /><SiteTags s={s} max={3} /></div>
+      <div className="row" style={{ justifyContent: 'space-between' }}><Verdict s={s} />{s.outcome ? <OutcomeBadge o={s.outcome} /> : <SiteTags s={s} max={3} />}</div>
       <div className="figs">
         <div><small>Plot</small><b>{s.areaSqft.toLocaleString('en-IN')} ft²</b></div>
         <div><small>Likely price<Est how="Expected winning bid, calibrated to past BDA auctions" /></small><b>{inr(s.expTotal)}</b></div>

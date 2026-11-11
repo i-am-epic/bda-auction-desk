@@ -4,7 +4,7 @@ import { useAP, useData } from '../lib/data';
 import type { Site } from '../lib/types';
 import { fmtDate, inr, kpppDate, perSqft, rs, SQFT } from '../lib/format';
 import { commercialOk } from '../lib/filters';
-import { Est, Icon, Meter, ScoreRing, SiteCard, SiteTags, StarButton, Verdict, useToast } from '../components/ui';
+import { Est, Icon, Meter, OutcomeBadge, ScoreRing, SiteCard, SiteTags, StarButton, Verdict, useToast } from '../components/ui';
 import { MiniMap } from '../components/MapView';
 
 const TABS = [['overview', 'Overview'], ['price', 'Price & bid'], ['history', 'Bid history'], ['area', 'Area & risks'],
@@ -95,7 +95,7 @@ export default function SitePage() {
           <div className="site-head">
             <ScoreRing site={s} size={72} />
             <div style={{ minWidth: 0 }}>
-              <div className="row"><Verdict s={s} /><SiteTags s={s} max={4} /></div>
+              <div className="row"><Verdict s={s} />{s.outcome && <OutcomeBadge o={s.outcome} />}<SiteTags s={s} max={4} /></div>
               <h1>Site {s.site}</h1>
               <div className="sub">{s.layout} · Sl {s.sl}{s.bidDay ? ` · bidding ${fmtDate(s.bidDay)}` : ''}</div>
             </div>

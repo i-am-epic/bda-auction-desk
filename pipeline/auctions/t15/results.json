@@ -1,0 +1,1175 @@
+{
+ "BDA/2026-27/AUCTION4471": {
+  "raw": "BIDDING_CLOSED",
+  "site": "711",
+  "outcome": {
+   "status": "sold",
+   "label": "Sold",
+   "pending": true
+  }
+ },
+ "BDA/2026-27/AUCTION4472": {
+  "raw": "BIDDING_CLOSED",
+  "site": "593",
+  "outcome": {
+   "status": "sold",
+   "label": "Sold",
+   "pending": true
+  }
+ },
+ "BDA/2026-27/AUCTION4473": {
+  "raw": "BIDDING_CLOSED",
+  "site": "178",
+  "outcome": {
+   "status": "sold",
+   "label": "Sold",
+   "pending": true
+  }
+ },
+ "BDA/2026-27/AUCTION4474": {
+  "raw": "BIDDING_CLOSED",
+  "site": "365",
+  "outcome": {
+   "status": "sold",
+   "label": "Sold",
+   "pending": true
+  }
+ },
+ "BDA/2026-27/AUCTION4475": {
+  "raw": "BIDDING_CLOSED",
+  "site": "416/A",
+  "outcome": {
+   "status": "sold",
+   "label": "Sold",
+   "pending": true
+  }
+ },
+ "BDA/2026-27/AUCTION4476": {
+  "raw": "BIDDING_CLOSED",
+  "site": "458",
+  "outcome": {
+   "status": "sold",
+   "label": "Sold",
+   "pending": true
+  }
+ },
+ "BDA/2026-27/AUCTION4479": {
+  "raw": "BIDDING_CLOSED",
+  "site": "1150",
+  "outcome": {
+   "status": "sold",
+   "label": "Sold",
+   "pending": true
+  }
+ },
+ "BDA/2026-27/AUCTION4481": {
+  "raw": "BIDDING_CLOSED",
+  "site": "750/D",
+  "outcome": {
+   "status": "sold",
+   "label": "Sold",
+   "pending": true
+  }
+ },
+ "BDA/2026-27/AUCTION4484": {
+  "raw": "BIDDING_CLOSED",
+  "site": "749/D",
+  "outcome": {
+   "status": "sold",
+   "label": "Sold",
+   "pending": true
+  }
+ },
+ "BDA/2026-27/AUCTION4491": {
+  "raw": "BIDDING_CLOSED",
+  "site": "303",
+  "outcome": {
+   "status": "sold",
+   "label": "Sold",
+   "pending": true,
+   "rate": 117000,
+   "total": 10530000,
+   "premium": 39
+  }
+ },
+ "BDA/2026-27/AUCTION4494": {
+  "raw": "BIDDING_CLOSED",
+  "site": "227",
+  "outcome": {
+   "status": "sold",
+   "label": "Sold",
+   "pending": true
+  }
+ },
+ "BDA/2026-27/AUCTION4497": {
+  "raw": "BIDDING_CLOSED",
+  "site": "963",
+  "outcome": {
+   "status": "sold",
+   "label": "Sold",
+   "pending": true
+  }
+ },
+ "BDA/2026-27/AUCTION4500": {
+  "raw": "BIDDING_CLOSED",
+  "site": "676",
+  "outcome": {
+   "status": "sold",
+   "label": "Sold",
+   "pending": true
+  }
+ },
+ "BDA/2026-27/AUCTION4502": {
+  "raw": "BIDDING_CLOSED",
+  "site": "121",
+  "outcome": {
+   "status": "sold",
+   "label": "Sold",
+   "pending": true
+  }
+ },
+ "BDA/2026-27/AUCTION4503": {
+  "raw": "BIDDING_CLOSED",
+  "site": "1234",
+  "outcome": {
+   "status": "sold",
+   "label": "Sold",
+   "pending": true
+  }
+ },
+ "BDA/2026-27/AUCTION4483": {
+  "raw": "BIDDING_CLOSED",
+  "site": "1860",
+  "outcome": {
+   "status": "sold",
+   "label": "Sold",
+   "pending": true
+  }
+ },
+ "BDA/2026-27/AUCTION4485": {
+  "raw": "BIDDING_CLOSED",
+  "site": "2393",
+  "outcome": {
+   "status": "sold",
+   "label": "Sold",
+   "pending": true
+  }
+ },
+ "BDA/2026-27/AUCTION4488": {
+  "raw": "BIDDING_CLOSED",
+  "site": "255/M",
+  "outcome": {
+   "status": "sold",
+   "label": "Sold",
+   "pending": true
+  }
+ },
+ "BDA/2026-27/AUCTION4490": {
+  "raw": "BIDDING_CLOSED",
+  "site": "1/A",
+  "outcome": {
+   "status": "sold",
+   "label": "Sold",
+   "pending": true
+  }
+ },
+ "BDA/2026-27/AUCTION4492": {
+  "raw": "BIDDING_CLOSED",
+  "site": "255/L",
+  "outcome": {
+   "status": "sold",
+   "label": "Sold",
+   "pending": true
+  }
+ },
+ "BDA/2026-27/AUCTION4607": {
+  "raw": "NO_BIDS_RECEIVED",
+  "site": "1632",
+  "outcome": {
+   "status": "nobids",
+   "label": "No bids"
+  }
+ },
+ "BDA/2026-27/AUCTION4495": {
+  "raw": "BIDDING_CLOSED",
+  "site": "1704",
+  "outcome": {
+   "status": "sold",
+   "label": "Sold",
+   "pending": true
+  }
+ },
+ "BDA/2026-27/AUCTION4506": {
+  "raw": "BIDDING_CLOSED",
+  "site": "1640/25",
+  "outcome": {
+   "status": "sold",
+   "label": "Sold",
+   "pending": true
+  }
+ },
+ "BDA/2026-27/AUCTION4509": {
+  "raw": "NO_PARTICIPATIONS",
+  "site": "1710",
+  "outcome": {
+   "status": "nobids",
+   "label": "No bids"
+  }
+ },
+ "BDA/2026-27/AUCTION4512": {
+  "raw": "NO_PARTICIPATIONS",
+  "site": "1690",
+  "outcome": {
+   "status": "nobids",
+   "label": "No bids"
+  }
+ },
+ "BDA/2026-27/AUCTION4514": {
+  "raw": "BIDDING_CLOSED",
+  "site": "1675",
+  "outcome": {
+   "status": "sold",
+   "label": "Sold",
+   "pending": true
+  }
+ },
+ "BDA/2026-27/AUCTION4516": {
+  "raw": "BIDDING_CLOSED",
+  "site": "1588",
+  "outcome": {
+   "status": "sold",
+   "label": "Sold",
+   "pending": true
+  }
+ },
+ "BDA/2026-27/AUCTION4518": {
+  "raw": "BIDDING_CLOSED",
+  "site": "776",
+  "outcome": {
+   "status": "sold",
+   "label": "Sold",
+   "pending": true
+  }
+ },
+ "BDA/2026-27/AUCTION4520": {
+  "raw": "BIDDING_CLOSED",
+  "site": "1246",
+  "outcome": {
+   "status": "sold",
+   "label": "Sold",
+   "pending": true
+  }
+ },
+ "BDA/2026-27/AUCTION4522": {
+  "raw": "BIDDING_CLOSED",
+  "site": "51",
+  "outcome": {
+   "status": "sold",
+   "label": "Sold",
+   "pending": true
+  }
+ },
+ "BDA/2026-27/AUCTION4523": {
+  "raw": "NO_PARTICIPATIONS",
+  "site": "1056",
+  "outcome": {
+   "status": "nobids",
+   "label": "No bids"
+  }
+ },
+ "BDA/2026-27/AUCTION4508": {
+  "raw": "BIDDING_CLOSED",
+  "site": "838",
+  "outcome": {
+   "status": "sold",
+   "label": "Sold",
+   "pending": true
+  }
+ },
+ "BDA/2026-27/AUCTION4510": {
+  "raw": "BIDDING_CLOSED",
+  "site": "1143",
+  "outcome": {
+   "status": "sold",
+   "label": "Sold",
+   "pending": true
+  }
+ },
+ "BDA/2026-27/AUCTION4513": {
+  "raw": "BIDDING_CLOSED",
+  "site": "1048",
+  "outcome": {
+   "status": "sold",
+   "label": "Sold",
+   "pending": true
+  }
+ },
+ "BDA/2026-27/AUCTION4515": {
+  "raw": "BIDDING_CLOSED",
+  "site": "1069",
+  "outcome": {
+   "status": "sold",
+   "label": "Sold",
+   "pending": true
+  }
+ },
+ "BDA/2026-27/AUCTION4521": {
+  "raw": "NO_PARTICIPATIONS",
+  "site": "1047",
+  "outcome": {
+   "status": "nobids",
+   "label": "No bids"
+  }
+ },
+ "BDA/2026-27/AUCTION4524": {
+  "raw": "BIDDING_CLOSED",
+  "site": "1027",
+  "outcome": {
+   "status": "sold",
+   "label": "Sold",
+   "pending": true
+  }
+ },
+ "BDA/2026-27/AUCTION4527": {
+  "raw": "BIDDING_CLOSED",
+  "site": "1070",
+  "outcome": {
+   "status": "sold",
+   "label": "Sold",
+   "pending": true
+  }
+ },
+ "BDA/2026-27/AUCTION4529": {
+  "raw": "BIDDING_CLOSED",
+  "site": "260",
+  "outcome": {
+   "status": "sold",
+   "label": "Sold",
+   "pending": true
+  }
+ },
+ "BDA/2026-27/AUCTION4533": {
+  "raw": "BIDDING_CLOSED",
+  "site": "428",
+  "outcome": {
+   "status": "sold",
+   "label": "Sold",
+   "pending": true
+  }
+ },
+ "BDA/2026-27/AUCTION4536": {
+  "raw": "BIDDING_CLOSED",
+  "site": "876",
+  "outcome": {
+   "status": "sold",
+   "label": "Sold",
+   "pending": true
+  }
+ },
+ "BDA/2026-27/AUCTION4480": {
+  "raw": "BIDDING_CLOSED",
+  "site": "348/N",
+  "outcome": {
+   "status": "sold",
+   "label": "Sold",
+   "pending": true
+  }
+ },
+ "BDA/2026-27/AUCTION4482": {
+  "raw": "BIDDING_CLOSED",
+  "site": "522",
+  "outcome": {
+   "status": "sold",
+   "label": "Sold",
+   "pending": true
+  }
+ },
+ "BDA/2026-27/AUCTION4486": {
+  "raw": "BIDDING_CLOSED",
+  "site": "657",
+  "outcome": {
+   "status": "sold",
+   "label": "Sold",
+   "pending": true
+  }
+ },
+ "BDA/2026-27/AUCTION4487": {
+  "raw": "BIDDING_CLOSED",
+  "site": "998",
+  "outcome": {
+   "status": "sold",
+   "label": "Sold",
+   "pending": true
+  }
+ },
+ "BDA/2026-27/AUCTION4493": {
+  "raw": "NO_PARTICIPATIONS",
+  "site": "1063",
+  "outcome": {
+   "status": "nobids",
+   "label": "No bids"
+  }
+ },
+ "BDA/2026-27/AUCTION4496": {
+  "raw": "BIDDING_CLOSED",
+  "site": "1060",
+  "outcome": {
+   "status": "sold",
+   "label": "Sold",
+   "pending": true
+  }
+ },
+ "BDA/2026-27/AUCTION4505": {
+  "raw": "NO_PARTICIPATIONS",
+  "site": "395/A",
+  "outcome": {
+   "status": "nobids",
+   "label": "No bids"
+  }
+ },
+ "BDA/2026-27/AUCTION4507": {
+  "raw": "NO_BIDS_RECEIVED",
+  "site": "941",
+  "outcome": {
+   "status": "nobids",
+   "label": "No bids"
+  }
+ },
+ "BDA/2026-27/AUCTION4511": {
+  "raw": "BIDDING_CLOSED",
+  "site": "957",
+  "outcome": {
+   "status": "sold",
+   "label": "Sold",
+   "pending": true
+  }
+ },
+ "BDA/2026-27/AUCTION4517": {
+  "raw": "NO_BIDS_RECEIVED",
+  "site": "958",
+  "outcome": {
+   "status": "nobids",
+   "label": "No bids"
+  }
+ },
+ "BDA/2026-27/AUCTION4519": {
+  "raw": "BIDDING_CLOSED",
+  "site": "963",
+  "outcome": {
+   "status": "sold",
+   "label": "Sold",
+   "pending": true
+  }
+ },
+ "BDA/2026-27/AUCTION4528": {
+  "raw": "NO_PARTICIPATIONS",
+  "site": "969",
+  "outcome": {
+   "status": "nobids",
+   "label": "No bids"
+  }
+ },
+ "BDA/2026-27/AUCTION4532": {
+  "raw": "NO_PARTICIPATIONS",
+  "site": "970",
+  "outcome": {
+   "status": "nobids",
+   "label": "No bids"
+  }
+ },
+ "BDA/2026-27/AUCTION4539": {
+  "raw": "BIDDING_CLOSED",
+  "site": "975",
+  "outcome": {
+   "status": "sold",
+   "label": "Sold",
+   "pending": true
+  }
+ },
+ "BDA/2026-27/AUCTION4541": {
+  "raw": "BIDDING_CLOSED",
+  "site": "976",
+  "outcome": {
+   "status": "sold",
+   "label": "Sold",
+   "pending": true
+  }
+ },
+ "BDA/2026-27/AUCTION4548": {
+  "raw": "BIDDING_CLOSED",
+  "site": "978",
+  "outcome": {
+   "status": "sold",
+   "label": "Sold",
+   "pending": true
+  }
+ },
+ "BDA/2026-27/AUCTION4525": {
+  "raw": "NO_PARTICIPATIONS",
+  "site": "48/A",
+  "outcome": {
+   "status": "nobids",
+   "label": "No bids"
+  }
+ },
+ "BDA/2026-27/AUCTION4526": {
+  "raw": "BIDDING_CLOSED",
+  "site": "79/A",
+  "outcome": {
+   "status": "sold",
+   "label": "Sold",
+   "pending": true
+  }
+ },
+ "BDA/2026-27/AUCTION4530": {
+  "raw": "BIDDING_CLOSED",
+  "site": "74",
+  "outcome": {
+   "status": "sold",
+   "label": "Sold",
+   "pending": true
+  }
+ },
+ "BDA/2026-27/AUCTION4531": {
+  "raw": "BIDDING_CLOSED",
+  "site": "73",
+  "outcome": {
+   "status": "sold",
+   "label": "Sold",
+   "pending": true
+  }
+ },
+ "BDA/2026-27/AUCTION4534": {
+  "raw": "BIDDING_CLOSED",
+  "site": "432",
+  "outcome": {
+   "status": "sold",
+   "label": "Sold",
+   "pending": true
+  }
+ },
+ "BDA/2026-27/AUCTION4543": {
+  "raw": "BIDDING_CLOSED",
+  "site": "745",
+  "outcome": {
+   "status": "sold",
+   "label": "Sold",
+   "pending": true
+  }
+ },
+ "BDA/2026-27/AUCTION4544": {
+  "raw": "BIDDING_CLOSED",
+  "site": "726",
+  "outcome": {
+   "status": "sold",
+   "label": "Sold",
+   "pending": true
+  }
+ },
+ "BDA/2026-27/AUCTION4546": {
+  "raw": "BIDDING_CLOSED",
+  "site": "725",
+  "outcome": {
+   "status": "sold",
+   "label": "Sold",
+   "pending": true
+  }
+ },
+ "BDA/2026-27/AUCTION4549": {
+  "raw": "BIDDING_CLOSED",
+  "site": "705",
+  "outcome": {
+   "status": "sold",
+   "label": "Sold",
+   "pending": true
+  }
+ },
+ "BDA/2026-27/AUCTION4552": {
+  "raw": "BIDDING_CLOSED",
+  "site": "337",
+  "outcome": {
+   "status": "sold",
+   "label": "Sold",
+   "pending": true
+  }
+ },
+ "BDA/2026-27/AUCTION4616": {
+  "raw": "BIDDING_CLOSED",
+  "site": "360",
+  "outcome": {
+   "status": "sold",
+   "label": "Sold",
+   "pending": true
+  }
+ },
+ "BDA/2026-27/AUCTION4556": {
+  "raw": "NO_PARTICIPATIONS",
+  "site": "54",
+  "outcome": {
+   "status": "nobids",
+   "label": "No bids"
+  }
+ },
+ "BDA/2026-27/AUCTION4558": {
+  "raw": "NO_BIDS_RECEIVED",
+  "site": "10",
+  "outcome": {
+   "status": "nobids",
+   "label": "No bids"
+  }
+ },
+ "BDA/2026-27/AUCTION4535": {
+  "raw": "BIDDING_CLOSED",
+  "site": "3007",
+  "outcome": {
+   "status": "sold",
+   "label": "Sold",
+   "pending": true
+  }
+ },
+ "BDA/2026-27/AUCTION4537": {
+  "raw": "BIDDING_CLOSED",
+  "site": "1493",
+  "outcome": {
+   "status": "sold",
+   "label": "Sold",
+   "pending": true
+  }
+ },
+ "BDA/2026-27/AUCTION4538": {
+  "raw": "BIDDING_CLOSED",
+  "site": "1635",
+  "outcome": {
+   "status": "sold",
+   "label": "Sold",
+   "pending": true
+  }
+ },
+ "BDA/2026-27/AUCTION4540": {
+  "raw": "BIDDING_CLOSED",
+  "site": "1512",
+  "outcome": {
+   "status": "sold",
+   "label": "Sold",
+   "pending": true
+  }
+ },
+ "BDA/2026-27/AUCTION4542": {
+  "raw": "BIDDING_CLOSED",
+  "site": "2409/1",
+  "outcome": {
+   "status": "sold",
+   "label": "Sold",
+   "pending": true
+  }
+ },
+ "BDA/2026-27/AUCTION4564": {
+  "raw": "BIDDING_CLOSED",
+  "site": "3359",
+  "outcome": {
+   "status": "sold",
+   "label": "Sold",
+   "pending": true
+  }
+ },
+ "BDA/2026-27/AUCTION4545": {
+  "raw": "BIDDING_CLOSED",
+  "site": "2936",
+  "outcome": {
+   "status": "sold",
+   "label": "Sold",
+   "pending": true
+  }
+ },
+ "BDA/2026-27/AUCTION4547": {
+  "raw": "BIDDING_CLOSED",
+  "site": "539",
+  "outcome": {
+   "status": "sold",
+   "label": "Sold",
+   "pending": true
+  }
+ },
+ "BDA/2026-27/AUCTION4550": {
+  "raw": "BIDDING_CLOSED",
+  "site": "1748",
+  "outcome": {
+   "status": "sold",
+   "label": "Sold",
+   "pending": true
+  }
+ },
+ "BDA/2026-27/AUCTION4553": {
+  "raw": "BIDDING_CLOSED",
+  "site": "1598",
+  "outcome": {
+   "status": "sold",
+   "label": "Sold",
+   "pending": true
+  }
+ },
+ "BDA/2026-27/AUCTION4557": {
+  "raw": "NO_PARTICIPATIONS",
+  "site": "755/A",
+  "outcome": {
+   "status": "nobids",
+   "label": "No bids"
+  }
+ },
+ "BDA/2026-27/AUCTION4560": {
+  "raw": "BIDDING_CLOSED",
+  "site": "187",
+  "outcome": {
+   "status": "sold",
+   "label": "Sold",
+   "pending": true
+  }
+ },
+ "BDA/2026-27/AUCTION4563": {
+  "raw": "BIDDING_CLOSED",
+  "site": "225",
+  "outcome": {
+   "status": "sold",
+   "label": "Sold",
+   "pending": true
+  }
+ },
+ "BDA/2026-27/AUCTION4562": {
+  "raw": "NO_PARTICIPATIONS",
+  "site": "244",
+  "outcome": {
+   "status": "nobids",
+   "label": "No bids"
+  }
+ },
+ "BDA/2026-27/AUCTION4572": {
+  "raw": "NO_BIDS_RECEIVED",
+  "site": "237",
+  "outcome": {
+   "status": "nobids",
+   "label": "No bids"
+  }
+ },
+ "BDA/2026-27/AUCTION4574": {
+  "raw": "NO_PARTICIPATIONS",
+  "site": "684",
+  "outcome": {
+   "status": "nobids",
+   "label": "No bids"
+  }
+ },
+ "BDA/2026-27/AUCTION4575": {
+  "raw": "NO_PARTICIPATIONS",
+  "site": "566",
+  "outcome": {
+   "status": "nobids",
+   "label": "No bids"
+  }
+ },
+ "BDA/2026-27/AUCTION4576": {
+  "raw": "NO_PARTICIPATIONS",
+  "site": "HN348",
+  "outcome": {
+   "status": "nobids",
+   "label": "No bids"
+  }
+ },
+ "BDA/2026-27/AUCTION4578": {
+  "raw": "NO_PARTICIPATIONS",
+  "site": "2204E",
+  "outcome": {
+   "status": "nobids",
+   "label": "No bids"
+  }
+ },
+ "BDA/2026-27/AUCTION4580": {
+  "raw": "NO_PARTICIPATIONS",
+  "site": "3188",
+  "outcome": {
+   "status": "nobids",
+   "label": "No bids"
+  }
+ },
+ "BDA/2026-27/AUCTION4582": {
+  "raw": "BIDDING_CLOSED",
+  "site": "959",
+  "outcome": {
+   "status": "sold",
+   "label": "Sold",
+   "pending": true
+  }
+ },
+ "BDA/2026-27/AUCTION4551": {
+  "raw": "BIDDING_CLOSED",
+  "site": "556",
+  "outcome": {
+   "status": "sold",
+   "label": "Sold",
+   "pending": true
+  }
+ },
+ "BDA/2026-27/AUCTION4555": {
+  "raw": "NO_PARTICIPATIONS",
+  "site": "KNP396",
+  "outcome": {
+   "status": "nobids",
+   "label": "No bids"
+  }
+ },
+ "BDA/2026-27/AUCTION4559": {
+  "raw": "BIDDING_CLOSED",
+  "site": "181",
+  "outcome": {
+   "status": "sold",
+   "label": "Sold",
+   "pending": true
+  }
+ },
+ "BDA/2026-27/AUCTION4561": {
+  "raw": "BIDDING_CLOSED",
+  "site": "304",
+  "outcome": {
+   "status": "sold",
+   "label": "Sold",
+   "pending": true
+  }
+ },
+ "BDA/2026-27/AUCTION4568": {
+  "raw": "NO_PARTICIPATIONS",
+  "site": "TS540",
+  "outcome": {
+   "status": "nobids",
+   "label": "No bids"
+  }
+ },
+ "BDA/2026-27/AUCTION4570": {
+  "raw": "BIDDING_CLOSED",
+  "site": "TS484",
+  "outcome": {
+   "status": "sold",
+   "label": "Sold",
+   "pending": true
+  }
+ },
+ "BDA/2026-27/AUCTION4577": {
+  "raw": "NO_BIDS_RECEIVED",
+  "site": "416A",
+  "outcome": {
+   "status": "nobids",
+   "label": "No bids"
+  }
+ },
+ "BDA/2026-27/AUCTION4581": {
+  "raw": "NO_PARTICIPATIONS",
+  "site": "522",
+  "outcome": {
+   "status": "nobids",
+   "label": "No bids"
+  }
+ },
+ "BDA/2026-27/AUCTION4584": {
+  "raw": "NO_PARTICIPATIONS",
+  "site": "552",
+  "outcome": {
+   "status": "nobids",
+   "label": "No bids"
+  }
+ },
+ "BDA/2026-27/AUCTION4585": {
+  "raw": "NO_PARTICIPATIONS",
+  "site": "498",
+  "outcome": {
+   "status": "nobids",
+   "label": "No bids"
+  }
+ },
+ "BDA/2026-27/AUCTION4587": {
+  "raw": "NO_PARTICIPATIONS",
+  "site": "513",
+  "outcome": {
+   "status": "nobids",
+   "label": "No bids"
+  }
+ },
+ "BDA/2026-27/AUCTION4588": {
+  "raw": "NO_PARTICIPATIONS",
+  "site": "516",
+  "outcome": {
+   "status": "nobids",
+   "label": "No bids"
+  }
+ },
+ "BDA/2026-27/AUCTION4566": {
+  "raw": "NO_PARTICIPATIONS",
+  "site": "506",
+  "outcome": {
+   "status": "nobids",
+   "label": "No bids"
+  }
+ },
+ "BDA/2026-27/AUCTION4569": {
+  "raw": "NO_PARTICIPATIONS",
+  "site": "548",
+  "outcome": {
+   "status": "nobids",
+   "label": "No bids"
+  }
+ },
+ "BDA/2026-27/AUCTION4589": {
+  "raw": "BIDDING_CLOSED",
+  "site": "453",
+  "outcome": {
+   "status": "sold",
+   "label": "Sold",
+   "pending": true
+  }
+ },
+ "BDA/2026-27/AUCTION4590": {
+  "raw": "NO_PARTICIPATIONS",
+  "site": "532",
+  "outcome": {
+   "status": "nobids",
+   "label": "No bids"
+  }
+ },
+ "BDA/2026-27/AUCTION4591": {
+  "raw": "NO_PARTICIPATIONS",
+  "site": "221",
+  "outcome": {
+   "status": "nobids",
+   "label": "No bids"
+  }
+ },
+ "BDA/2026-27/AUCTION4592": {
+  "raw": "NO_PARTICIPATIONS",
+  "site": "222",
+  "outcome": {
+   "status": "nobids",
+   "label": "No bids"
+  }
+ },
+ "BDA/2026-27/AUCTION4593": {
+  "raw": "NO_PARTICIPATIONS",
+  "site": "270A",
+  "outcome": {
+   "status": "nobids",
+   "label": "No bids"
+  }
+ },
+ "BDA/2026-27/AUCTION4594": {
+  "raw": "BIDDING_CLOSED",
+  "site": "310",
+  "outcome": {
+   "status": "sold",
+   "label": "Sold",
+   "pending": true
+  }
+ },
+ "BDA/2026-27/AUCTION4598": {
+  "raw": "NO_PARTICIPATIONS",
+  "site": "271",
+  "outcome": {
+   "status": "nobids",
+   "label": "No bids"
+  }
+ },
+ "BDA/2026-27/AUCTION4599": {
+  "raw": "BIDDING_CLOSED",
+  "site": "1308",
+  "outcome": {
+   "status": "sold",
+   "label": "Sold",
+   "pending": true
+  }
+ },
+ "BDA/2026-27/AUCTION4600": {
+  "raw": "BIDDING_CLOSED",
+  "site": "TS834A",
+  "outcome": {
+   "status": "sold",
+   "label": "Sold",
+   "pending": true
+  }
+ },
+ "BDA/2026-27/AUCTION4601": {
+  "raw": "NO_PARTICIPATIONS",
+  "site": "TS837B",
+  "outcome": {
+   "status": "nobids",
+   "label": "No bids"
+  }
+ },
+ "BDA/2026-27/AUCTION4602": {
+  "raw": "BIDDING_CLOSED",
+  "site": "344D",
+  "outcome": {
+   "status": "sold",
+   "label": "Sold",
+   "pending": true
+  }
+ },
+ "BDA/2026-27/AUCTION4603": {
+  "raw": "NO_PARTICIPATIONS",
+  "site": "360",
+  "outcome": {
+   "status": "nobids",
+   "label": "No bids"
+  }
+ },
+ "BDA/2026-27/AUCTION4604": {
+  "raw": "NO_PARTICIPATIONS",
+  "site": "385",
+  "outcome": {
+   "status": "nobids",
+   "label": "No bids"
+  }
+ },
+ "BDA/2026-27/AUCTION4605": {
+  "raw": "NO_PARTICIPATIONS",
+  "site": "402",
+  "outcome": {
+   "status": "nobids",
+   "label": "No bids"
+  }
+ },
+ "BDA/2026-27/AUCTION4606": {
+  "raw": "BIDDING_CLOSED",
+  "site": "2432",
+  "outcome": {
+   "status": "sold",
+   "label": "Sold",
+   "pending": true
+  }
+ },
+ "BDA/2026-27/AUCTION4565": {
+  "raw": "BIDDING_CLOSED",
+  "site": "1075",
+  "outcome": {
+   "status": "sold",
+   "label": "Sold",
+   "pending": true
+  }
+ },
+ "BDA/2026-27/AUCTION4567": {
+  "raw": "BIDDING_CLOSED",
+  "site": "1047",
+  "outcome": {
+   "status": "sold",
+   "label": "Sold",
+   "pending": true
+  }
+ },
+ "BDA/2026-27/AUCTION4573": {
+  "raw": "BIDDING_CLOSED",
+  "site": "1048",
+  "outcome": {
+   "status": "sold",
+   "label": "Sold",
+   "pending": true
+  }
+ },
+ "BDA/2026-27/AUCTION4579": {
+  "raw": "NO_PARTICIPATIONS",
+  "site": "2650A",
+  "outcome": {
+   "status": "nobids",
+   "label": "No bids"
+  }
+ },
+ "BDA/2026-27/AUCTION4583": {
+  "raw": "BIDDING_CLOSED",
+  "site": "JK334",
+  "outcome": {
+   "status": "sold",
+   "label": "Sold",
+   "pending": true
+  }
+ },
+ "BDA/2026-27/AUCTION4586": {
+  "raw": "BIDDING_CLOSED",
+  "site": "1995",
+  "outcome": {
+   "status": "sold",
+   "label": "Sold",
+   "pending": true
+  }
+ },
+ "BDA/2026-27/AUCTION4595": {
+  "raw": "BIDDING_CLOSED",
+  "site": "1002",
+  "outcome": {
+   "status": "sold",
+   "label": "Sold",
+   "pending": true
+  }
+ },
+ "BDA/2026-27/AUCTION4596": {
+  "raw": "BIDDING_CLOSED",
+  "site": "1019",
+  "outcome": {
+   "status": "sold",
+   "label": "Sold",
+   "pending": true
+  }
+ },
+ "BDA/2026-27/AUCTION4597": {
+  "raw": "NO_PARTICIPATIONS",
+  "site": "3C-319",
+  "outcome": {
+   "status": "nobids",
+   "label": "No bids"
+  }
+ },
+ "BDA/2026-27/AUCTION4608": {
+  "raw": "NO_PARTICIPATIONS",
+  "site": "317",
+  "outcome": {
+   "status": "nobids",
+   "label": "No bids"
+  }
+ },
+ "BDA/2026-27/AUCTION4609": {
+  "raw": "NO_BIDS_RECEIVED",
+  "site": "1332",
+  "outcome": {
+   "status": "nobids",
+   "label": "No bids"
+  }
+ },
+ "BDA/2026-27/AUCTION4610": {
+  "raw": "BIDDING_CLOSED",
+  "site": "1362",
+  "outcome": {
+   "status": "sold",
+   "label": "Sold",
+   "pending": true
+  }
+ },
+ "BDA/2026-27/AUCTION4611": {
+  "raw": "BIDDING_CLOSED",
+  "site": "1333",
+  "outcome": {
+   "status": "sold",
+   "label": "Sold",
+   "pending": true
+  }
+ },
+ "BDA/2026-27/AUCTION4612": {
+  "raw": "BIDDING_CLOSED",
+  "site": "271",
+  "outcome": {
+   "status": "sold",
+   "label": "Sold",
+   "pending": true
+  }
+ },
+ "BDA/2026-27/AUCTION4613": {
+  "raw": "BIDDING_CLOSED",
+  "site": "1363",
+  "outcome": {
+   "status": "sold",
+   "label": "Sold",
+   "pending": true
+  }
+ }
+}

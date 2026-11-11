@@ -13,6 +13,8 @@ export interface Road {
 }
 export interface Growth { label: string; cagr: number; drivers: string[]; watch: string[]; story: string; ask: string }
 export type Verdict = 'Strong buy' | 'Good' | 'Fair / selective' | 'Skip / high risk' | 'Withdrawn';
+/** Outcome of the auction once bidding closed (collected from KPPP public status). */
+export interface SiteOutcome { status: 'sold' | 'nobids'; label: string; pending?: boolean; rate?: number; total?: number; premium?: number }
 
 export interface Site {
   id: string; sl: string; site: string; layout: string; zone: 'South' | 'West' | 'North'; group: string; locality: string;
@@ -36,6 +38,7 @@ export interface Site {
   terrain: { elev?: number; slope?: number; aspect?: string; relief?: number; facing?: string | null; frontage?: string; frontageM?: number };
   near: Record<string, { m: number; name: string }>; bidDay: string | null;
   realBid?: RealBid | null;
+  outcome?: SiteOutcome | null;
   pSell: number | null; comps: { n: number; medianSqft: number; p25: number; p75: number } | null; placement?: 'pin' | 'adjacent' | 'locality' | null;
 }
 

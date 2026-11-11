@@ -99,6 +99,8 @@ footer.ftr .wrap { display: flex; flex-wrap: wrap; gap: 10px 28px; }
 .pill.accent { background: var(--accent-weak); color: var(--accent); }
 .pill.bad { background: var(--bad-bg); color: var(--skip); }
 .pill.warn { background: var(--warn-bg); color: var(--fair); }
+.pill.sold { background: var(--good-weak, rgba(34,160,90,.14)); color: var(--good, #1a8a4e); font-weight: 700; }
+.pill.nobids { background: var(--surface-2); color: var(--ink-2); }
 .v-strong { --v: var(--strong); } .v-good { --v: var(--good); } .v-fair { --v: var(--fair); } .v-skip { --v: var(--skip); } .v-off { --v: var(--off); }
 .verdict { display: inline-flex; align-items: center; gap: 6px; font-weight: 700; font-size: 12.5px; color: var(--v); }
 .verdict::before { content: ""; width: 8px; height: 8px; border-radius: 50%; background: var(--v); }
