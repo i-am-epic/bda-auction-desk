@@ -39,7 +39,7 @@ flowchart LR
 
 ## Why this shape
 - **Static site, precomputed data.** The auction changes a few times a year, so all analysis runs offline in Python, and the browser only reads two JSON files (about 200 KB gzipped). There is no server to run, Vercel hosting is free, and it's fast on phones.
-- **One folder per auction.** `pipeline/auctions/<id>/` holds that auction's notice rows and geotag file. `python run.py <id>` runs every step and publishes `web/public/data/<id>/`. The website routes everything under `/a/<id>/…`, so past and future auctions sit side by side.
+- **One folder per auction.** `pipeline/auctions/<id>/` holds that auction's notice rows and geotag file. `python run.py <id>` runs every step and publishes `web/public/data/<id>/`. The website routes everything under `/a/<id>/…`, so past and future auctions sit side by side. To add the next one: `python new_auction.py <id>` scaffolds the folder from `auctions/_template/` — see [`pipeline/auctions/README.md`](pipeline/auctions/README.md).
 - **Untagged plots are placed by evidence.** A per-site pin is used where one exists (bdaeauction.in pins match BDA polygons within ~2 m). Otherwise the plot goes beside the nearest-numbered mapped site in the same block, rotated to the block grid, on the side clear of OSM roads. Failing both, the locality point is nudged off roads. The site page says which method placed each plot.
 - **Every estimate is labelled.** Model outputs are marked `*` in the UI. Missing inputs are estimated and never scored as a negative.
 
